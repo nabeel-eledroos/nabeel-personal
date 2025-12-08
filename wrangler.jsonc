@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "extinct-event",
+	"name": "nabeel-personal",
   "compatibility_date": "2025-12-08",
   "compatibility_flags": [
     "nodejs_compat",
