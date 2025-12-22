@@ -13,9 +13,12 @@
 	let mouseY = -1000;
 	let snappedX = -1000;
 	let snappedY = -1000;
+	let animatedX = -1000;
+	let animatedY = -1000;
 	const gridSize = 40;
 	const distortRadius = 100;
-	const distortStrength = 15;
+	const distortStrength = 25;
+	const lerpSpeed = 0.3;
 	
 	// Sparkles at grid intersections (sparse selection)
 	let gridSparkles: Array<{col: number, row: number}> = [];
@@ -50,15 +53,15 @@
 	}
 	
 	function getDistortion(x: number, y: number): { dx: number; dy: number } {
-		const dist = Math.sqrt((x - snappedX) ** 2 + (y - snappedY) ** 2);
+		const dist = Math.sqrt((x - animatedX) ** 2 + (y - animatedY) ** 2);
 		if (dist > distortRadius || dist === 0) return { dx: 0, dy: 0 };
 		
 		const factor = 1 - dist / distortRadius;
 		const strength = factor * factor * distortStrength;
 		
 		return {
-			dx: ((x - snappedX) / dist) * strength,
-			dy: ((y - snappedY) / dist) * strength
+			dx: ((x - animatedX) / dist) * strength,
+			dy: ((y - animatedY) / dist) * strength
 		};
 	}
 	
@@ -82,6 +85,10 @@
 	}
 	
 	function draw() {
+		// Animate towards snapped position
+		animatedX += (snappedX - animatedX) * lerpSpeed;
+		animatedY += (snappedY - animatedY) * lerpSpeed;
+		
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		
 		// Gradient background
@@ -132,17 +139,20 @@
 			ctx.stroke();
 		}
 		
-		// Draw sparkles at grid intersections
+		// Draw sparkles at grid intersections (skip if cursor sparkle is on same intersection)
+		const cursorCol = Math.round(animatedX / gridSize);
+		const cursorRow = Math.round(animatedY / gridSize);
 		for (const { col, row } of gridSparkles) {
+			if (mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
 			const x = col * gridSize;
 			const y = row * gridSize;
 			const distort = getDistortion(x, y);
-			drawSparkle(x + distort.dx, y + distort.dy, 10, 0.6);
+			drawSparkle(x + distort.dx, y + distort.dy, 10, 0.6, 0.25);
 		}
 		
 		// Draw cursor-tracking sparkle snapped to nearest grid intersection
 		if (mouseX > 0 && mouseY > 0) {
-			drawSparkle(snappedX, snappedY, 22, 0.95, 0.35);
+			drawSparkle(animatedX, animatedY, 22, 0.95, 0.35);
 		}
 		
 		requestAnimationFrame(draw);
