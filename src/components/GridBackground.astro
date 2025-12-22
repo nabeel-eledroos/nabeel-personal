@@ -1,0 +1,185 @@
+---
+---
+
+<div id="grid-background">
+	<canvas id="grid-canvas"></canvas>
+</div>
+
+<script>
+	const canvas = document.getElementById('grid-canvas') as HTMLCanvasElement;
+	const ctx = canvas.getContext('2d')!;
+	
+	let mouseX = -1000;
+	let mouseY = -1000;
+	let snappedX = -1000;
+	let snappedY = -1000;
+	const gridSize = 40;
+	const distortRadius = 100;
+	const distortStrength = 15;
+	
+	// Sparkles at grid intersections (sparse selection)
+	let gridSparkles: Array<{col: number, row: number}> = [];
+	
+	function generateGridSparkles() {
+		gridSparkles = [];
+		const cols = Math.ceil(canvas.width / gridSize) + 1;
+		const rows = Math.ceil(canvas.height / gridSize) + 1;
+		
+		// Place sparkles at ~8% of grid intersections
+		for (let col = 0; col <= cols; col++) {
+			for (let row = 0; row <= rows; row++) {
+				if (Math.random() < 0.08) {
+					gridSparkles.push({ col, row });
+				}
+			}
+		}
+	}
+	
+	function resize() {
+		const dpr = window.devicePixelRatio || 1;
+		canvas.width = window.innerWidth * dpr;
+		canvas.height = window.innerHeight * dpr;
+		ctx.scale(dpr, dpr);
+		generateGridSparkles();
+	}
+	
+	function getNearestGridIntersection(x: number, y: number): { x: number; y: number } {
+		const col = Math.round(x / gridSize);
+		const row = Math.round(y / gridSize);
+		return { x: col * gridSize, y: row * gridSize };
+	}
+	
+	function getDistortion(x: number, y: number): { dx: number; dy: number } {
+		const dist = Math.sqrt((x - snappedX) ** 2 + (y - snappedY) ** 2);
+		if (dist > distortRadius || dist === 0) return { dx: 0, dy: 0 };
+		
+		const factor = 1 - dist / distortRadius;
+		const strength = factor * factor * distortStrength;
+		
+		return {
+			dx: ((x - snappedX) / dist) * strength,
+			dy: ((y - snappedY) / dist) * strength
+		};
+	}
+	
+	function drawSparkle(x: number, y: number, size: number, opacity: number, thickness: number = 0.15) {
+		ctx.save();
+		ctx.globalAlpha = opacity;
+		ctx.fillStyle = 'rgba(255, 240, 245, 0.9)';
+		ctx.beginPath();
+		
+		const innerSize = size * thickness;
+		for (let i = 0; i < 4; i++) {
+			const angle = (i * Math.PI) / 2;
+			const nextAngle = ((i + 0.5) * Math.PI) / 2;
+			
+			ctx.lineTo(x + Math.cos(angle) * size, y + Math.sin(angle) * size);
+			ctx.lineTo(x + Math.cos(nextAngle) * innerSize, y + Math.sin(nextAngle) * innerSize);
+		}
+		ctx.closePath();
+		ctx.fill();
+		ctx.restore();
+	}
+	
+	function draw() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		
+		// Gradient background
+		const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+		gradient.addColorStop(0, 'rgba(200, 150, 220, 0.6)');
+		gradient.addColorStop(0.3, 'rgba(150, 130, 220, 0.6)');
+		gradient.addColorStop(0.7, 'rgba(130, 150, 230, 0.6)');
+		gradient.addColorStop(1, 'rgba(200, 150, 220, 0.6)');
+		ctx.fillStyle = gradient;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		
+		ctx.strokeStyle = 'rgba(255, 220, 240, 0.4)';
+		ctx.lineWidth = 1;
+		
+		const cols = Math.ceil(canvas.width / gridSize) + 1;
+		const rows = Math.ceil(canvas.height / gridSize) + 1;
+		const segments = 20;
+		
+		// Draw vertical lines with distortion
+		for (let i = 0; i <= cols; i++) {
+			const baseX = i * gridSize;
+			ctx.beginPath();
+			
+			for (let s = 0; s <= segments; s++) {
+				const y = (s / segments) * canvas.height;
+				const distort = getDistortion(baseX, y);
+				const x = baseX + distort.dx;
+				
+				if (s === 0) ctx.moveTo(x, y + distort.dy);
+				else ctx.lineTo(x, y + distort.dy);
+			}
+			ctx.stroke();
+		}
+		
+		// Draw horizontal lines with distortion
+		for (let j = 0; j <= rows; j++) {
+			const baseY = j * gridSize;
+			ctx.beginPath();
+			
+			for (let s = 0; s <= segments; s++) {
+				const x = (s / segments) * canvas.width;
+				const distort = getDistortion(x, baseY);
+				const y = baseY + distort.dy;
+				
+				if (s === 0) ctx.moveTo(x + distort.dx, y);
+				else ctx.lineTo(x + distort.dx, y);
+			}
+			ctx.stroke();
+		}
+		
+		// Draw sparkles at grid intersections
+		for (const { col, row } of gridSparkles) {
+			const x = col * gridSize;
+			const y = row * gridSize;
+			const distort = getDistortion(x, y);
+			drawSparkle(x + distort.dx, y + distort.dy, 10, 0.6);
+		}
+		
+		// Draw cursor-tracking sparkle snapped to nearest grid intersection
+		if (mouseX > 0 && mouseY > 0) {
+			drawSparkle(snappedX, snappedY, 22, 0.95, 0.35);
+		}
+		
+		requestAnimationFrame(draw);
+	}
+	
+	window.addEventListener('resize', resize);
+	window.addEventListener('mousemove', (e) => {
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+		const snapped = getNearestGridIntersection(mouseX, mouseY);
+		snappedX = snapped.x;
+		snappedY = snapped.y;
+	});
+	window.addEventListener('mouseleave', () => {
+		mouseX = -1000;
+		mouseY = -1000;
+		snappedX = -1000;
+		snappedY = -1000;
+	});
+	
+	resize();
+	draw();
+</script>
+
+<style>
+	#grid-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -2;
+		pointer-events: none;
+	}
+	
+	#grid-canvas {
+		width: 100%;
+		height: 100%;
+	}
+</style>
