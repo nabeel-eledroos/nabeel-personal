@@ -21,18 +21,19 @@
 	const lerpSpeed = 0.3;
 	
 	// Sparkles at grid intersections (sparse selection)
-	let gridSparkles: Array<{col: number, row: number}> = [];
+	let gridSparkles: Array<{col: number, row: number, size: number}> = [];
 	
 	function generateGridSparkles() {
 		gridSparkles = [];
 		const cols = Math.ceil(canvas.width / gridSize) + 1;
 		const rows = Math.ceil(canvas.height / gridSize) + 1;
 		
-		// Place sparkles at ~8% of grid intersections
+		// Place sparkles at ~8% of grid intersections with random sizes
 		for (let col = 0; col <= cols; col++) {
 			for (let row = 0; row <= rows; row++) {
 				if (Math.random() < 0.08) {
-					gridSparkles.push({ col, row });
+					const size = 6 + Math.random() * 10;
+					gridSparkles.push({ col, row, size });
 				}
 			}
 		}
@@ -142,12 +143,12 @@
 		// Draw sparkles at grid intersections (skip if cursor sparkle is on same intersection)
 		const cursorCol = Math.round(animatedX / gridSize);
 		const cursorRow = Math.round(animatedY / gridSize);
-		for (const { col, row } of gridSparkles) {
+		for (const { col, row, size } of gridSparkles) {
 			if (mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
 			const x = col * gridSize;
 			const y = row * gridSize;
 			const distort = getDistortion(x, y);
-			drawSparkle(x + distort.dx, y + distort.dy, 10, 0.6, 0.25);
+			drawSparkle(x + distort.dx, y + distort.dy, size, 0.6, 0.25);
 		}
 		
 		// Draw cursor-tracking sparkle snapped to nearest grid intersection
