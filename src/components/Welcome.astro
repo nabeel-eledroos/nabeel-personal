@@ -31,6 +31,14 @@ import GridBackground from './GridBackground.astro';
 </div>
 
 <style>
+	p {
+		color: #4b5563;
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: -0.006em;
+		margin: 0;
+	}
+
 	#background {
 		position: fixed;
 		top: 0;
@@ -59,10 +67,6 @@ import GridBackground from './GridBackground.astro';
 	}
 
 	#nametag {
-		/* 
-		font-weight: 800;
-		line-height: 1.1;
-		color: #111827; */
 		color: rgba(188, 82, 238, 0.8);
 		text-align: center;
 		font-family: "kabisat", sans-serif;
@@ -113,17 +117,18 @@ import GridBackground from './GridBackground.astro';
 	}
 
 	#menu-item {
-		color: rgba(159, 59, 241, 0.7);
+		color: rgba(100, 98, 194, 0.6);
+		font-family: "Crash", sans-serif;
+		/* font-optical-sizing: auto; */
+		font-weight: 900;
+		font-style: normal;
 		text-align: center;
-		font-size: 25px;
-		font-family: "kabisat", sans-serif;
-		font-weight: 600;
-		/* margin-top: 20px; */
+		font-size: 50px;
 		cursor: pointer;
 		transition: font-size 2s ease;
 		display: inline-block;
 		width: auto;
-		padding: 20px;
+		padding: 2px;
 	}
 
 	@keyframes glow-menu-item {
@@ -131,24 +136,34 @@ import GridBackground from './GridBackground.astro';
 			text-shadow: 0 0 0px rgba(50, 69, 255, 0);
 		}
 		100% {
-			text-shadow: 0 0 5px rgba(159, 59, 241, 0.7);
+			/* text-shadow: 0 0 5px rgba(159, 59, 241, 0.7); */
+			text-shadow: 0 0 10px rgba(145, 142, 216, 0.6);
 		}
 	}
 
 	#menu-item:hover {
-		font-size: 35px;
+		font-size: 65px;
 		animation: glow-menu-item 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
 		animation-delay: 0s, 2s;
 	}
 
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
+	@font-face {
+		font-family: 'kabisat';
+		src: url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff2') format('woff2'),
+			url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
 	}
 
+	@font-face {
+		font-family: 'Crash';
+		src: url('../assets/fonts/crash/Crash-Regular.woff2') format('woff2'),
+			url('../assets/fonts/crash/Crash-Regular.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+	
 	@media screen and (max-width: 768px) {
 		#container {
 			display: flex;
@@ -163,13 +178,5 @@ import GridBackground from './GridBackground.astro';
 		h1 {
 			line-height: 1.5;
 		}
-	}
-
-	@font-face {
-		font-family: 'kabisat';
-		src: url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff2') format('woff2'),
-			url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
 	}
 </style>
