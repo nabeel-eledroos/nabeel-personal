@@ -17,11 +17,11 @@
 	let animatedY = -1000;
 	const gridSize = 40;
 	const distortRadius = 100;
-	const distortStrength = 25;
+	const distortStrength = 45;
 	const lerpSpeed = 0.3;
 	
 	// Sparkles at grid intersections (sparse selection)
-	let gridSparkles: Array<{col: number, row: number, size: number}> = [];
+	let gridSparkles: Array<{col: number, row: number, size: number, phase: number, speed: number}> = [];
 	
 	function generateGridSparkles() {
 		gridSparkles = [];
@@ -33,7 +33,9 @@
 			for (let row = 0; row <= rows; row++) {
 				if (Math.random() < 0.08) {
 					const size = 6 + Math.random() * 10;
-					gridSparkles.push({ col, row, size });
+					const phase = Math.random() * Math.PI * 2;
+					const speed = 0.5 + Math.random() * 1.5;
+					gridSparkles.push({ col, row, size, phase, speed });
 				}
 			}
 		}
@@ -140,21 +142,25 @@
 			ctx.stroke();
 		}
 		
-		// Draw sparkles at grid intersections (skip if cursor sparkle is on same intersection)
+		// Draw sparkles at grid intersections
 		const cursorCol = Math.round(animatedX / gridSize);
 		const cursorRow = Math.round(animatedY / gridSize);
-		for (const { col, row, size } of gridSparkles) {
-			if (mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
+		const time = performance.now() / 1000;
+		for (const { col, row, size, phase, speed } of gridSparkles) {
+			// Skip sparkle under cursor
+			// if (mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
 			const x = col * gridSize;
 			const y = row * gridSize;
-			const distort = getDistortion(x, y);
-			drawSparkle(x + distort.dx, y + distort.dy, size, 0.6, 0.25);
+			const isUnderCursor = mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow;
+			const distort = isUnderCursor ? { dx: 0, dy: 0 } : getDistortion(x, y);
+			const twinkle = 0.4 + 0.3 * Math.sin(time * speed + phase);
+			drawSparkle(x + distort.dx, y + distort.dy, size, twinkle, 0.25);
 		}
 		
 		// Draw cursor-tracking sparkle snapped to nearest grid intersection
-		if (mouseX > 0 && mouseY > 0) {
-			drawSparkle(animatedX, animatedY, 22, 0.95, 0.35);
-		}
+		// if (mouseX > 0 && mouseY > 0) {
+		// 	drawSparkle(animatedX, animatedY, 22, 0.95, 0.35);
+		// }
 		
 		requestAnimationFrame(draw);
 	}
