@@ -18,7 +18,8 @@
 	const gridSize = 40;
 	const distortRadius = 100;
 	const distortStrength = 65;
-	const lerpSpeed = 0.3;
+	const lerpSpeed = 0.2;
+	const enableCursorTrackingSparkle = false;
 	
 	// Sparkles at grid intersections (sparse selection)
 	let gridSparkles: Array<{col: number, row: number, size: number, phase: number, speed: number}> = [];
@@ -86,15 +87,9 @@
 		ctx.fill();
 		ctx.restore();
 	}
-	
-	function draw() {
-		// Animate towards snapped position
-		animatedX += (snappedX - animatedX) * lerpSpeed;
-		animatedY += (snappedY - animatedY) * lerpSpeed;
-		
+
+	function generateGradientBackground(){
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		
-		// Gradient background
 		const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 		gradient.addColorStop(0, 'rgba(200, 150, 220, 0.6)');
 		gradient.addColorStop(0.3, 'rgba(150, 130, 220, 0.6)');
@@ -102,6 +97,14 @@
 		gradient.addColorStop(1, 'rgba(200, 150, 220, 0.6)');
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	}
+	
+	function draw() {
+		// Animate towards snapped position
+		animatedX += (snappedX - animatedX) * lerpSpeed;
+		animatedY += (snappedY - animatedY) * lerpSpeed;
+		
+		generateGradientBackground()
 		
 		ctx.strokeStyle = 'rgba(255, 220, 240, 0.4)';
 		ctx.lineWidth = 1;
@@ -147,8 +150,9 @@
 		const cursorRow = Math.round(animatedY / gridSize);
 		const time = performance.now() / 1000;
 		for (const { col, row, size, phase, speed } of gridSparkles) {
-			// Skip sparkle under cursor
-			// if (mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
+			// Skip sparkle under cursor if enabled
+			if (enableCursorTrackingSparkle && 
+				mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow) continue;
 			const x = col * gridSize;
 			const y = row * gridSize;
 			const isUnderCursor = mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow;
@@ -157,10 +161,10 @@
 			drawSparkle(x + distort.dx, y + distort.dy, size, twinkle, 0.25);
 		}
 		
-		// Draw cursor-tracking sparkle snapped to nearest grid intersection
-		// if (mouseX > 0 && mouseY > 0) {
-		// 	drawSparkle(animatedX, animatedY, 22, 0.95, 0.35);
-		// }
+		// Draw cursor-tracking sparkle snapped to nearest grid intersection if enabled
+		if (enableCursorTrackingSparkle && mouseX > 0 && mouseY > 0) {
+			drawSparkle(animatedX, animatedY, 22, 0.95, 0.35);
+		}
 		
 		requestAnimationFrame(draw);
 	}
