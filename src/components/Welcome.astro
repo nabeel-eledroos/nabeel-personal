@@ -1,9 +1,11 @@
 ---
 import background from '../assets/images/background.svg';
 import skyBlue from '../assets/images/skyBlue.jpg';
+import GridBackground from './GridBackground.astro';
 ---
 
 <div id="container">
+	<GridBackground />
 	<img id="background" src={background.src} alt="" fetchpriority="high" />
 	<main>
 		<section id="nametag-section">
@@ -55,7 +57,7 @@ import skyBlue from '../assets/images/skyBlue.jpg';
 		font-weight: 800;
 		line-height: 1.1;
 		color: #111827; */
-		color: rgba(188, 82, 238, 0.7);
+		color: rgba(188, 82, 238, 0.8);
 		text-align: center;
 		font-family: "kabisat", sans-serif;
 		font-weight: 400;
@@ -81,9 +83,11 @@ import skyBlue from '../assets/images/skyBlue.jpg';
 
 	@keyframes glow {
 		0% {
+			color: rgba(188, 82, 238, 0.7);
 			text-shadow: 0 0 0px rgba(50, 69, 255, 0), 0 0 0px rgba(188, 82, 238, 0);
 		}
 		100% {
+			color: rgba(188, 82, 238, 1);
 			text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.7);
 		}
 	}
