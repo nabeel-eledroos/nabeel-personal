@@ -14,18 +14,21 @@ import GridBackground from './GridBackground.astro';
 			</h1>
 		</section>
 		<section id="menu-section">
-			<h2 id="menu-item">
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
 				Graphic Design
-			</h2>
-			<h2 id="menu-item">
+			</a>
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
 				Photography
-			</h2>
-			<h2 id="menu-item">
+			</a>
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
 				Projects
-			</h2>
-			<h2 id="menu-item">
+			</a>
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
+				Projects
+			</a>
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
 				Resume
-			</h2>
+			</a>
 		</section>
 	</main>
 </div>
@@ -37,6 +40,11 @@ import GridBackground from './GridBackground.astro';
 		line-height: 24px;
 		letter-spacing: -0.006em;
 		margin: 0;
+	}
+
+	a {
+		text-decoration: none;
+		margin: 32px 0px;
 	}
 
 	#background {
@@ -142,7 +150,7 @@ import GridBackground from './GridBackground.astro';
 	}
 
 	#menu-item:hover {
-		font-size: 65px;
+		font-size: 70px;
 		animation: glow-menu-item 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
 		animation-delay: 0s, 2s;
 	}

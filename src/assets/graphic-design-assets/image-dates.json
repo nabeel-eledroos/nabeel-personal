@@ -1,0 +1,27 @@
+{
+    "2023": {
+        "cafe-first.jpg": 1,
+        "cafe-fall.jpg": 2,
+        "nightmare-at-noc.jpg": 3,
+        "cafe-diwali.jpg": 4,
+        "mission-to-mint-manor.jpg": 5
+    },
+    "2024": {
+        "film-festival-1.jpg": 1,
+        "film-festival-1-magazine.jpg": 1,
+        "film-festival-1-cover.jpg": 1,
+        "cafe-spring.jpg": 4,
+        "cafe-yemen.jpg": 5,
+        "film-festival-2.jpg": 6
+    },
+    "2025": {
+        "cafe-test-kitchen.jpg": 1,
+        "easter.jpg": 2,
+        "cafe-sep.jpg": 3,
+        "sparks.jpg": 4,
+        "asiento-halloween.jpg": 5,
+        "kobalt-announcement.jpg": 6,
+        "cafe-dec.jpg": 7,
+        "cafe-dec-menu.png": 7
+    }
+}
