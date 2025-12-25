@@ -197,7 +197,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
   }
 
   .year-text:hover .year-inner {
-    transform: scale(1.08);
+    transform: scale(1.1);
     color: rgba(188, 82, 238, 1);
   }
 
@@ -347,7 +347,8 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(40px);
     z-index: 100;
     justify-content: center;
     align-items: center;
