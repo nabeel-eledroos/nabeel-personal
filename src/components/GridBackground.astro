@@ -98,6 +98,10 @@
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
+
+	function getRandomArbitrary(min: number, max: number):number {
+		return Math.random() * (max - min) + min;
+	}
 	
 	function draw() {
 		// Animate towards snapped position
@@ -158,7 +162,8 @@
 			const isUnderCursor = mouseX > 0 && mouseY > 0 && col === cursorCol && row === cursorRow;
 			const distort = isUnderCursor ? { dx: 0, dy: 0 } : getDistortion(x, y);
 			const twinkle = 0.4 + 0.3 * Math.sin(time * speed + phase);
-			drawSparkle(x + distort.dx, y + distort.dy, size, twinkle, 0.25);
+			const sparkleThickness = getRandomArbitrary(0.25, 0.35);
+			drawSparkle(x + distort.dx, y + distort.dy, size, twinkle, sparkleThickness);
 		}
 		
 		// Draw cursor-tracking sparkle snapped to nearest grid intersection if enabled

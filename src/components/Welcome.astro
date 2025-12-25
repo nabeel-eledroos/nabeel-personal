@@ -1,7 +1,8 @@
 ---
 import background from '../assets/images/background.svg';
-import skyBlue from '../assets/images/skyBlue.jpg';
 import GridBackground from './GridBackground.astro';
+import '../styles/fonts.css';
+import '../styles/animations.css';
 ---
 
 <div id="container">
@@ -13,10 +14,37 @@ import GridBackground from './GridBackground.astro';
 				NABEEL ELEDROOS
 			</h1>
 		</section>
+		<section id="menu-section">
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
+				Graphic Design
+			</a>
+			<a href="/graphic-design/GraphicDesign" id="menu-item">
+				Photography
+			</a>
+			<a href="https://nabeel-eledroos.github.io/projects.html" target="_blank" rel="noopener noreferrer" id="menu-item">
+				Projects
+			</a>
+			<a href="https://nabeel-eledroos.github.io/data/nabeel_resume.pdf" target="_blank" rel="noopener noreferrer" id="menu-item">
+				Resume
+			</a>
+		</section>
 	</main>
 </div>
 
 <style>
+	p {
+		color: #4b5563;
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: -0.006em;
+		margin: 0;
+	}
+
+	a {
+		text-decoration: none;
+		margin: 32px 0px;
+	}
+
 	#background {
 		position: fixed;
 		top: 0;
@@ -34,7 +62,7 @@ import GridBackground from './GridBackground.astro';
 
 	main {
 		height: 100%;
-		display: flex;
+		display: block;
 		justify-content: center;
 	}
 
@@ -44,74 +72,53 @@ import GridBackground from './GridBackground.astro';
 		width: 100%;
 	}
 
-	@font-face {
-		font-family: 'kabisat';
-		src: url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff2') format('woff2'),
-			url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
-	}
-
 	#nametag {
-		/* 
-		font-weight: 800;
-		line-height: 1.1;
-		color: #111827; */
 		color: rgba(188, 82, 238, 0.8);
 		text-align: center;
 		font-family: "kabisat", sans-serif;
 		font-weight: 400;
 		font-style: normal;
 		font-size: 55px;
+		font-optical-sizing: auto;
 		transition: font-size 2s ease;
 		cursor: default;
-		/* margin: 0;
-		padding: 0; */
-	}
-
-	@keyframes float {
-		0%, 100% {
-			transform: translateY(0) rotate(0deg);
-		}
-		25% {
-			transform: translateY(-3px) rotate(0.5deg);
-		}
-		75% {
-			transform: translateY(-3px) rotate(-0.5deg);
-		}
-	}
-
-	@keyframes glow {
-		0% {
-			color: rgba(188, 82, 238, 0.7);
-			text-shadow: 0 0 0px rgba(50, 69, 255, 0), 0 0 0px rgba(188, 82, 238, 0);
-		}
-		100% {
-			color: rgba(188, 82, 238, 1);
-			text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.7);
-		}
 	}
 
 	#nametag:hover {
 		font-size: 65px;
-		animation: glow 2s ease-in-out forwards, float 10s ease-in-out infinite;
+		animation: glow-nametag 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
 		animation-delay: 0s, 2s;
 	}
 
-	#nametag-section {
-		display: block;
+	#menu-section {
 		justify-content: center;
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
+	#menu-item {
+		color: rgba(100, 98, 194, 0.6);
+		font-family: "Crash", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 900;
+		font-style: normal;
+		text-align: center;
+		font-size: 50px;
+		cursor: pointer;
+		transition: font-size 2s ease;
+		display: inline-block;
+		width: auto;
+		padding: 2px;
 	}
 
+	#menu-item:hover {
+		font-size: 70px;
+		animation: glow-menu-item 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
+		animation-delay: 0s, 2s;
+	}
+	
 	@media screen and (max-width: 768px) {
 		#container {
 			display: flex;

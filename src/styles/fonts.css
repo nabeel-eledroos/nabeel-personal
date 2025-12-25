@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'kabisat';
+    src: url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff2') format('woff2'),
+        url('../assets/fonts/kabisat/kabisat_demo-italictall-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Crash';
+    src: url('../assets/fonts/crash/Crash-Regular.woff2') format('woff2'),
+        url('../assets/fonts/crash/Crash-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

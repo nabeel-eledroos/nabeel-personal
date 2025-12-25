@@ -1,0 +1,570 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import imageDates from '../../assets/graphic-design-assets/image-dates.json';
+import GridBackground from '../../components/GridBackground.astro';
+import BackButton from '../../components/BackButton.astro';
+import background from '../../assets/images/background.svg';
+import '../../styles/fonts.css';
+import '../../styles/animations.css';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/graphic-design-assets/*.{jpg,png}', { eager: true });
+
+type ImageEntry = {
+  src: string;
+  filename: string;
+  year: string;
+  rank: number;
+};
+
+type ImageGroup = {
+  year: string;
+  rank: number;
+  images: ImageEntry[];
+};
+
+const allImages: ImageEntry[] = [];
+
+for (const [year, files] of Object.entries(imageDates)) {
+  for (const [filename, rank] of Object.entries(files as Record<string, number>)) {
+    const path = Object.keys(images).find(p => p.endsWith(filename));
+    if (path) {
+      allImages.push({
+        src: images[path].default.src,
+        filename,
+        year,
+        rank
+      });
+    }
+  }
+}
+
+// Group images by year and rank
+const groupedByYearAndRank: Record<string, Record<number, ImageEntry[]>> = {};
+for (const img of allImages) {
+  if (!groupedByYearAndRank[img.year]) groupedByYearAndRank[img.year] = {};
+  if (!groupedByYearAndRank[img.year][img.rank]) groupedByYearAndRank[img.year][img.rank] = [];
+  groupedByYearAndRank[img.year][img.rank].push(img);
+}
+
+// Convert to array of groups sorted by year desc, then rank asc
+const imageGroups: ImageGroup[] = [];
+for (const [year, ranks] of Object.entries(groupedByYearAndRank)) {
+  for (const [rank, imgs] of Object.entries(ranks)) {
+    imageGroups.push({
+      year,
+      rank: parseInt(rank),
+      images: imgs
+    });
+  }
+}
+
+imageGroups.sort((a, b) => {
+  if (a.year !== b.year) return parseInt(b.year) - parseInt(a.year);
+  return a.rank - b.rank;
+});
+
+const groupedByYear: Record<string, ImageGroup[]> = {};
+for (const group of imageGroups) {
+  if (!groupedByYear[group.year]) groupedByYear[group.year] = [];
+  groupedByYear[group.year].push(group);
+}
+
+const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<Layout>
+  <BackButton href="/" />
+  <div class="fade-top"></div>
+  <div class="fade-bottom"></div>
+  
+  <div class="timeline-container">
+    <GridBackground />
+    <img id="background" src={background.src} alt="" fetchpriority="high" />
+    <!-- <div class="timeline-line"></div> -->
+    
+    {years.map(year => (
+      <div class="year-section">
+        <div class="year-marker">
+          <span class="year-text"><span class="year-inner">{year}</span></span>
+        </div>
+        
+        {groupedByYear[year].map((group, index) => (
+          <div class={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}>
+            <div class="content-side">
+              <p class="description">Placeholder description for {group.images[0].filename.replace(/\.(jpg|png)$/, '').replace(/-/g, ' ')}</p>
+            </div>
+            <div class="image-side">
+              <div 
+                class={`image-stack ${group.images.length > 1 ? 'has-stack' : ''}`}
+                data-stack-images={JSON.stringify(group.images.map(img => img.src))}
+              >
+                {group.images.map((img, imgIndex) => (
+                  <img 
+                    src={img.src} 
+                    alt={img.filename} 
+                    loading="lazy"
+                    class="timeline-image"
+                    data-src={img.src}
+                    data-stack-index={imgIndex}
+                    style={imgIndex > 0 ? `--stack-offset: ${imgIndex * 8}px; --stack-rotate: ${imgIndex * 3}deg;` : ''}
+                  />
+                ))}
+                {group.images.length > 1 && (
+                  <span class="stack-count">{group.images.length}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  <!-- TODO: turn into separate component -->
+  <div class="modal" id="imageModal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <button class="modal-nav modal-prev" id="modalPrev">&lsaquo;</button>
+    <img class="modal-image" id="modalImage" src="" alt="Enlarged view" />
+    <button class="modal-nav modal-next" id="modalNext">&rsaquo;</button>
+    <div class="modal-counter" id="modalCounter"></div>
+  </div>
+</Layout>
+
+<style>
+  :root {
+    /* --bg-color: #0a0a0a; */
+    --text-color: #ffffff;
+    --accent-color: #888;
+    --timeline-color: #333;
+  }
+
+  #background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur(100px);
+	}
+
+  .timeline-container {
+    position: relative;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    padding: 30px 20px;
+    /* background: var(--bg-color); */
+    min-height: 100vh;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--timeline-color);
+    transform: translateX(-50%);
+  }
+
+  .year-section {
+    position: relative;
+  }
+
+  .year-marker {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 60px 0 40px;
+  }
+
+  .year-text {
+    /* background: var(--bg-color); */
+    padding: 10px 30px;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .year-inner {
+    display: inline-block;
+    font-family: "crash", sans-serif;
+    font-weight: 600;
+    font-size: 70px;
+    color: rgba(188, 82, 238, 0.8);
+    transition: transform 3s cubic-bezier(.2,.9,.2,1);
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .year-text:hover .year-inner {
+    transform: scale(1.1);
+    color: rgba(188, 82, 238, 1);
+  }
+
+  .year-text:hover {
+    animation: glow-year 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
+    animation-delay: 0s, 2s;
+  }
+
+  .timeline-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 40px 0;
+    opacity: 0.3;
+    filter: blur(2px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  .timeline-item.left {
+    flex-direction: row;
+  }
+
+  .timeline-item.right {
+    flex-direction: row-reverse;
+  }
+
+  .content-side,
+  .image-side {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .content-side {
+    text-align: right;
+  }
+
+  .timeline-item.right .content-side {
+    text-align: left;
+  }
+
+  .description {
+    color: var(--text-color);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    text-transform: capitalize;
+  }
+
+  .image-side {
+    display: flex;
+    justify-content: center;
+  }
+
+  .timeline-item.left .image-side {
+    justify-content: flex-start;
+  }
+
+  .timeline-item.right .image-side {
+    justify-content: flex-end;
+  }
+
+  .image-stack {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .image-stack .timeline-image {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .image-stack.has-stack .timeline-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .image-stack.has-stack .timeline-image:first-child {
+    position: relative;
+  }
+
+  .image-stack.has-stack .timeline-image[data-stack-index]:not([data-stack-index="0"]) {
+    transform: translate(var(--stack-offset), var(--stack-offset)) rotate(var(--stack-rotate));
+    z-index: -1;
+  }
+
+  .image-stack:hover .timeline-image {
+    transform: scale(1.02);
+  }
+
+  .image-stack.has-stack:hover .timeline-image[data-stack-index]:not([data-stack-index="0"]) {
+    transform: translate(calc(var(--stack-offset) + 4px), calc(var(--stack-offset) + 4px)) rotate(var(--stack-rotate)) scale(1.02);
+  }
+
+  .stack-count {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .fade-top,
+  .fade-bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .fade-top {
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 100%);
+  }
+
+  .fade-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(40px);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal.active {
+    display: flex;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 3rem;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 101;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover {
+    color: var(--accent-color);
+  }
+
+  .modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 20px;
+    z-index: 101;
+    transition: color 0.2s, opacity 0.2s;
+    opacity: 0.7;
+    display: none;
+  }
+
+  .modal-nav:hover {
+    color: var(--accent-color);
+    opacity: 1;
+  }
+
+  .modal-nav.visible {
+    display: block;
+  }
+
+  .modal-prev {
+    left: 20px;
+  }
+
+  .modal-next {
+    right: 20px;
+  }
+
+  .modal-counter {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-color);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    opacity: 0.7;
+    display: none;
+  }
+
+  .modal-counter.visible {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .timeline-line {
+      left: 20px;
+    }
+
+    .timeline-item,
+    .timeline-item.left,
+    .timeline-item.right {
+      flex-direction: column;
+      padding-left: 40px;
+    }
+
+    .content-side,
+    .image-side {
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    .content-side,
+    .timeline-item.right .content-side {
+      text-align: left;
+    }
+
+    .timeline-item.left .image-side,
+    .timeline-item.right .image-side {
+      justify-content: flex-start;
+    }
+
+    .year-marker {
+      justify-content: flex-start;
+      padding-left: 40px;
+    }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const ratio = entry.intersectionRatio;
+        const target = entry.target as HTMLElement;
+        
+        if (ratio > 0.3) {
+          target.classList.add('visible');
+        } else {
+          target.classList.remove('visible');
+        }
+        
+        const opacity = 0.3 + ratio * 0.7;
+        const blur = (1 - ratio) * 2;
+        target.style.opacity = String(opacity);
+        target.style.filter = `blur(${blur}px)`;
+      });
+    },
+    {
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+      rootMargin: '-10% 0px -10% 0px'
+    }
+  );
+
+  document.querySelectorAll('.timeline-item').forEach((item) => {
+    observer.observe(item);
+  });
+
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage') as HTMLImageElement;
+  const modalClose = document.getElementById('modalClose');
+  const modalPrev = document.getElementById('modalPrev');
+  const modalNext = document.getElementById('modalNext');
+  const modalCounter = document.getElementById('modalCounter');
+
+  let currentStackImages: string[] = [];
+  let currentStackIndex = 0;
+
+  function updateModal() {
+    if (modalImage && currentStackImages.length > 0) {
+      modalImage.src = currentStackImages[currentStackIndex];
+    }
+    
+    const hasMultiple = currentStackImages.length > 1;
+    modalPrev?.classList.toggle('visible', hasMultiple);
+    modalNext?.classList.toggle('visible', hasMultiple);
+    modalCounter?.classList.toggle('visible', hasMultiple);
+    
+    if (modalCounter && hasMultiple) {
+      modalCounter.textContent = `${currentStackIndex + 1} / ${currentStackImages.length}`;
+    }
+  }
+
+  function navigateStack(direction: number) {
+    currentStackIndex = (currentStackIndex + direction + currentStackImages.length) % currentStackImages.length;
+    updateModal();
+  }
+
+  document.querySelectorAll('.image-stack').forEach((stack) => {
+    stack.addEventListener('click', () => {
+      const stackData = stack.getAttribute('data-stack-images');
+      if (stackData && modal) {
+        currentStackImages = JSON.parse(stackData);
+        currentStackIndex = 0;
+        updateModal();
+        modal.classList.add('active');
+      }
+    });
+  });
+
+  modalPrev?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigateStack(-1);
+  });
+
+  modalNext?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigateStack(1);
+  });
+
+  modalClose?.addEventListener('click', () => {
+    modal?.classList.remove('active');
+  });
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (modal?.classList.contains('active')) {
+      if (e.key === 'Escape') {
+        modal.classList.remove('active');
+      } else if (e.key === 'ArrowLeft') {
+        navigateStack(-1);
+      } else if (e.key === 'ArrowRight') {
+        navigateStack(1);
+      }
+    }
+  });
+</script>
