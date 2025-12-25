@@ -1,6 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import imageDates from '../../assets/graphic-design-assets/image-dates.json';
+import GridBackground from '../../components/GridBackground.astro';
+import BackButton from '../../components/BackButton.astro';
+import background from '../../assets/images/background.svg';
+import '../../styles/fonts.css';
+import '../../styles/animations.css';
 
 const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/graphic-design-assets/*.{jpg,png}', { eager: true });
 
@@ -68,16 +73,19 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 ---
 
 <Layout>
+  <BackButton href="/" />
   <div class="fade-top"></div>
   <div class="fade-bottom"></div>
   
   <div class="timeline-container">
-    <div class="timeline-line"></div>
+    <GridBackground />
+    <img id="background" src={background.src} alt="" fetchpriority="high" />
+    <!-- <div class="timeline-line"></div> -->
     
     {years.map(year => (
       <div class="year-section">
         <div class="year-marker">
-          <span class="year-text">{year}</span>
+          <span class="year-text"><span class="year-inner">{year}</span></span>
         </div>
         
         {groupedByYear[year].map((group, index) => (
@@ -124,18 +132,28 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
 <style>
   :root {
-    --bg-color: #0a0a0a;
+    /* --bg-color: #0a0a0a; */
     --text-color: #ffffff;
     --accent-color: #888;
     --timeline-color: #333;
   }
 
+  #background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur(100px);
+	}
+
   .timeline-container {
     position: relative;
     /* max-width: 1200px; */
     margin: 0 auto;
-    padding: 100px 20px;
-    background: var(--bg-color);
+    padding: 30px 20px;
+    /* background: var(--bg-color); */
     min-height: 100vh;
   }
 
@@ -161,14 +179,31 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
   }
 
   .year-text {
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Oswald', sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
+    /* background: var(--bg-color); */
     padding: 10px 30px;
-    border: 2px solid var(--timeline-color);
-    z-index: 2;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .year-inner {
+    display: inline-block;
+    font-family: "crash", sans-serif;
+    font-weight: 600;
+    font-size: 70px;
+    color: rgba(188, 82, 238, 0.8);
+    transition: transform 3s cubic-bezier(.2,.9,.2,1);
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .year-text:hover .year-inner {
+    transform: scale(1.08);
+    color: rgba(188, 82, 238, 1);
+  }
+
+  .year-text:hover {
+    animation: glow-year 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
+    animation-delay: 0s, 2s;
   }
 
   .timeline-item {
@@ -196,7 +231,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
   .content-side,
   .image-side {
-    width: 45%;
+    width: 50%;
     padding: 20px;
   }
 

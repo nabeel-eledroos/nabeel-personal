@@ -1,0 +1,43 @@
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-3px) rotate(0.5deg);
+    }
+    75% {
+        transform: translateY(-3px) rotate(-0.5deg);
+    }
+}
+
+@keyframes glow-nametag {
+    0% {
+        color: rgba(188, 82, 238, 0.7);
+        text-shadow: 0 0 0px rgba(50, 69, 255, 0), 0 0 0px rgba(188, 82, 238, 0);
+    }
+    100% {
+        color: rgba(188, 82, 238, 1);
+        text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.7);
+    }
+}
+
+@keyframes glow-menu-item {
+    0% {
+        text-shadow: 0 0 0px rgba(50, 69, 255, 0);
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(145, 142, 216, 0.6);
+        /* text-shadow: 0 0 8px rgba(188, 82, 238, 0.4); */
+    }
+}
+
+@keyframes glow-year {
+    0% {
+        color: rgba(188, 82, 238, 0.7);
+        text-shadow: 0 0 0px rgba(50, 69, 255, 0);
+    }
+    100% {
+        color: rgba(188, 82, 238, 1);
+        text-shadow: 0 0 4px rgba(188, 82, 238, 0.5);
+    }
+}
