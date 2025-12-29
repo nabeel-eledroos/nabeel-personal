@@ -1,0 +1,206 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id = 'imageModal' } = Astro.props;
+---
+
+<div class="modal" id={id}>
+  <button class="modal-close" data-modal-close>&times;</button>
+  <button class="modal-nav modal-prev" data-modal-prev>&lsaquo;</button>
+  <img class="modal-image" data-modal-image src="" alt="Enlarged view" />
+  <button class="modal-nav modal-next" data-modal-next>&rsaquo;</button>
+  <div class="modal-counter" data-modal-counter></div>
+</div>
+
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal.active {
+    display: flex;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 3rem;
+    color: var(--text-color, #ffffff);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 101;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover {
+    color: var(--accent-color, #888);
+  }
+
+  .modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    color: var(--text-color, #ffffff);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 20px;
+    z-index: 101;
+    transition: color 0.2s, opacity 0.2s;
+    opacity: 0.7;
+    display: none;
+  }
+
+  .modal-nav:hover {
+    color: var(--accent-color, #888);
+    opacity: 1;
+  }
+
+  .modal-nav.visible {
+    display: block;
+  }
+
+  .modal-prev {
+    left: 20px;
+  }
+
+  .modal-next {
+    right: 20px;
+  }
+
+  .modal-counter {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-color, #ffffff);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    opacity: 0.7;
+    display: none;
+  }
+
+  .modal-counter.visible {
+    display: block;
+  }
+</style>
+
+<script>
+  class ImageModal {
+    modal: HTMLElement;
+    modalImage: HTMLImageElement;
+    modalPrev: HTMLElement;
+    modalNext: HTMLElement;
+    modalCounter: HTMLElement;
+    currentStackImages: string[] = [];
+    currentStackIndex: number = 0;
+
+    constructor(modal: HTMLElement) {
+      this.modal = modal;
+      this.modalImage = modal.querySelector('[data-modal-image]') as HTMLImageElement;
+      this.modalPrev = modal.querySelector('[data-modal-prev]') as HTMLElement;
+      this.modalNext = modal.querySelector('[data-modal-next]') as HTMLElement;
+      this.modalCounter = modal.querySelector('[data-modal-counter]') as HTMLElement;
+
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+      const closeBtn = this.modal.querySelector('[data-modal-close]');
+      closeBtn?.addEventListener('click', () => this.close());
+
+      this.modalPrev?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigate(-1);
+      });
+
+      this.modalNext?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigate(1);
+      });
+
+      this.modal?.addEventListener('click', (e) => {
+        if (e.target === this.modal) {
+          this.close();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (this.modal?.classList.contains('active')) {
+          if (e.key === 'Escape') {
+            this.close();
+          } else if (e.key === 'ArrowLeft') {
+            this.navigate(-1);
+          } else if (e.key === 'ArrowRight') {
+            this.navigate(1);
+          }
+        }
+      });
+    }
+
+    open(images: string[], startIndex: number = 0) {
+      this.currentStackImages = images;
+      this.currentStackIndex = startIndex;
+      this.updateDisplay();
+      this.modal.classList.add('active');
+    }
+
+    close() {
+      this.modal.classList.remove('active');
+    }
+
+    navigate(direction: number) {
+      this.currentStackIndex = (this.currentStackIndex + direction + this.currentStackImages.length) % this.currentStackImages.length;
+      this.updateDisplay();
+    }
+
+    updateDisplay() {
+      if (this.modalImage && this.currentStackImages.length > 0) {
+        this.modalImage.src = this.currentStackImages[this.currentStackIndex];
+      }
+
+      const hasMultiple = this.currentStackImages.length > 1;
+      this.modalPrev?.classList.toggle('visible', hasMultiple);
+      this.modalNext?.classList.toggle('visible', hasMultiple);
+      this.modalCounter?.classList.toggle('visible', hasMultiple);
+
+      if (this.modalCounter && hasMultiple) {
+        this.modalCounter.textContent = `${this.currentStackIndex + 1} / ${this.currentStackImages.length}`;
+      }
+    }
+  }
+
+  document.querySelectorAll('.modal').forEach((modal) => {
+    const instance = new ImageModal(modal as HTMLElement);
+    (modal as any)._imageModal = instance;
+  });
+
+  (window as any).openImageModal = (modalId: string, images: string[], startIndex: number = 0) => {
+    const modal = document.getElementById(modalId);
+    if (modal && (modal as any)._imageModal) {
+      (modal as any)._imageModal.open(images, startIndex);
+    }
+  };
+</script>
