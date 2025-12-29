@@ -1,0 +1,89 @@
+---
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
+
+const resolvedImages = images.map(filename => {
+  const matchingPath = Object.keys(imageModules).find(path => path.endsWith(`/${filename}`));
+  if (matchingPath) {
+    const mod = imageModules[matchingPath];
+    return {
+      src: mod.default.src,
+      filename,
+      width: mod.default.width,
+      height: mod.default.height,
+      isLandscape: mod.default.width > mod.default.height,
+    };
+  }
+  return null;
+}).filter(Boolean);
+
+const allSrcs = resolvedImages.map(img => img!.src);
+---
+
+<div class="photo-grid">
+  {resolvedImages.map((img) => img && (
+    <div 
+      class={`photo-item ${img.isLandscape ? 'landscape' : ''}`}
+      data-images={JSON.stringify(allSrcs)}
+    >
+      <img 
+        src={img.src} 
+        alt={img.filename}
+        loading="lazy"
+      />
+    </div>
+  ))}
+</div>
+
+<style>
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  .photo-item {
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .photo-item.landscape {
+    grid-column: 1 / -1;
+  }
+
+  .photo-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .photo-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter 0.3s ease;
+  }
+
+  .photo-item:hover img {
+    filter: brightness(1.05);
+  }
+
+  @media (max-width: 1024px) {
+    .photo-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .photo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -6,15 +6,40 @@ import GridBackground from '../../components/GridBackground.astro';
 import background from '../../assets/images/background.svg';
 import '../../styles/fonts.css';
 
-const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*.{jpg,png,jpeg}', { eager: true });
+const metadataFiles = import.meta.glob<{ name: string; description: string }>('../../assets/photography-assets/*/metadata.json', { eager: true });
+const highlightImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*/highlights/*.{jpg,png,jpeg}', { eager: true });
 
-const imageList = Object.entries(images).map(([path, module]) => ({
-  src: module.default.src,
-  filename: path.split('/').pop() || '',
-  width: module.default.width,
-  height: module.default.height,
-  isLandscape: module.default.width > module.default.height,
-}));
+type Album = {
+  slug: string;
+  name: string;
+  description: string;
+  highlights: { src: string; filename: string; width: number; height: number; isLandscape: boolean }[];
+};
+
+const albums: Album[] = [];
+
+for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
+  const folderMatch = metaPath.match(/photography-assets\/([^/]+)\/metadata\.json/);
+  if (!folderMatch) continue;
+  
+  const slug = folderMatch[1];
+  const highlights = Object.entries(highlightImages)
+    .filter(([path]) => path.includes(`/${slug}/highlights/`))
+    .map(([path, module]) => ({
+      src: module.default.src,
+      filename: path.split('/').pop() || '',
+      width: module.default.width,
+      height: module.default.height,
+      isLandscape: module.default.width > module.default.height,
+    }));
+
+  albums.push({
+    slug,
+    name: metadata.name,
+    description: metadata.description,
+    highlights,
+  });
+}
 ---
 
 <Layout>
@@ -28,20 +53,29 @@ const imageList = Object.entries(images).map(([path, module]) => ({
     
     <h1 class="page-title">Photography</h1>
     
-    <div class="photo-grid">
-      {imageList.map((img) => (
-        <div 
-          class={`photo-item ${img.isLandscape ? 'landscape' : ''}`}
-          data-images={JSON.stringify([img.src])}
-        >
-          <img 
-            src={img.src} 
-            alt={img.filename}
-            loading="lazy"
-          />
+    {albums.map((album) => (
+      <div class="album-section">
+        <div class="album-info">
+          <h2 class="album-title">{album.name}</h2>
+          <p class="album-description">{album.description}</p>
+          <a href={`/photography/${album.slug}`} class="album-link">View All →</a>
         </div>
-      ))}
-    </div>
+        <div class="album-highlights">
+          {album.highlights.map((img) => (
+            <div 
+              class={`photo-item ${img.isLandscape ? 'landscape' : ''}`}
+              data-images={JSON.stringify(album.highlights.map(h => h.src))}
+            >
+              <img 
+                src={img.src} 
+                alt={img.filename}
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
   </div>
 
   <ImageModal id="imageModal" />
@@ -79,13 +113,56 @@ const imageList = Object.entries(images).map(([path, module]) => ({
     margin: 60px 0 40px;
   }
 
-  .photo-grid {
+  .album-section {
+    display: flex;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    padding: 0 50px;
+  }
+
+  .album-info {
+    flex: 0 0 250px;
+    position: sticky;
+    top: 120px;
+    align-self: flex-start;
+  }
+
+  .album-title {
+    font-family: "crash", sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    color: rgba(188, 82, 238, 0.9);
+    margin: 0 0 16px;
+  }
+
+  .album-description {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0 0 24px;
+  }
+
+  .album-link {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: rgba(188, 82, 238, 0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .album-link:hover {
+    color: rgba(188, 82, 238, 1);
+  }
+
+  .album-highlights {
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px 50px;
   }
 
   .photo-item {
@@ -135,19 +212,33 @@ const imageList = Object.entries(images).map(([path, module]) => ({
     background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
   }
 
-  @media (max-width: 600px) {
-    .photo-grid {
+  @media (max-width: 1024px) {
+    .album-section {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .album-info {
+      position: static;
+      flex: none;
+    }
+
+    .album-highlights {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  @media (max-width: 400px) {
-    .photo-grid {
+  @media (max-width: 600px) {
+    .album-highlights {
       grid-template-columns: 1fr;
     }
 
     .page-title {
       font-size: 48px;
+    }
+
+    .album-section {
+      padding: 0 20px;
     }
   }
 </style>
