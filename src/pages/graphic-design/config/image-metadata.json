@@ -1,0 +1,84 @@
+{
+    "2023": {
+        "cafe-first.jpg": {
+            "rank": 5,
+            "description": "First cafe design project, showcasing initial concepts and layouts."
+        },
+        "cafe-fall.jpg": {
+            "rank": 4,
+            "description": "Autumn-themed cafe design with warm colors and cozy elements."
+        },
+        "nightmare-at-noc.jpg": {
+            "rank": 3,
+            "description": "Nightmare at NOC poster design."
+        },
+        "cafe-diwali.jpg": {
+            "rank": 2,
+            "description": "Diwali-themed cafe design with festive decorations."
+        },
+        "mission-to-mint-manor.jpg": {
+            "rank": 1,
+            "description": "Mission to Mint Manor promotional poster."
+        }
+    },
+    "2024": {
+        "film-festival-1.jpg": {
+            "rank": 4,
+            "description": "Autumn-themed cafe design with warm colors and cozy elements."
+        },
+        "film-festival-1-magazine.jpg": {
+            "rank": 4,
+            "description": "N/A"
+        },
+        "film-festival-1-cover.jpg": {
+            "rank": 4,
+            "description": "N/A"
+        },
+        "cafe-spring.jpg": {
+            "rank": 3,
+            "description": "Spring-themed cafe design with fresh, vibrant elements."
+        },
+        "cafe-yemen.jpg": {
+            "rank": 2,
+            "description": "Cafe design inspired by Yemeni culture and aesthetics."
+        },
+        "film-festival-2.jpg": {
+            "rank": 1,
+            "description": "Film festival promotional poster."
+        }
+    },
+    "2025": {
+        "cafe-test-kitchen.jpg": {
+            "rank": 7,
+            "description": "Cafe design for a test kitchen."
+        },
+        "easter.jpg": {
+            "rank": 6,
+            "description": "Easter-themed cafe design."
+        },
+        "cafe-sep.jpg": {
+            "rank": 5,
+            "description": "September-themed cafe design."
+        },
+        "sparks.jpg": {
+            "rank": 4,
+            "description": "September-themed cafe design."
+        },
+        "asiento-halloween.jpg": {
+            "rank": 3,
+            "description": "Asiento Halloween poster design."
+        },
+        "kobalt-announcement.jpg": {
+            "rank": 2,
+            "description": "Kobalt announcement poster design."
+        },
+        "cafe-dec.jpg": {
+            "rank": 1,
+            "description": "December-themed cafe design."
+        },
+        "cafe-dec-menu.png": {
+            "rank": 1,
+            "description": "N/A"
+        }
+    }
+}

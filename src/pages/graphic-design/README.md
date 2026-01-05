@@ -1,0 +1,1 @@
+To add a new entry, simply upload the image(s) to `src/assets/graphic-design-assets`, and then add the metadata into `src/pages/graphic-design/config/image-metadata`.

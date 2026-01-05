@@ -69,6 +69,7 @@ for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
               <img 
                 src={img.src} 
                 alt={img.filename}
+                data-src={img.src}
                 loading="lazy"
               />
             </div>
@@ -110,7 +111,7 @@ for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
     font-size: 70px;
     color: rgba(188, 82, 238, 0.8);
     text-align: center;
-    margin: 60px 0 40px;
+    margin: 60px 0 100px;
   }
 
   .album-section {

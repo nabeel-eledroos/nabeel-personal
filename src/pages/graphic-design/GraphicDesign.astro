@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import imageDates from '../../assets/graphic-design-assets/image-dates.json';
+import imageData from './config/image-metadata.json';
 import GridBackground from '../../components/GridBackground.astro';
 import BackButton from '../../components/BackButton.astro';
 import ImageModal from '../../components/ImageModal.astro';
@@ -15,6 +15,7 @@ type ImageEntry = {
   filename: string;
   year: string;
   rank: number;
+  description: string;
 };
 
 type ImageGroup = {
@@ -23,17 +24,23 @@ type ImageGroup = {
   images: ImageEntry[];
 };
 
+type ImageData = {
+  rank: number;
+  description: string;
+};
+
 const allImages: ImageEntry[] = [];
 
-for (const [year, files] of Object.entries(imageDates)) {
-  for (const [filename, rank] of Object.entries(files as Record<string, number>)) {
+for (const [year, files] of Object.entries(imageData)) {
+  for (const [filename, metadata] of Object.entries(files as Record<string, ImageData>)) {
     const path = Object.keys(images).find(p => p.endsWith(filename));
     if (path) {
       allImages.push({
         src: images[path].default.src,
         filename,
         year,
-        rank
+        rank: metadata.rank,
+        description: metadata.description
       });
     }
   }
@@ -92,7 +99,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
         {groupedByYear[year].map((group, index) => (
           <div class={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}>
             <div class="content-side">
-              <p class="description">Placeholder description for {group.images[0].filename.replace(/\.(jpg|png)$/, '').replace(/-/g, ' ')}</p>
+              <p class="description">{group.images[0].description}</p>
             </div>
             <div class="image-side">
               <div 
