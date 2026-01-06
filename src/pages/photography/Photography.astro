@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import BackButton from '../../components/BackButton.astro';
 import ImageModal from '../../components/ImageModal.astro';
@@ -6,8 +7,11 @@ import GridBackground from '../../components/GridBackground.astro';
 import background from '../../assets/images/background.svg';
 import '../../styles/fonts.css';
 
-const metadataFiles = import.meta.glob<{ name: string; description: string }>('../../assets/photography-assets/*/metadata.json', { eager: true });
 const highlightImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*/highlights/*.{jpg,png,jpeg}', { eager: true });
+
+const allBlogPosts = (await getCollection('photoBlog')).sort(
+  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
 type Album = {
   slug: string;
@@ -18,11 +22,8 @@ type Album = {
 
 const albums: Album[] = [];
 
-for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
-  const folderMatch = metaPath.match(/photography-assets\/([^/]+)\/metadata\.json/);
-  if (!folderMatch) continue;
-  
-  const slug = folderMatch[1];
+for (const post of allBlogPosts) {
+  const slug = post.data.assetName;
   const highlights = Object.entries(highlightImages)
     .filter(([path]) => path.includes(`/${slug}/highlights/`))
     .map(([path, module]) => ({
@@ -35,8 +36,8 @@ for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
 
   albums.push({
     slug,
-    name: metadata.name,
-    description: metadata.description,
+    name: post.data.title,
+    description: post.data.description,
     highlights,
   });
 }

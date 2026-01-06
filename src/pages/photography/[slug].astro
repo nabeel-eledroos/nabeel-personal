@@ -1,4 +1,5 @@
 ---
+import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import BackButton from '../../components/BackButton.astro';
 import ImageModal from '../../components/ImageModal.astro';
@@ -7,35 +8,22 @@ import background from '../../assets/images/background.svg';
 import '../../styles/fonts.css';
 
 export async function getStaticPaths() {
-  const metadataFiles = import.meta.glob<{ name: string; description: string }>('../../assets/photography-assets/*/metadata.json', { eager: true });
-  const contentFiles = import.meta.glob('../../assets/photography-assets/*/content.mdx', { eager: true });
-
+  const allBlogPosts = await getCollection('photoBlog');
   const paths = [];
 
-  for (const [metaPath, metadata] of Object.entries(metadataFiles)) {
-    const folderMatch = metaPath.match(/photography-assets\/([^/]+)\/metadata\.json/);
-    if (!folderMatch) continue;
-
-    const slug = folderMatch[1];
-    
-    const contentPath = Object.keys(contentFiles).find(path => path.includes(`/${slug}/content.mdx`));
-    const Content = contentPath ? (contentFiles[contentPath] as any).Content : null;
+  for (const post of allBlogPosts) {
+    const slug = post.data.assetName;
 
     paths.push({
       params: { slug },
-      props: {
-        name: metadata.name,
-        description: metadata.description,
-        Content,
-      },
+      props: { post },
     });
   }
-
   return paths;
 }
 
-const { slug } = Astro.params;
-const { name, description, Content } = Astro.props;
+const { post } = Astro.props;
+const { Content } = await render(post);
 ---
 
 <Layout>
@@ -47,10 +35,10 @@ const { name, description, Content } = Astro.props;
     <GridBackground />
     <img id="background" src={background.src} alt="" fetchpriority="high" />
     
-    <h1 class="page-title">{name}</h1>
+    <h1 class="page-title">{post.data.title}</h1>
     
     <div class="content-container">
-      {Content ? <Content /> : <p class="page-description">{description}</p>}
+      {post ? <Content /> : <p class="page-description">{post.data.description}</p>}
     </div>
   </div>
 
