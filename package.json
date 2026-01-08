@@ -11,6 +11,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/mdx": "^4.3.13",
-    "astro": "^5.16.4"
+    "astro": "^5.16.4",
+    "astro-lazy-youtube-embed": "^0.5.4"
   }
 }

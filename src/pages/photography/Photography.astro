@@ -9,7 +9,7 @@ import '../../styles/fonts.css';
 
 const highlightImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*/highlights/*.{jpg,png,jpeg}', { eager: true });
 
-const allBlogPosts = (await getCollection('photoBlog')).sort(
+const photoBlogPosts = (await getCollection('photoBlog')).sort(
   (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
@@ -22,7 +22,7 @@ type Album = {
 
 const albums: Album[] = [];
 
-for (const post of allBlogPosts) {
+for (const post of photoBlogPosts) {
   const slug = post.data.assetName;
   const highlights = Object.entries(highlightImages)
     .filter(([path]) => path.includes(`/${slug}/highlights/`))

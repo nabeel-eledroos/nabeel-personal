@@ -1,0 +1,18 @@
+[
+    {
+        "id": "this-website",
+        "title": "This website",
+        "skills": "Astro, TypeScript, CSS",
+        "description": "Personal portfolio website that's super fun and cool",
+        "link": "https://github.com/nabeel-eledroos/nabeel-personal",
+        "pubDate": "2026-01-06"
+    },
+    {
+        "id": "mnist-decision-tree",
+        "title": "MNIST Decision Tree",
+        "skills": "Python, NumPy, Matplotlib",
+        "description": "A decision tree of user specified depth to decide whether an image from a subset of the MNIST dataset is a 3 or an 8.",
+        "link": "https://github.com/nabeel-eledroos/mnist-decision-tree",
+        "pubDate": "2020-04-15"
+    }
+]
