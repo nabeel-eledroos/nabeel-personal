@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import { YouTube } from 'astro-lazy-youtube-embed';
+import Layout from '../../layouts/Layout.astro';
+import BackButton from '../../components/BackButton.astro';
+import GridBackground from '../../components/GridBackground.astro';
+import background from '../../assets/images/background.svg';
+import '../../styles/fonts.css';
+
+const videoData = (await getCollection('videos')).sort(
+  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Layout>
+  <BackButton href="/" />
+  <!-- <div class="fade-top"></div>
+  <div class="fade-bottom"></div> -->
+  
+  <div class="videos-container">
+    <GridBackground />
+    <img id="background" src={background.src} alt="" fetchpriority="high" />
+    
+    <h1 class="page-title">Projects</h1>
+
+    {videoData.map((video) => (
+      <div class="video-section">
+        <h2 class="video-title">{video.data.title}</h2>
+        <YouTube title={video.data.title} videoId={video.data.link} />
+        <p class="video-description">{video.data.description}</p>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  :root {
+    --text-color: #ffffff;
+    --accent-color: #888;
+  }
+
+  a {
+    text-decoration: none;
+  }  
+
+  #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(100px);
+  }
+
+  .video-container {
+    position: relative;
+    margin: 0 auto;
+    padding: 30px 20px;
+    min-height: 100vh;
+  }
+
+  .page-title {
+    font-family: "crash", sans-serif;
+    font-weight: 600;
+    font-size: 70px;
+    color: rgba(188, 82, 238, 0.8);
+    text-align: center;
+    margin: 60px 0 100px;
+  }
+
+  .video-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 800px;
+    margin: 0 auto 80px;
+    padding: 0 50px;
+    text-align: center;
+  }
+
+  .video-skills {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: rgba(236, 236, 236, 0.8);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .video-title {
+    font-family: "crash", sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    color: rgba(188, 82, 238, 0.9);
+    margin: 0;
+  }
+
+  .video-description {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .video-link {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: rgba(188, 82, 238, 0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-top: 8px;
+  }
+
+  .video-link:hover {
+    color: rgba(188, 82, 238, 1);
+  }
+
+  .fade-top,
+  .fade-bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .fade-top {
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 100%);
+  }
+
+  .fade-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
+  }
+
+  @media (max-width: 1024px) {
+    .project-section {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .project-info {
+      position: static;
+      flex: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page-title {
+      font-size: 48px;
+    }
+
+    .project-section {
+      padding: 0 20px;
+    }
+  }
+</style>
