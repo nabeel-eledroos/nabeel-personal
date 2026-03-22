@@ -1,51 +1,52 @@
 ---
 ---
 
-<button id="style-switcher" class="style-switcher" aria-label="Toggle theme style">
-  <span class="switcher-icon">◐</span>
-</button>
-
 <style>
   .style-switcher {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 100;
-    width: 44px;
-    height: 44px;
-    border: 2px solid currentColor;
-    border-radius: 50%;
     background: transparent;
+    border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-    opacity: 0.6;
+    padding: 4px 0;
+    font-optical-sizing: auto;
+    font-size: 42px;
+    text-align: right;
+    transition: font-size 0.5s ease, color 0.5s ease, font-family 0.3s ease;
+    display: inline-block;
   }
 
   .style-switcher:hover {
-    opacity: 1;
-    transform: scale(1.1);
+    font-size: 52px;
   }
 
-  .switcher-icon {
-    font-size: 20px;
-    transition: transform 0.3s ease;
+  /* Ethereal (default) */
+  .style-switcher {
+    color: rgba(255, 248, 240, 0.85);
+    font-family: "Cormorant", serif;
+    font-style: italic;
+    font-weight: 500;
   }
-
-  .style-switcher:hover .switcher-icon {
-    transform: rotate(180deg);
-  }
-
-  :global([data-theme="y2k-grid"]) .style-switcher {
-    color: rgba(188, 82, 238, 0.8);
-    border-color: rgba(188, 82, 238, 0.5);
-  }
-
-  :global([data-theme="ethereal"]) .style-switcher {
+  .style-switcher:hover {
     color: #fff8f0;
-    border-color: rgba(255, 248, 240, 0.5);
+  }
+
+  /* Y2K Grid */
+  :global([data-theme="y2k-grid"]) .style-switcher {
+    color: rgba(100, 98, 194, 0.6);
+    font-family: "Crash", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+  }
+  :global([data-theme="y2k-grid"]) .style-switcher:hover {
+    animation: glow-menu-item 1.5s ease-in-out forwards;
+  }
+
+  @media screen and (max-width: 768px) {
+    .style-switcher {
+      font-size: 32px;
+    }
+    .style-switcher:hover {
+      font-size: 38px;
+    }
   }
 </style>
 

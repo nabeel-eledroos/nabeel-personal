@@ -1,8 +1,9 @@
 ---
 import background from '../assets/images/background.svg';
+import resume from '../assets/resume/nabeel_resume.pdf';
 import GridBackground from './GridBackground.astro';
 import GradientBackground from './GradientBackground.astro';
-import StyleSwitcher from './StyleSwitcher.astro';
+
 import '../styles/fonts.css';
 import '../styles/animations.css';
 ---
@@ -15,7 +16,6 @@ import '../styles/animations.css';
 	<div class="background-ethereal">
 		<GradientBackground />
 	</div>
-	<StyleSwitcher />
 	<div class="inset-border"></div>
 	<main>
 		<section id="nametag-section">
@@ -37,9 +37,14 @@ import '../styles/animations.css';
 			<a href="/projects/Projects" class="menu-item">
 				Projects
 			</a>
-			<a href="https://nabeel-eledroos.github.io/data/nabeel_resume.pdf" target="_blank" rel="noopener noreferrer" class="menu-item">
+			<a href={resume} target="_blank" rel="noopener noreferrer" class="menu-item">
 				Resume
 			</a>
+			<button id="style-switcher" class="style-toggle" aria-label="Toggle theme style">
+				<span class="toggle-track">
+					<span class="toggle-thumb"></span>
+				</span>
+			</button>
 		</nav>
 	</main>
 </div>
@@ -74,6 +79,7 @@ import '../styles/animations.css';
 		right: 20px;
 		bottom: 20px;
 		border: 1px solid rgba(255, 248, 240, 0.2);
+		border-radius: 20px;
 		pointer-events: none;
 		z-index: 50;
 		opacity: 0;
@@ -138,7 +144,7 @@ import '../styles/animations.css';
 	}
 
 	#nametag:hover .name-ethereal {
-		font-size: 70px;
+		font-size: 80px;
 		text-shadow: 0 0 30px rgba(255, 248, 240, 0.6), 0 0 60px rgba(255, 200, 168, 0.4);
 	}
 
@@ -150,7 +156,7 @@ import '../styles/animations.css';
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		gap: 16px;
+		gap: 24px;
 	}
 
 	.menu-item {
@@ -201,6 +207,63 @@ import '../styles/animations.css';
 		animation: glow-menu-item 1.5s ease-in-out forwards;
 	}
 
+	/* Style Toggle Button */
+	.style-toggle {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		padding: 4px 0;
+		display: inline-block;
+		margin-top: 8px;
+	}
+
+	.toggle-track {
+		display: block;
+		width: 56px;
+		height: 28px;
+		background: rgba(255, 248, 240, 0.25);
+		border-radius: 14px;
+		position: relative;
+		transition: background 0.3s ease;
+	}
+
+	.toggle-thumb {
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		width: 22px;
+		height: 22px;
+		background: rgba(255, 248, 240, 0.85);
+		border-radius: 50%;
+		transition: transform 0.3s ease, background 0.3s ease;
+	}
+
+	.style-toggle:hover .toggle-track {
+		background: rgba(255, 248, 240, 0.35);
+	}
+
+	.style-toggle:hover .toggle-thumb {
+		background: #fff8f0;
+	}
+
+	:global([data-theme="y2k-grid"]) .toggle-track {
+		background: rgba(188, 82, 238, 0.3);
+	}
+
+	:global([data-theme="y2k-grid"]) .toggle-thumb {
+		background: rgba(188, 82, 238, 0.8);
+		transform: translateX(28px);
+	}
+
+	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-track {
+		background: rgba(188, 82, 238, 0.5);
+	}
+
+	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-thumb {
+		background: rgba(188, 82, 238, 1);
+		box-shadow: 0 0 10px rgba(188, 82, 238, 0.7);
+	}
+
 	@media screen and (max-width: 768px) {
 		#nametag-section {
 			position: fixed;
@@ -240,5 +303,35 @@ import '../styles/animations.css';
 			right: 10px;
 			bottom: 10px;
 		}
+
+		.toggle-track {
+			width: 48px;
+			height: 24px;
+			border-radius: 12px;
+		}
+
+		.toggle-thumb {
+			width: 18px;
+			height: 18px;
+		}
+
+		:global([data-theme="y2k-grid"]) .toggle-thumb {
+			transform: translateX(24px);
+		}
 	}
 </style>
+
+<script>
+	import { toggleTheme, initTheme } from '../stores/theme';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		initTheme();
+	});
+
+	const switcher = document.getElementById('style-switcher');
+	if (switcher) {
+		switcher.addEventListener('click', () => {
+			toggleTheme();
+		});
+	}
+</script>
