@@ -1,0 +1,63 @@
+---
+---
+
+<div class="gradient-background">
+  <svg class="gradient-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="warmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#e8c89a" />
+        <stop offset="35%" style="stop-color:#ffcca8" />
+        <stop offset="65%" style="stop-color:#eda0c0" />
+        <stop offset="100%" style="stop-color:#b068c8" />
+      </linearGradient>
+      <radialGradient id="centerGlow" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" style="stop-color:#fff8f0;stop-opacity:0.3" />
+        <stop offset="100%" style="stop-color:#fff8f0;stop-opacity:0" />
+      </radialGradient>
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+        <feComponentTransfer>
+          <feFuncR type="linear" slope="0.15" />
+          <feFuncG type="linear" slope="0.15" />
+          <feFuncB type="linear" slope="0.15" />
+          <feFuncA type="linear" slope="0.3" />
+        </feComponentTransfer>
+        <feBlend mode="overlay" in="SourceGraphic" />
+      </filter>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#warmGradient)" />
+    <rect width="100%" height="100%" fill="url(#centerGlow)" />
+  </svg>
+  <div class="grain-overlay"></div>
+</div>
+
+<style>
+  .gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+  }
+
+  .gradient-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .grain-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+</style>

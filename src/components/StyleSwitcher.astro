@@ -1,0 +1,65 @@
+---
+---
+
+<button id="style-switcher" class="style-switcher" aria-label="Toggle theme style">
+  <span class="switcher-icon">◐</span>
+</button>
+
+<style>
+  .style-switcher {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    opacity: 0.6;
+  }
+
+  .style-switcher:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .switcher-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .style-switcher:hover .switcher-icon {
+    transform: rotate(180deg);
+  }
+
+  :global([data-theme="y2k-grid"]) .style-switcher {
+    color: rgba(188, 82, 238, 0.8);
+    border-color: rgba(188, 82, 238, 0.5);
+  }
+
+  :global([data-theme="ethereal"]) .style-switcher {
+    color: #fff8f0;
+    border-color: rgba(255, 248, 240, 0.5);
+  }
+</style>
+
+<script>
+  import { toggleTheme, initTheme } from '../stores/theme';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+  });
+
+  const switcher = document.getElementById('style-switcher');
+  if (switcher) {
+    switcher.addEventListener('click', () => {
+      toggleTheme();
+    });
+  }
+</script>
