@@ -125,17 +125,11 @@ import '../styles/animations.css';
 		text-shadow: 0 0 0px rgba(188, 82, 238, 0);
 	}
 
-	#nametag:hover .name-y2k-grid {
-		font-size: 60px;
-		color: rgba(188, 82, 238, 1);
-		text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.5);
-	}
-
 	.name-ethereal {
 		color: #fff8f0;
-		font-family: "Bodoni Moda", serif;
-		font-weight: 400;
-		font-style: italic;
+		font-family: "Te-Quirtez", serif;
+		font-weight: 800;
+		/* font-style: italic; */
 		font-size: 64px;
 		position: absolute;
 		bottom: 0;
@@ -143,9 +137,17 @@ import '../styles/animations.css';
 		text-shadow: 0 0 0px rgba(255, 248, 240, 0);
 	}
 
-	#nametag:hover .name-ethereal {
-		font-size: 80px;
-		text-shadow: 0 0 30px rgba(255, 248, 240, 0.6), 0 0 60px rgba(255, 200, 168, 0.4);
+	/* Ethereal hover - only when ethereal theme is active (default) */
+	.name-ethereal:hover {
+		font-size: 75px;
+		text-shadow: 0 0 30px rgba(255, 248, 240, 0.6), 0 0 40px rgba(255, 200, 168, 0.4);
+	}
+
+	/* Y2K hover - only when y2k theme is active */
+	:global([data-theme="y2k-grid"]) .name-y2k-grid:hover {
+		font-size: 60px;
+		color: rgba(188, 82, 238, 1);
+		text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.5);
 	}
 
 	#menu-section {
@@ -178,14 +180,14 @@ import '../styles/animations.css';
 	/* Ethereal (default) */
 	.background-y2k-grid { display: none; }
 	.background-ethereal { display: block; }
-	.name-y2k-grid { opacity: 0; }
-	.name-ethereal { opacity: 1; }
+	.name-y2k-grid { opacity: 0; pointer-events: none; }
+	.name-ethereal { opacity: 1; pointer-events: auto; }
 	.inset-border { opacity: 1; }
 	.menu-item {
 		color: rgba(255, 248, 240, 0.85);
 		font-family: "Cormorant", serif;
 		font-style: italic;
-		font-weight: 500;
+		font-weight: 700;
 	}
 	.menu-item:hover {
 		color: #fff8f0;
@@ -194,8 +196,8 @@ import '../styles/animations.css';
 	/* Y2K Grid */
 	:global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
 	:global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
-	:global([data-theme="y2k-grid"]) .name-y2k-grid { opacity: 1; }
-	:global([data-theme="y2k-grid"]) .name-ethereal { opacity: 0; }
+	:global([data-theme="y2k-grid"]) .name-y2k-grid { opacity: 1; pointer-events: auto; }
+	:global([data-theme="y2k-grid"]) .name-ethereal { opacity: 0; pointer-events: none; }
 	:global([data-theme="y2k-grid"]) .inset-border { opacity: 0; }
 	:global([data-theme="y2k-grid"]) .menu-item {
 		color: rgba(100, 98, 194, 0.6);
