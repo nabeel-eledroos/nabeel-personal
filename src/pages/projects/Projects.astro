@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import BackButton from '../../components/BackButton.astro';
 import GridBackground from '../../components/GridBackground.astro';
+import GradientBackground from '../../components/GradientBackground.astro';
 import background from '../../assets/images/background.svg';
 import '../../styles/fonts.css';
 
@@ -17,8 +18,13 @@ const projectsData = (await getCollection('projects')).sort(
   <div class="fade-bottom"></div> -->
   
   <div class="projects-container">
-    <GridBackground />
-    <img id="background" src={background.src} alt="" fetchpriority="high" />
+    <div class="background-y2k-grid">
+      <GridBackground />
+      <img id="background" src={background.src} alt="" fetchpriority="high" />
+    </div>
+    <div class="background-ethereal">
+      <GradientBackground />
+    </div>
     
     <h1 class="page-title">Projects</h1>
 
@@ -37,6 +43,11 @@ const projectsData = (await getCollection('projects')).sort(
     --text-color: #ffffff;
     --accent-color: #888;
   }
+
+  .background-y2k-grid { display: none; }
+  .background-ethereal { display: block; }
+  :global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
+  :global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
 
   a {
     text-decoration: none;
@@ -60,12 +71,20 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   .page-title {
-    font-family: "crash", sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 600;
     font-size: 70px;
-    color: rgba(188, 82, 238, 0.8);
+    color: #fff8f0;
     text-align: center;
     margin: 60px 0 100px;
+    transition: color 0.5s ease, font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .page-title {
+    font-family: "crash", sans-serif;
+    font-style: normal;
+    color: rgba(188, 82, 238, 0.8);
   }
 
   .project-section {
@@ -90,11 +109,19 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   .project-title {
-    font-family: "crash", sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 600;
     font-size: 36px;
-    color: rgba(188, 82, 238, 0.9);
+    color: #fff8f0;
     margin: 0;
+    transition: color 0.5s ease, font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .project-title {
+    font-family: "crash", sans-serif;
+    font-style: normal;
+    color: rgba(188, 82, 238, 0.9);
   }
 
   .project-description {

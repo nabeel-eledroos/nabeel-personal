@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import imageData from './config/image-metadata.json';
 import GridBackground from '../../components/GridBackground.astro';
+import GradientBackground from '../../components/GradientBackground.astro';
 import BackButton from '../../components/BackButton.astro';
 import ImageModal from '../../components/ImageModal.astro';
 import background from '../../assets/images/background.svg';
@@ -86,8 +87,13 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
   <div class="fade-bottom"></div>
   
   <div class="timeline-container">
-    <GridBackground />
-    <img id="background" src={background.src} alt="" fetchpriority="high" />
+    <div class="background-y2k-grid">
+      <GridBackground />
+      <img id="background" src={background.src} alt="" fetchpriority="high" />
+    </div>
+    <div class="background-ethereal">
+      <GradientBackground />
+    </div>
     <!-- <div class="timeline-line"></div> -->
     
     {years.map(year => (
@@ -133,11 +139,15 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
 <style>
   :root {
-    /* --bg-color: #0a0a0a; */
     --text-color: #ffffff;
     --accent-color: #888;
     --timeline-color: #333;
   }
+
+  .background-y2k-grid { display: none; }
+  .background-ethereal { display: block; }
+  :global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
+  :global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
 
   #background {
 		position: fixed;
@@ -188,21 +198,31 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
   .year-inner {
     display: inline-block;
-    font-family: "crash", sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 600;
     font-size: 70px;
-    color: rgba(188, 82, 238, 0.8);
-    transition: transform 3s cubic-bezier(.2,.9,.2,1);
+    color: #fff8f0;
+    transition: transform 3s cubic-bezier(.2,.9,.2,1), color 0.5s ease, font-family 0.3s ease;
     transform-origin: center;
     will-change: transform;
   }
 
+  :global([data-theme="y2k-grid"]) .year-inner {
+    font-family: "crash", sans-serif;
+    font-style: normal;
+    color: rgba(188, 82, 238, 0.8);
+  }
+
   .year-text:hover .year-inner {
     transform: scale(1.1);
+  }
+
+  :global([data-theme="y2k-grid"]) .year-text:hover .year-inner {
     color: rgba(188, 82, 238, 1);
   }
 
-  .year-text:hover {
+  :global([data-theme="y2k-grid"]) .year-text:hover {
     animation: glow-year 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
     animation-delay: 0s, 2s;
   }
@@ -370,8 +390,8 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
     }
 
     .year-marker {
-      justify-content: flex-start;
-      padding-left: 40px;
+      justify-content: center;
+      padding-left: 0;
     }
   }
 </style>

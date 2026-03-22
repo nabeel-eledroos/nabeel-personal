@@ -1,0 +1,66 @@
+---
+---
+
+<style>
+  .style-switcher {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    font-optical-sizing: auto;
+    font-size: 42px;
+    text-align: right;
+    transition: font-size 0.5s ease, color 0.5s ease, font-family 0.3s ease;
+    display: inline-block;
+  }
+
+  .style-switcher:hover {
+    font-size: 52px;
+  }
+
+  /* Ethereal (default) */
+  .style-switcher {
+    color: rgba(255, 248, 240, 0.85);
+    font-family: "Cormorant", serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+  .style-switcher:hover {
+    color: #fff8f0;
+  }
+
+  /* Y2K Grid */
+  :global([data-theme="y2k-grid"]) .style-switcher {
+    color: rgba(100, 98, 194, 0.6);
+    font-family: "Crash", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+  }
+  :global([data-theme="y2k-grid"]) .style-switcher:hover {
+    animation: glow-menu-item 1.5s ease-in-out forwards;
+  }
+
+  @media screen and (max-width: 768px) {
+    .style-switcher {
+      font-size: 32px;
+    }
+    .style-switcher:hover {
+      font-size: 38px;
+    }
+  }
+</style>
+
+<script>
+  import { toggleTheme, initTheme } from '../stores/theme';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+  });
+
+  const switcher = document.getElementById('style-switcher');
+  if (switcher) {
+    switcher.addEventListener('click', () => {
+      toggleTheme();
+    });
+  }
+</script>

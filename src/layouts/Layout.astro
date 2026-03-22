@@ -1,14 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="ethereal">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');;
+			@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,500;1,600&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@1,400;1,500;1,600&display=swap');
 		</style>
 		<title>Nabeel Eledroos</title>
+		<script is:inline>
+			(function() {
+				const theme = localStorage.getItem('portfolio-theme-style') || 'ethereal';
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
 	</head>
 	<body>
 		<slot />
@@ -21,5 +29,17 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	:root {
+		--y2k-grid-name-color: rgba(188, 82, 238, 0.8);
+		--y2k-grid-nav-color: rgba(100, 98, 194, 0.6);
+		--y2k-grid-name-font: "kabisat", sans-serif;
+		--y2k-grid-nav-font: "Crash", sans-serif;
+
+		--ethereal-name-color: #fff8f0;
+		--ethereal-nav-color: rgba(255, 248, 240, 0.85);
+		--ethereal-name-font: "Bodoni Moda", serif;
+		--ethereal-nav-font: "Cormorant", serif;
 	}
 </style>

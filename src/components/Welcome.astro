@@ -1,51 +1,57 @@
 ---
 import background from '../assets/images/background.svg';
+import resume from '../assets/resume/nabeel_resume.pdf';
 import GridBackground from './GridBackground.astro';
+import GradientBackground from './GradientBackground.astro';
+
 import '../styles/fonts.css';
 import '../styles/animations.css';
 ---
 
 <div id="container">
-	<GridBackground />
-	<img id="background" src={background.src} alt="" fetchpriority="high" />
+	<div class="background-y2k-grid">
+		<GridBackground />
+		<img id="background" src={background.src} alt="" fetchpriority="high" />
+	</div>
+	<div class="background-ethereal">
+		<GradientBackground />
+	</div>
+	<div class="inset-border"></div>
 	<main>
 		<section id="nametag-section">
 			<h1 id="nametag">
-				NABEEL ELEDROOS
+				<span class="name-y2k-grid">NABEEL ELEDROOS</span>
+				<span class="name-ethereal">Nabeel Eledroos</span>
 			</h1>
 		</section>
-		<section id="menu-section">
-			<a href="/graphic-design/GraphicDesign" id="menu-item">
+		<nav id="menu-section">
+			<a href="/graphic-design/GraphicDesign" class="menu-item">
 				Graphic Design
 			</a>
-			<a href="/photography/Photography" id="menu-item">
+			<a href="/photography/Photography" class="menu-item">
 				Photography
 			</a>
-			<a href="/video/Video" id="menu-item">
+			<a href="/video/Video" class="menu-item">
 				Video
 			</a>
-			<a href="/projects/Projects" id="menu-item">
+			<a href="/projects/Projects" class="menu-item">
 				Projects
 			</a>
-			<a href="https://nabeel-eledroos.github.io/data/nabeel_resume.pdf" target="_blank" rel="noopener noreferrer" id="menu-item">
+			<a href={resume} target="_blank" rel="noopener noreferrer" class="menu-item">
 				Resume
 			</a>
-		</section>
+			<button id="style-switcher" class="style-toggle" aria-label="Toggle theme style">
+				<span class="toggle-track">
+					<span class="toggle-thumb"></span>
+				</span>
+			</button>
+		</nav>
 	</main>
 </div>
 
 <style>
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
-	}
-
 	a {
 		text-decoration: none;
-		margin: 32px 0px;
 	}
 
 	#background {
@@ -60,81 +66,293 @@ import '../styles/animations.css';
 
 	#container {
 		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
+		height: 100vh;
+		width: 100vw;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.inset-border {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		right: 20px;
+		bottom: 20px;
+		border: 1px solid rgba(255, 248, 240, 0.2);
+		border-radius: 20px;
+		pointer-events: none;
+		z-index: 50;
+		opacity: 0;
+		transition: opacity 0.5s ease;
 	}
 
 	main {
 		height: 100%;
-		display: block;
-		justify-content: center;
+		width: 100%;
+		display: flex;
+		position: relative;
 	}
 
 	#nametag-section {
-		display: block;
-		justify-content: center;
-		width: 100%;
+		position: fixed;
+		bottom: 60px;
+		left: 60px;
+		display: inline-block;
 	}
 
 	#nametag {
+		margin: 0;
+		cursor: default;
+		white-space: nowrap;
+		position: relative;
+		display: inline-block;
+		padding-right: 20px;
+		transition: font-size 2s ease;
+	}
+
+	.name-y2k-grid, .name-ethereal {
+		display: inline-block;
+		transition: opacity 0.5s ease, font-size 1.5s ease-in-out, color 1.5s ease-in-out, text-shadow 1.5s ease-in-out;
+	}
+
+	.name-y2k-grid {
 		color: rgba(188, 82, 238, 0.8);
-		text-align: center;
 		font-family: "kabisat", sans-serif;
 		font-weight: 400;
 		font-style: normal;
 		font-size: 55px;
 		font-optical-sizing: auto;
-		transition: font-size 2s ease;
-		cursor: default;
+		text-shadow: 0 0 0px rgba(188, 82, 238, 0);
 	}
 
-	#nametag:hover {
-		font-size: 65px;
-		animation: glow-nametag 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
-		animation-delay: 0s, 2s;
+	#nametag:hover .name-y2k-grid {
+		font-size: 60px;
+		color: rgba(188, 82, 238, 1);
+		text-shadow: 0 0 25px rgba(188, 82, 238, 0.7), 0 0 50px rgba(188, 82, 238, 0.5);
+	}
+
+	.name-ethereal {
+		color: #fff8f0;
+		font-family: "Bodoni Moda", serif;
+		font-weight: 400;
+		font-style: italic;
+		font-size: 64px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		text-shadow: 0 0 0px rgba(255, 248, 240, 0);
+	}
+
+	#nametag:hover .name-ethereal {
+		font-size: 80px;
+		text-shadow: 0 0 30px rgba(255, 248, 240, 0.6), 0 0 60px rgba(255, 200, 168, 0.4);
 	}
 
 	#menu-section {
-		justify-content: center;
-		width: 100%;
+		position: fixed;
+		right: 60px;
+		top: 50%;
+		transform: translateY(-50%);
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-end;
+		gap: 24px;
 	}
 
-	#menu-item {
-		color: rgba(100, 98, 194, 0.6);
-		font-family: "Crash", sans-serif;
+	.menu-item {
 		font-optical-sizing: auto;
 		font-weight: 900;
 		font-style: normal;
-		text-align: center;
-		font-size: 50px;
+		text-align: right;
+		font-size: 42px;
 		cursor: pointer;
-		transition: font-size 2s ease;
+		transition: font-size 0.5s ease, color 0.5s ease, font-family 0.3s ease;
 		display: inline-block;
-		width: auto;
-		padding: 2px;
+		padding: 4px 0;
 	}
 
-	#menu-item:hover {
-		font-size: 70px;
-		animation: glow-menu-item 1.5s ease-in-out forwards, float 10s ease-in-out infinite;
-		animation-delay: 0s, 2s;
+	.menu-item:hover {
+		font-size: 52px;
 	}
-	
+
+	/* Ethereal (default) */
+	.background-y2k-grid { display: none; }
+	.background-ethereal { display: block; }
+	.name-y2k-grid { opacity: 0; }
+	.name-ethereal { opacity: 1; }
+	.inset-border { opacity: 1; }
+	.menu-item {
+		color: rgba(255, 248, 240, 0.85);
+		font-family: "Cormorant", serif;
+		font-style: italic;
+		font-weight: 500;
+	}
+	.menu-item:hover {
+		color: #fff8f0;
+	}
+
+	/* Y2K Grid */
+	:global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
+	:global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
+	:global([data-theme="y2k-grid"]) .name-y2k-grid { opacity: 1; }
+	:global([data-theme="y2k-grid"]) .name-ethereal { opacity: 0; }
+	:global([data-theme="y2k-grid"]) .inset-border { opacity: 0; }
+	:global([data-theme="y2k-grid"]) .menu-item {
+		color: rgba(100, 98, 194, 0.6);
+		font-family: "Crash", sans-serif;
+		font-style: normal;
+		font-weight: 900;
+	}
+	:global([data-theme="y2k-grid"]) .menu-item:hover {
+		animation: glow-menu-item 1.5s ease-in-out forwards;
+	}
+
+	/* Style Toggle Button */
+	.style-toggle {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		padding: 4px 0;
+		display: inline-block;
+		margin-top: 8px;
+	}
+
+	.toggle-track {
+		display: block;
+		width: 56px;
+		height: 28px;
+		background: rgba(255, 248, 240, 0.25);
+		border-radius: 14px;
+		position: relative;
+		transition: background 0.3s ease;
+	}
+
+	.toggle-thumb {
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		width: 22px;
+		height: 22px;
+		background: rgba(255, 248, 240, 0.85);
+		border-radius: 50%;
+		transition: transform 0.3s ease, background 0.3s ease;
+	}
+
+	.style-toggle:hover .toggle-track {
+		background: rgba(255, 248, 240, 0.35);
+	}
+
+	.style-toggle:hover .toggle-thumb {
+		background: #fff8f0;
+	}
+
+	:global([data-theme="y2k-grid"]) .toggle-track {
+		background: rgba(188, 82, 238, 0.3);
+	}
+
+	:global([data-theme="y2k-grid"]) .toggle-thumb {
+		background: rgba(188, 82, 238, 0.8);
+		transform: translateX(28px);
+	}
+
+	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-track {
+		background: rgba(188, 82, 238, 0.5);
+	}
+
+	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-thumb {
+		background: rgba(188, 82, 238, 1);
+		box-shadow: 0 0 10px rgba(188, 82, 238, 0.7);
+	}
+
 	@media screen and (max-width: 768px) {
-		#container {
-			display: flex;
-			flex-direction: column;
-		}
-
 		#nametag-section {
-			display: block;
-			padding-top: 10%;
+			position: fixed;
+			bottom: auto;
+			top: 60px;
+			left: 0;
+			right: 0;
+			text-align: center;
 		}
 
-		h1 {
-			line-height: 1.5;
+		#nametag {
+			padding-right: 0;
+		}
+
+		.name-y2k-grid {
+			font-size: 32px;
+			display: none;
+			white-space: normal;
+			word-spacing: 100vw;
+			text-align: center;
+			line-height: 2.8;
+		}
+
+		:global([data-theme="y2k-grid"]) .name-y2k-grid {
+			display: inline-block;
+		}
+
+		:global([data-theme="y2k-grid"]) .name-ethereal {
+			display: none;
+		}
+
+		.name-ethereal {
+			position: static;
+			font-size: 42px;
+		}
+
+		#menu-section {
+			position: fixed;
+			right: auto;
+			left: 50%;
+			top: 55%;
+			transform: translate(-50%, -50%);
+			align-items: center;
+		}
+
+		.menu-item {
+			font-size: 32px;
+			text-align: center;
+		}
+
+		.menu-item:hover {
+			font-size: 38px;
+		}
+
+		.inset-border {
+			top: 10px;
+			left: 10px;
+			right: 10px;
+			bottom: 10px;
+		}
+
+		.toggle-track {
+			width: 48px;
+			height: 24px;
+			border-radius: 12px;
+		}
+
+		.toggle-thumb {
+			width: 18px;
+			height: 18px;
+		}
+
+		:global([data-theme="y2k-grid"]) .toggle-thumb {
+			transform: translateX(24px);
 		}
 	}
 </style>
+
+<script>
+	import { toggleTheme, initTheme } from '../stores/theme';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		initTheme();
+	});
+
+	const switcher = document.getElementById('style-switcher');
+	if (switcher) {
+		switcher.addEventListener('click', () => {
+			toggleTheme();
+		});
+	}
+</script>
