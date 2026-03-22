@@ -31,18 +31,32 @@ import '../styles/animations.css';
 			<a href="/photography/Photography" class="menu-item">
 				Photography
 			</a>
-			<a href="/video/Video" class="menu-item">
-				Video
-			</a>
 			<a href="/projects/Projects" class="menu-item">
 				Projects
+			</a>
+			<a href="/video/Video" class="menu-item">
+				Video
 			</a>
 			<a href={resume} target="_blank" rel="noopener noreferrer" class="menu-item">
 				Resume
 			</a>
 			<button id="style-switcher" class="style-toggle" aria-label="Toggle theme style">
-				<span class="toggle-track">
-					<span class="toggle-thumb"></span>
+				<!-- Ethereal toggle -->
+				<span class="toggle-ethereal">
+					<span class="toggle-track-ethereal">
+						<span class="toggle-thumb-ethereal">
+							<svg class="sparkle-icon" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z"/>
+								<path d="M19 14L19.75 16.25L22 17L19.75 17.75L19 20L18.25 17.75L16 17L18.25 16.25L19 14Z" opacity="0.7"/>
+							</svg>
+						</span>
+					</span>
+				</span>
+				<!-- Y2K toggle -->
+				<span class="toggle-y2k">
+					<span class="toggle-track-y2k">
+						<span class="toggle-thumb-y2k"></span>
+					</span>
 				</span>
 			</button>
 		</nav>
@@ -112,7 +126,7 @@ import '../styles/animations.css';
 
 	.name-y2k-grid, .name-ethereal {
 		display: inline-block;
-		transition: opacity 0.5s ease, font-size 1.5s ease-in-out, color 1.5s ease-in-out, text-shadow 1.5s ease-in-out;
+		transition: opacity 0.8s ease, filter 0.8s ease, font-size 1.5s ease-in-out, color 1.5s ease-in-out, text-shadow 1.5s ease-in-out;
 	}
 
 	.name-y2k-grid {
@@ -129,7 +143,6 @@ import '../styles/animations.css';
 		color: #fff8f0;
 		font-family: "Te-Quirtez", serif;
 		font-weight: 800;
-		/* font-style: italic; */
 		font-size: 64px;
 		position: absolute;
 		bottom: 0;
@@ -180,8 +193,8 @@ import '../styles/animations.css';
 	/* Ethereal (default) */
 	.background-y2k-grid { display: none; }
 	.background-ethereal { display: block; }
-	.name-y2k-grid { opacity: 0; pointer-events: none; }
-	.name-ethereal { opacity: 1; pointer-events: auto; }
+	.name-y2k-grid { opacity: 0; pointer-events: none; filter: blur(10px); }
+	.name-ethereal { opacity: 1; pointer-events: auto; filter: blur(0px); }
 	.inset-border { opacity: 1; }
 	.menu-item {
 		color: rgba(255, 248, 240, 0.85);
@@ -196,8 +209,8 @@ import '../styles/animations.css';
 	/* Y2K Grid */
 	:global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
 	:global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
-	:global([data-theme="y2k-grid"]) .name-y2k-grid { opacity: 1; pointer-events: auto; }
-	:global([data-theme="y2k-grid"]) .name-ethereal { opacity: 0; pointer-events: none; }
+	:global([data-theme="y2k-grid"]) .name-y2k-grid { opacity: 1; pointer-events: auto; filter: blur(0px); }
+	:global([data-theme="y2k-grid"]) .name-ethereal { opacity: 0; pointer-events: none; filter: blur(10px); }
 	:global([data-theme="y2k-grid"]) .inset-border { opacity: 0; }
 	:global([data-theme="y2k-grid"]) .menu-item {
 		color: rgba(100, 98, 194, 0.6);
@@ -219,51 +232,101 @@ import '../styles/animations.css';
 		margin-top: 8px;
 	}
 
-	.toggle-track {
+	/* Ethereal Toggle - Pill with gradient and sparkle */
+	.toggle-ethereal {
 		display: block;
-		width: 56px;
-		height: 28px;
-		background: rgba(255, 248, 240, 0.25);
-		border-radius: 14px;
-		position: relative;
-		transition: background 0.3s ease;
 	}
 
-	.toggle-thumb {
+	.toggle-y2k {
+		display: none;
+	}
+
+	.toggle-track-ethereal {
+		display: block;
+		width: 70px;
+		height: 36px;
+		background: linear-gradient(135deg, rgba(200, 160, 180, 0.6) 0%, rgba(180, 140, 170, 0.5) 50%, rgba(160, 130, 160, 0.4) 100%);
+		border-radius: 18px;
+		position: relative;
+		transition: all 0.3s ease;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.toggle-thumb-ethereal {
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		width: 28px;
+		height: 28px;
+		background: linear-gradient(135deg, rgba(255, 248, 240, 0.95) 0%, rgba(240, 220, 210, 0.9) 100%);
+		border-radius: 50%;
+		transition: all 0.3s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.sparkle-icon {
+		width: 16px;
+		height: 16px;
+		color: rgba(180, 140, 160, 0.8);
+		transition: all 0.3s ease;
+	}
+
+	.style-toggle:hover .toggle-track-ethereal {
+		background: linear-gradient(135deg, rgba(210, 170, 190, 0.7) 0%, rgba(190, 150, 180, 0.6) 50%, rgba(170, 140, 170, 0.5) 100%);
+	}
+
+	.style-toggle:hover .toggle-thumb-ethereal {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	}
+
+	.style-toggle:hover .sparkle-icon {
+		color: rgba(180, 140, 160, 1);
+		transform: scale(1.1);
+	}
+
+	/* Y2K Toggle - Rectangular with LGT/DRK labels */
+	:global([data-theme="y2k-grid"]) .toggle-ethereal {
+		display: none;
+	}
+
+	:global([data-theme="y2k-grid"]) .toggle-y2k {
+		display: block;
+	}
+
+	.toggle-track-y2k {
+		display: block;
+		width: 70px;
+		height: 32px;
+		background: rgba(60, 50, 100, 0.9);
+		border: 1px solid rgba(140, 138, 220, 0.6);
+		border-radius: 4px;
+		position: relative;
+		transition: all 0.3s ease;
+	}
+
+	.toggle-thumb-y2k {
 		position: absolute;
 		top: 3px;
-		left: 3px;
-		width: 22px;
-		height: 22px;
-		background: rgba(255, 248, 240, 0.85);
-		border-radius: 50%;
-		transition: transform 0.3s ease, background 0.3s ease;
+		right: 3px;
+		width: 32px;
+		height: 24px;
+		background: rgba(140, 138, 220, 0.5);
+		border: 1px solid rgba(160, 158, 240, 0.8);
+		border-radius: 3px;
+		transition: all 0.3s ease;
 	}
 
-	.style-toggle:hover .toggle-track {
-		background: rgba(255, 248, 240, 0.35);
+	.style-toggle:hover .toggle-track-y2k {
+		border-color: rgba(160, 158, 240, 0.9);
+		box-shadow: 0 0 12px rgba(140, 138, 220, 0.4);
 	}
 
-	.style-toggle:hover .toggle-thumb {
-		background: #fff8f0;
-	}
-
-	:global([data-theme="y2k-grid"]) .toggle-track {
-		background: rgba(188, 82, 238, 0.3);
-	}
-
-	:global([data-theme="y2k-grid"]) .toggle-thumb {
-		background: rgba(188, 82, 238, 0.8);
-		transform: translateX(28px);
-	}
-
-	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-track {
-		background: rgba(188, 82, 238, 0.5);
-	}
-
-	:global([data-theme="y2k-grid"]) .style-toggle:hover .toggle-thumb {
-		background: rgba(188, 82, 238, 1);
-		box-shadow: 0 0 10px rgba(188, 82, 238, 0.7);
+	.style-toggle:hover .toggle-thumb-y2k {
+		background: rgba(160, 158, 240, 0.7);
+		box-shadow: 0 0 10px rgba(140, 138, 220, 0.6);
 	}
 
 	@media screen and (max-width: 768px) {
@@ -311,6 +374,10 @@ import '../styles/animations.css';
 			align-items: center;
 		}
 
+		:global([data-theme="y2k-grid"]) #menu-section {
+			top: 60%;
+		}
+
 		.menu-item {
 			font-size: 32px;
 			text-align: center;
@@ -327,19 +394,30 @@ import '../styles/animations.css';
 			bottom: 10px;
 		}
 
-		.toggle-track {
-			width: 48px;
+		.toggle-track-ethereal {
+			width: 60px;
+			height: 30px;
+			border-radius: 15px;
+		}
+
+		.toggle-thumb-ethereal {
+			width: 24px;
 			height: 24px;
-			border-radius: 12px;
 		}
 
-		.toggle-thumb {
-			width: 18px;
-			height: 18px;
+		.sparkle-icon {
+			width: 14px;
+			height: 14px;
 		}
 
-		:global([data-theme="y2k-grid"]) .toggle-thumb {
-			transform: translateX(24px);
+		.toggle-track-y2k {
+			width: 60px;
+			height: 28px;
+		}
+
+		.toggle-thumb-y2k {
+			width: 28px;
+			height: 20px;
 		}
 	}
 </style>

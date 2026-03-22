@@ -264,11 +264,18 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
   .description {
     color: var(--text-color);
-    font-family: 'Oswald', sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-size: 1.1rem;
     font-weight: 300;
     line-height: 1.6;
     text-transform: capitalize;
+    transition: font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .description {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
   }
 
   .image-side {
