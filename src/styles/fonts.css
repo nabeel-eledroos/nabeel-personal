@@ -15,3 +15,11 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Te-Quirtez';
+    src: url('../assets/fonts/te-quirtez/Te-Quirtez.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

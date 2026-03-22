@@ -1,0 +1,113 @@
+---
+---
+
+<div id="gradient-bg"></div>
+<div id="noise-overlay"></div>
+
+<script>
+	const gradientBg = document.getElementById('gradient-bg');
+	
+	let targetX = 50;
+	let targetY = 140;
+	let currentX = 50;
+	let currentY = 140;
+	
+	document.addEventListener('mousemove', (e) => {
+		const mouseX = e.clientX / window.innerWidth;
+		const mouseY = e.clientY / window.innerHeight;
+		
+		targetX = 50 + (0.5 - mouseX) * 20;
+		targetY = 140 + (0.5 - mouseY) * 15;
+	});
+	
+	function animate() {
+		currentX += (targetX - currentX) * 0.05;
+		currentY += (targetY - currentY) * 0.05;
+		
+		gradientBg.style.background = `
+			radial-gradient(ellipse 160% 140% at ${currentX}% ${currentY}%, 
+				rgba(254, 177, 35, 1) 0%,
+				rgba(252, 158, 45, 1) 8%,
+				rgba(250, 138, 55, 1) 16%,
+				rgba(248, 119, 70, 1) 24%,
+				rgba(250, 115, 95, 1) 30%,
+				rgba(248, 110, 120, 1) 36%,
+				rgba(240, 105, 140, 1) 42%,
+				rgba(225, 100, 160, 1) 48%,
+				rgba(200, 105, 180, 1) 54%,
+				rgba(175, 115, 200, 1) 60%,
+				rgba(155, 130, 215, 1) 66%,
+				rgba(145, 155, 225, 0.9) 72%,
+				rgba(150, 175, 230, 0.7) 78%,
+				rgba(165, 195, 232, 0.5) 84%,
+				rgba(185, 210, 232, 0.3) 90%,
+				rgba(200, 220, 235, 0.15) 95%,
+				transparent 100%
+			),
+			linear-gradient(180deg, 
+				rgba(255, 252, 245, 1) 0%,
+				rgba(255, 250, 240, 1) 100%
+			)`;
+		
+		requestAnimationFrame(animate);
+	}
+	
+	animate();
+</script>
+
+<style>
+    #gradient-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        background: 
+            radial-gradient(ellipse 160% 140% at 50% 140%, 
+                rgba(254, 177, 35, 1) 0%,
+                rgba(252, 158, 45, 1) 8%,
+                rgba(250, 138, 55, 1) 16%,
+                rgba(248, 119, 70, 1) 24%,
+                rgba(250, 115, 95, 1) 30%,
+                rgba(248, 110, 120, 1) 36%,
+                rgba(240, 105, 140, 1) 42%,
+                rgba(225, 100, 160, 1) 48%,
+                rgba(200, 105, 180, 1) 54%,
+                rgba(175, 115, 200, 1) 60%,
+                rgba(155, 130, 215, 1) 66%,
+                rgba(145, 155, 225, 0.9) 72%,
+                rgba(150, 175, 230, 0.7) 78%,
+                rgba(165, 195, 232, 0.5) 84%,
+                rgba(185, 210, 232, 0.3) 90%,
+                rgba(200, 220, 235, 0.15) 95%,
+                transparent 100%
+            ),
+            linear-gradient(180deg, 
+                rgba(255, 252, 245, 1) 0%,
+                rgba(255, 250, 240, 1) 100%
+            );
+		animation: gradientShift 10s ease-in-out infinite;
+	}
+
+	@keyframes gradientShift {
+		0%, 100% {
+			filter: hue-rotate(0deg);
+		}
+		50% {
+			filter: hue-rotate(15deg);
+		}
+	}
+
+	#noise-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		opacity: 0.1;
+		pointer-events: none;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	}
+</style>
