@@ -268,29 +268,50 @@ import '../styles/animations.css';
 		#nametag-section {
 			position: fixed;
 			bottom: auto;
-			top: 40px;
-			left: 20px;
+			top: 60px;
+			left: 0;
+			right: 0;
+			text-align: center;
 		}
 
-		.name-styleA {
-			font-size: 36px;
+		#nametag {
+			padding-right: 0;
 		}
 
-		.name-styleB {
+		.name-y2k-grid {
+			font-size: 32px;
+			display: none;
+			white-space: normal;
+			word-spacing: 100vw;
+			text-align: center;
+			line-height: 2.8;
+		}
+
+		:global([data-theme="y2k-grid"]) .name-y2k-grid {
+			display: inline-block;
+		}
+
+		:global([data-theme="y2k-grid"]) .name-ethereal {
+			display: none;
+		}
+
+		.name-ethereal {
+			position: static;
 			font-size: 42px;
 		}
 
 		#menu-section {
 			position: fixed;
 			right: auto;
-			left: 20px;
-			top: 50%;
-			transform: translateY(-50%);
-			align-items: flex-start;
+			left: 50%;
+			top: 55%;
+			transform: translate(-50%, -50%);
+			align-items: center;
 		}
 
 		.menu-item {
 			font-size: 32px;
+			text-align: center;
 		}
 
 		.menu-item:hover {
