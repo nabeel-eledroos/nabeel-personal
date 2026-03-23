@@ -25,11 +25,11 @@ const resolvedImages = images.map(filename => {
 const allSrcs = resolvedImages.map(img => img!.src);
 ---
 
-<div class="photo-grid">
-  {resolvedImages.map((img) => img && (
+<div class="photo-grid" data-images={JSON.stringify(allSrcs)}>
+  {resolvedImages.map((img, index) => img && (
     <div 
       class={`photo-item ${img.isLandscape ? 'landscape' : ''}`}
-      data-images={JSON.stringify(allSrcs)}
+      data-index={index}
     >
       <img 
         src={img.src} 
@@ -87,3 +87,19 @@ const allSrcs = resolvedImages.map(img => img!.src);
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.photo-grid').forEach((grid) => {
+    const imagesData = grid.getAttribute('data-images');
+    if (!imagesData) return;
+    
+    const images = JSON.parse(imagesData);
+    
+    grid.querySelectorAll('.photo-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        const index = parseInt(item.getAttribute('data-index') || '0', 10);
+        (window as any).openImageModal('imageModal', images, index);
+      });
+    });
+  });
+</script>
