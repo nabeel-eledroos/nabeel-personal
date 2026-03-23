@@ -190,7 +190,6 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
   }
 
   .year-text {
-    /* background: var(--bg-color); */
     padding: 10px 30px;
     display: inline-block;
     will-change: transform;
@@ -198,8 +197,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
   .year-inner {
     display: inline-block;
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
+    font-family: "Te-Quirtez", serif;
     font-weight: 600;
     font-size: 70px;
     color: #fff8f0;
@@ -266,11 +264,18 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
   .description {
     color: var(--text-color);
-    font-family: 'Oswald', sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-size: 1.1rem;
     font-weight: 300;
     line-height: 1.6;
     text-transform: capitalize;
+    transition: font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .description {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
   }
 
   .image-side {

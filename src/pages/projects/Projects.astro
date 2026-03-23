@@ -71,9 +71,8 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   .page-title {
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
-    font-weight: 600;
+    font-family: "Te-Quirtez", serif;
+    font-weight: 800;
     font-size: 70px;
     color: #fff8f0;
     text-align: center;
@@ -100,18 +99,24 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   .project-skills {
-    font-family: 'Oswald', sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 300;
     font-size: 1rem;
     color: rgba(236, 236, 236, 0.8);
     line-height: 1.6;
     margin: 0;
+    transition: font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .project-skills {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
   }
 
   .project-title {
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
-    font-weight: 600;
+    font-family: "Te-Quirtez", serif;
+    font-weight: 800;
     font-size: 36px;
     color: #fff8f0;
     margin: 0;
@@ -125,12 +130,19 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   .project-description {
-    font-family: 'Oswald', sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 300;
     font-size: 1rem;
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
+    transition: font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .project-description {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
   }
 
   .project-link {

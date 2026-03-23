@@ -72,8 +72,8 @@ const videoData = (await getCollection('videos')).sort(
   }
 
   .page-title {
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
+    font-family: "Te-Quirtez", serif;
+    /* font-style: italic; */
     font-weight: 600;
     font-size: 70px;
     color: #fff8f0;
@@ -110,9 +110,8 @@ const videoData = (await getCollection('videos')).sort(
   }
 
   .video-title {
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
-    font-weight: 600;
+    font-family: "Te-Quirtez", serif;
+    font-weight: 800;
     font-size: 36px;
     color: #fff8f0;
     margin: 0;
@@ -126,12 +125,19 @@ const videoData = (await getCollection('videos')).sort(
   }
 
   .video-description {
-    font-family: 'Oswald', sans-serif;
+    font-family: "Bodoni Moda", serif;
+    font-style: italic;
     font-weight: 300;
     font-size: 1rem;
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
+    transition: font-family 0.3s ease;
+  }
+
+  :global([data-theme="y2k-grid"]) .video-description {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
   }
 
   .video-link {

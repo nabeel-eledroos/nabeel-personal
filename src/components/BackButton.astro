@@ -10,34 +10,72 @@ const { href = '/' } = Astro.props;
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M19 12H5M12 19l-7-7 7-7"/>
   </svg>
+  <span class="back-text">back</span>
 </a>
 
 <style>
+  /* Ethereal (default) - Frosted pill */
   .back-button {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 32px;
+    left: 32px;
     z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    color: #ffffff;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 248, 240, 0.85);
     text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
   }
 
   .back-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.02);
   }
 
   .back-button svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .back-text {
+    font-family: "Cormorant", serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Y2K - Outlined rect */
+  :global([data-theme="y2k-grid"]) .back-button {
+    border-radius: 4px;
+    background: transparent;
+    backdrop-filter: none;
+    border: 1px solid rgba(140, 138, 220, 0.5);
+    color: rgba(140, 138, 220, 0.7);
+    padding: 10px 20px;
+  }
+
+  :global([data-theme="y2k-grid"]) .back-button:hover {
+    background: rgba(140, 138, 220, 0.1);
+    border-color: rgba(140, 138, 220, 0.8);
+    box-shadow: 0 0 12px rgba(140, 138, 220, 0.3);
+    color: rgba(160, 158, 240, 0.9);
+  }
+
+  :global([data-theme="y2k-grid"]) .back-text {
+    font-family: "Crash", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 </style>
