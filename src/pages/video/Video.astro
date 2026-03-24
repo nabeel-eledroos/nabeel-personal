@@ -27,7 +27,7 @@ const videoData = (await getCollection('videos')).sort(
       <GradientBackground />
     </div>
     
-    <h1 class="page-title">Projects</h1>
+    <h1 class="page-title">Video</h1>
 
     {videoData.map((video) => (
       <div class="video-section">
@@ -64,10 +64,10 @@ const videoData = (await getCollection('videos')).sort(
     filter: blur(100px);
   }
 
-  .video-container {
+  .videos-container {
     position: relative;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 30px 20px 40px;
     min-height: 100vh;
   }
 
@@ -100,15 +100,6 @@ const videoData = (await getCollection('videos')).sort(
     text-align: center;
   }
 
-  .video-skills {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 300;
-    font-size: 1rem;
-    color: rgba(236, 236, 236, 0.8);
-    line-height: 1.6;
-    margin: 0;
-  }
-
   .video-title {
     font-family: "Te-Quirtez", serif;
     font-weight: 800;
@@ -128,20 +119,21 @@ const videoData = (await getCollection('videos')).sort(
     font-family: "Bodoni Moda", serif;
     font-style: italic;
     font-weight: 300;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
     transition: font-family 0.3s ease;
+    white-space: pre-line;
   }
 
   :global([data-theme="y2k-grid"]) .video-description {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-style: normal;
   }
 
   .video-link {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-weight: 400;
     font-size: 1rem;
     color: rgba(188, 82, 238, 0.8);
@@ -174,25 +166,17 @@ const videoData = (await getCollection('videos')).sort(
     background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
   }
 
-  @media (max-width: 1024px) {
-    .project-section {
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .project-info {
-      position: static;
-      flex: none;
-    }
-  }
-
   @media (max-width: 600px) {
     .page-title {
       font-size: 48px;
     }
 
-    .project-section {
+    .video-section {
       padding: 0 20px;
+    }
+
+    .video-title {
+      font-size: 28px;
     }
   }
 </style>

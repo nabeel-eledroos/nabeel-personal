@@ -91,7 +91,7 @@ const projectsData = (await getCollection('projects')).sort(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     max-width: 800px;
     margin: 0 auto 80px;
     padding: 0 50px;
@@ -105,13 +105,14 @@ const projectsData = (await getCollection('projects')).sort(
     font-size: 1rem;
     color: rgba(236, 236, 236, 0.8);
     line-height: 1.6;
-    margin: 0;
+    margin: -6px 0 0 0;
     transition: font-family 0.3s ease;
   }
 
   :global([data-theme="y2k-grid"]) .project-skills {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-style: normal;
+    font-size: 0.9rem;
   }
 
   .project-title {
@@ -141,12 +142,14 @@ const projectsData = (await getCollection('projects')).sort(
   }
 
   :global([data-theme="y2k-grid"]) .project-description {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-style: normal;
+    font-size: 0.9rem;
+    font-weight: 800;
   }
 
   .project-link {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-weight: 400;
     font-size: 1rem;
     color: rgba(188, 82, 238, 0.8);
@@ -179,18 +182,6 @@ const projectsData = (await getCollection('projects')).sort(
     background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
   }
 
-  @media (max-width: 1024px) {
-    .project-section {
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .project-info {
-      position: static;
-      flex: none;
-    }
-  }
-
   @media (max-width: 600px) {
     .page-title {
       font-size: 48px;
@@ -198,6 +189,10 @@ const projectsData = (await getCollection('projects')).sort(
 
     .project-section {
       padding: 0 20px;
+    }
+
+    .project-title {
+      font-size: 28px;
     }
   }
 </style>
