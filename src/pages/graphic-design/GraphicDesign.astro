@@ -274,8 +274,10 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
   }
 
   :global([data-theme="y2k-grid"]) .description {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-style: normal;
+    font-size: 0.9rem;
+    font-weight: 800;
   }
 
   .image-side {
@@ -334,7 +336,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
     right: -8px;
     background: var(--accent-color);
     color: var(--bg-color);
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Space Mono', monospace;
     font-size: 0.85rem;
     font-weight: 600;
     width: 24px;
@@ -374,8 +376,8 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
     .timeline-item,
     .timeline-item.left,
     .timeline-item.right {
-      flex-direction: column;
-      padding-left: 40px;
+      flex-direction: column-reverse;
+      padding-left: 0;
     }
 
     .content-side,
@@ -386,17 +388,25 @@ const years = Object.keys(groupedByYear).sort((a, b) => parseInt(b) - parseInt(a
 
     .content-side,
     .timeline-item.right .content-side {
-      text-align: left;
+      text-align: center;
     }
 
     .timeline-item.left .image-side,
     .timeline-item.right .image-side {
-      justify-content: flex-start;
+      justify-content: center;
     }
 
     .year-marker {
       justify-content: center;
       padding-left: 0;
+    }
+
+    .year-inner {
+      font-size: 48px;
+    }
+
+    .image-stack .timeline-image {
+      max-height: 300px;
     }
   }
 </style>

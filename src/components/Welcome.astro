@@ -16,7 +16,7 @@ import '../styles/animations.css';
 	<div class="background-ethereal">
 		<GradientBackground />
 	</div>
-	<div class="inset-border"></div>
+	<!-- <div class="inset-border"></div> -->
 	<main>
 		<section id="nametag-section">
 			<h1 id="nametag">
@@ -79,7 +79,7 @@ import '../styles/animations.css';
 	}
 
 	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+		font-family: 'Space Mono', monospace;
 		height: 100vh;
 		width: 100vw;
 		position: relative;
@@ -200,7 +200,7 @@ import '../styles/animations.css';
 		color: rgba(255, 248, 240, 0.85);
 		font-family: "Cormorant", serif;
 		font-style: italic;
-		font-weight: 400;
+		font-weight: 800;
 	}
 	.menu-item:hover {
 		color: #fff8f0;
@@ -362,7 +362,11 @@ import '../styles/animations.css';
 
 		.name-ethereal {
 			position: static;
-			font-size: 42px;
+			font-size: 36px;
+		}
+
+		.name-ethereal:hover {
+			font-size: 48px;
 		}
 
 		#menu-section {
@@ -372,6 +376,7 @@ import '../styles/animations.css';
 			top: 60%;
 			transform: translateY(-50%);
 			align-items: flex-end;
+			gap: 18px;
 		}
 
 		:global([data-theme="y2k-grid"]) #menu-section {
@@ -379,12 +384,12 @@ import '../styles/animations.css';
 		}
 
 		.menu-item {
-			font-size: 32px;
+			font-size: 28px;
 			text-align: right;
 		}
 
 		.menu-item:hover {
-			font-size: 38px;
+			font-size: 34px;
 		}
 
 		.inset-border {
@@ -395,29 +400,29 @@ import '../styles/animations.css';
 		}
 
 		.toggle-track-ethereal {
-			width: 60px;
-			height: 30px;
-			border-radius: 15px;
+			width: 56px;
+			height: 28px;
+			border-radius: 14px;
 		}
 
 		.toggle-thumb-ethereal {
-			width: 24px;
-			height: 24px;
+			width: 22px;
+			height: 22px;
 		}
 
 		.sparkle-icon {
-			width: 14px;
-			height: 14px;
+			width: 12px;
+			height: 12px;
 		}
 
 		.toggle-track-y2k {
-			width: 60px;
-			height: 28px;
+			width: 56px;
+			height: 26px;
 		}
 
 		.toggle-thumb-y2k {
-			width: 28px;
-			height: 20px;
+			width: 26px;
+			height: 18px;
 		}
 	}
 </style>
