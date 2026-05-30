@@ -26,7 +26,7 @@ const projectImages = Object.entries(allImages)
     src: module.default.src,
     filename: path.split('/').pop() || '',
   }))
-  .sort((a, b) => a.filename.localeCompare(b.filename));
+  .sort((a, b) => b.filename.localeCompare(a.filename));
 
 const heroImage = projectImages.find(img => img.filename === project.thumbnail);
 const galleryImages = projectImages.filter(img => img.filename !== project.thumbnail);
@@ -242,9 +242,8 @@ const galleryImages = projectImages.filter(img => img.filename !== project.thumb
     return { src: img?.src || '', caption: '' };
   });
 
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     item.addEventListener('click', () => {
-      const index = parseInt(item.getAttribute('data-index') || '0', 10);
       if ((window as any).openLightbox) {
         (window as any).openLightbox(images, index);
       }

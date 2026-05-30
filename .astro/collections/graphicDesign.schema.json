@@ -21,7 +21,10 @@
             "type": "string"
           },
           "year": {
-            "type": "number"
+            "type": [
+              "number",
+              "string"
+            ]
           },
           "assetFolder": {
             "type": "string"

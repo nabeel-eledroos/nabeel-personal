@@ -47,7 +47,7 @@ const graphicDesign = defineCollection({
     id: z.string(),
     title: z.string(),
     category: z.string(),
-    year: z.number(),
+    year: z.union([z.number(), z.string()]),
     assetFolder: z.string(),
     thumbnail: z.string(),
     summary: z.string(),
