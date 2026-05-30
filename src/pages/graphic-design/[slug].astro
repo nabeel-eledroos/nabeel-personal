@@ -1,0 +1,253 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import gdData from '../../content/graphic-design.json';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/graphic-design-assets/**/*.{jpg,png,jpeg}', { eager: true });
+
+export function getStaticPaths() {
+  return gdData.map((project, index) => ({
+    params: { slug: project.id },
+    props: { 
+      project,
+      prevProject: gdData[(index - 1 + gdData.length) % gdData.length],
+      nextProject: gdData[(index + 1) % gdData.length],
+    },
+  }));
+}
+
+const { project, prevProject, nextProject } = Astro.props;
+
+const projectImages = Object.entries(allImages)
+  .filter(([path]) => path.includes(`/${project.assetFolder}/`))
+  .map(([path, module]) => ({
+    src: module.default.src,
+    filename: path.split('/').pop() || '',
+  }))
+  .sort((a, b) => a.filename.localeCompare(b.filename));
+
+const heroImage = projectImages.find(img => img.filename === project.thumbnail);
+const galleryImages = projectImages.filter(img => img.filename !== project.thumbnail);
+---
+
+<Layout title={`${project.title} — Nabeel Eledroos`} showBack={true} activeNav="graphic">
+  <InteriorHeader
+    titleHighlight={project.title}
+    subLine1={project.category}
+    subLine2={String(project.year)}
+  />
+
+  <p class="lead animate-rise animate-rise-2">{project.summary}</p>
+
+  <div class="pd-body">
+    <div class="pd-gallery">
+      {heroImage && (
+        <div class="gallery-item hero-item animate-rise animate-rise-3" data-index={0}>
+          <img src={heroImage.src} alt={project.title} />
+        </div>
+      )}
+      {galleryImages.map((img, i) => (
+        <div class="gallery-item animate-rise" style={`animation-delay: ${0.14 + (i + 1) * 0.06}s;`} data-index={i + 1}>
+          <img src={img.src} alt={img.filename} loading="lazy" />
+        </div>
+      ))}
+    </div>
+
+    <aside class="pd-meta animate-rise animate-rise-3">
+      <h2>details</h2>
+      <div class="r">
+        <div class="k">role</div>
+        <div class="v">{project.role}</div>
+      </div>
+      <div class="r">
+        <div class="k">client</div>
+        <div class="v">{project.client}</div>
+      </div>
+      <div class="r">
+        <div class="k">deliverables</div>
+        <div class="v">{project.deliverables}</div>
+      </div>
+      <div class="r">
+        <div class="k">year</div>
+        <div class="v">{project.year}</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="pd-nav animate-rise animate-rise-6">
+    <a href={`/graphic-design/${prevProject.id}`} class="nav-btn">
+      <span class="dir">&larr; prev</span>
+      <span class="title">{prevProject.title}</span>
+    </a>
+    <a href={`/graphic-design/${nextProject.id}`} class="nav-btn nx">
+      <span class="dir">next &rarr;</span>
+      <span class="title">{nextProject.title}</span>
+    </a>
+  </div>
+
+  <PageFooter count="graphic design" backHref="/graphic-design" backLabel="all work" />
+  
+  <Lightbox />
+</Layout>
+
+<style>
+  .lead {
+    font-size: 18px;
+    color: var(--brown);
+    max-width: 62ch;
+    line-height: 1.6;
+    margin: 10px 0 28px;
+  }
+
+  .pd-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 34px;
+    align-items: start;
+  }
+
+  .pd-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 560px;
+  }
+
+  .hero-item {
+    max-width: 100%;
+  }
+
+  .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: transform 0.16s ease;
+  }
+
+  .gallery-item:hover {
+    transform: scale(0.99);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .pd-meta {
+    position: sticky;
+    top: 80px;
+  }
+
+  .pd-meta h2 {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  .r {
+    margin-bottom: 14px;
+  }
+
+  .k {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--taupe);
+  }
+
+  .v {
+    font-size: 15px;
+    color: var(--maroon);
+    margin-top: 2px;
+  }
+
+  .pd-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 36px;
+    border-top: 1px solid var(--line);
+    padding-top: 22px;
+  }
+
+  .nav-btn {
+    flex: 1;
+    max-width: 48%;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--btn);
+    color: var(--maroon);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.35;
+    transition: background 0.15s;
+    display: block;
+  }
+
+  .nav-btn:hover {
+    background: var(--paper);
+  }
+
+  .nav-btn.nx {
+    text-align: right;
+  }
+
+  .dir {
+    font-size: 12px;
+    color: var(--taupe);
+    letter-spacing: 0.03em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .title {
+    display: block;
+  }
+
+  @media (max-width: 760px) {
+    .pd-body {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .pd-meta {
+      position: static;
+    }
+
+    .pd-nav {
+      flex-direction: column;
+    }
+
+    .nav-btn,
+    .nav-btn.nx {
+      max-width: 100%;
+      text-align: left;
+    }
+  }
+</style>
+
+<script>
+  const items = document.querySelectorAll('.gallery-item');
+  const images = Array.from(items).map((item) => {
+    const img = item.querySelector('img');
+    return { src: img?.src || '', caption: '' };
+  });
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.getAttribute('data-index') || '0', 10);
+      if ((window as any).openLightbox) {
+        (window as any).openLightbox(images, index);
+      }
+    });
+  });
+</script>

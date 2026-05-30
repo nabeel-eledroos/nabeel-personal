@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import Lightbox from '../../components/Lightbox.astro';
+
+const highlightImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*/highlights/*.{jpg,png,jpeg}', { eager: true });
+
+const allImages = Object.entries(highlightImages).map(([path, module]) => {
+  const parts = path.split('/');
+  const album = parts[parts.length - 3];
+  return {
+    src: module.default.src,
+    album,
+    filename: parts[parts.length - 1],
+  };
+});
+
+const photoData = [
+  { album: 'paris-london', caption: "paris & london, '22", gridColumn: 'span 2', gridRow: 'span 2' },
+  { album: 'paris-london', gridRow: 'span 2' },
+  { album: 'paris-london' },
+  { album: 'paris-london' },
+  { album: 'paris-london' },
+  { album: 'paris-london', gridColumn: 'span 3', caption: "london underground" },
+  { album: 'paris-london' },
+  { album: 'summer-2025', gridColumn: 'span 2', caption: "summer '25" },
+];
+
+const placeholderColors = ['#BCAE99', '#D3C7B4', '#C7BAA6', '#DAD0BE', '#C1B4A0', '#C9BDA9', '#D7CDBB', '#B6A992'];
+---
+
+<Layout title="Photography — Nabeel Eledroos" showBack={true} activeNav="photography">
+  <InteriorHeader
+    titlePre="photo"
+    titleHighlight="graphy"
+    subLine1="selected frames"
+    subLine2="2022 — 2026"
+  />
+
+  <div class="ph-grid">
+    {photoData.map((photo, i) => {
+      const img = allImages.find(img => img.album === photo.album);
+      const style = [
+        photo.gridColumn && `grid-column: ${photo.gridColumn}`,
+        photo.gridRow && `grid-row: ${photo.gridRow}`,
+        `background: ${placeholderColors[i % placeholderColors.length]}`,
+      ].filter(Boolean).join(';');
+      
+      return (
+        <div 
+          class="ph-tile animate-rise" 
+          style={`${style}; animation-delay: ${0.14 + i * 0.06}s;`}
+          data-index={i}
+        >
+          {img && <img src={img.src} alt={img.filename} loading="lazy" />}
+          {photo.caption && <span class="ph-cap">{photo.caption}</span>}
+        </div>
+      );
+    })}
+  </div>
+
+  <PageFooter count={`${photoData.length} frames`} />
+
+  <Lightbox />
+</Layout>
+
+<style>
+  .ph-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 130px;
+    gap: 14px;
+  }
+
+  .ph-tile {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: transform 0.16s ease;
+  }
+
+  .ph-tile:hover {
+    transform: scale(0.99);
+  }
+
+  .ph-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ph-cap {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: var(--maroon);
+    color: var(--oat);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 760px) {
+    .ph-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 120px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .ph-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 110px;
+    }
+  }
+</style>
+
+<script>
+  const tiles = document.querySelectorAll('.ph-tile');
+  const images = Array.from(tiles).map((tile, i) => {
+    const img = tile.querySelector('img');
+    const caption = tile.querySelector('.ph-cap');
+    return {
+      src: img?.src || '',
+      caption: caption?.textContent || `Photo ${i + 1}`,
+    };
+  }).filter(img => img.src);
+
+  tiles.forEach((tile, i) => {
+    tile.addEventListener('click', () => {
+      if ((window as any).openLightbox && images[i]) {
+        (window as any).openLightbox(images, i);
+      }
+    });
+  });
+</script>

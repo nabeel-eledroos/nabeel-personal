@@ -1,0 +1,97 @@
+---
+interface Props {
+  tagline?: string;
+  availabilityTag?: string;
+}
+
+const { 
+  tagline = 'designer, editor, and photographer making playful, precise work.',
+  availabilityTag = 'open to freelance'
+} = Astro.props;
+---
+
+<div class="meta-line animate-rise animate-rise-1">
+  <span>portfolio '26</span>
+  <span>san francisco</span>
+</div>
+<div class="hero">
+  <div class="animate-rise animate-rise-2">
+    <h1>nabeel <span class="hl">eledroos</span></h1>
+    <!-- <p>{tagline}</p> -->
+  </div>
+  <div class="tag animate-tagpop">{availabilityTag}</div>
+</div>
+
+<style>
+  .meta-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--taupe);
+    padding: 26px 0 0;
+    text-transform: uppercase;
+  }
+
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 38px 0 44px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-size: clamp(52px, 9vw, 94px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  .hl {
+    position: relative;
+    color: #3A2800;
+    z-index: 0;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+
+  .hl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--rose);
+    border-radius: inherit;
+    z-index: -1;
+    transform-origin: left center;
+    animation: wipe 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation-delay: 0.4s;
+  }
+
+  p {
+    font-size: 17px;
+    color: var(--brown);
+    margin-top: 20px;
+    max-width: 34ch;
+  }
+
+  .tag {
+    transform: rotate(4deg);
+    background: var(--maroon);
+    color: var(--oat);
+    font-size: 13px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      padding: 30px 0 36px;
+    }
+  }
+</style>

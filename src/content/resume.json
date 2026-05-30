@@ -1,0 +1,45 @@
+{
+  "contact": {
+    "email": "hello@nabeeleledroos.studio",
+    "social": "instagram",
+    "location": "san francisco, ca"
+  },
+  "skills": [
+    "brand & identity",
+    "editorial & type",
+    "motion & video editing",
+    "photography & retouching"
+  ],
+  "tools": [
+    "after effects · premiere",
+    "indesign · illustrator",
+    "figma · lightroom"
+  ],
+  "experience": [
+    {
+      "title": "independent designer & image-maker",
+      "company": "self-employed",
+      "dates": "2021 — present",
+      "description": "Identity, editorial, motion, and photography work for festivals, publishers, and music labels."
+    },
+    {
+      "title": "senior designer",
+      "company": "studio name",
+      "dates": "2018 — 2021",
+      "description": "Led brand and campaign work across print and motion for cultural and consumer clients."
+    },
+    {
+      "title": "designer",
+      "company": "studio name",
+      "dates": "2016 — 2018",
+      "description": "Editorial layout, type systems, and art direction support."
+    }
+  ],
+  "education": [
+    {
+      "degree": "bfa, graphic design",
+      "school": "school name",
+      "dates": "2012 — 2016"
+    }
+  ]
+}

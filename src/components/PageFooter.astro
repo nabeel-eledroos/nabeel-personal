@@ -1,0 +1,34 @@
+---
+interface Props {
+  count?: string;
+  backHref?: string;
+  backLabel?: string;
+}
+
+const { count, backHref = '/', backLabel = 'index' } = Astro.props;
+---
+
+<div class="ifoot animate-rise">
+  {count && <span>{count}</span>}
+  <a href={backHref}>&larr; {backLabel}</a>
+</div>
+
+<style>
+  .ifoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    font-size: 13px;
+    color: var(--taupe);
+  }
+
+  a {
+    color: var(--maroon);
+    cursor: pointer;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,173 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import videosData from '../../content/videos.json';
+
+const videos = videosData.sort((a, b) => 
+  new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf()
+);
+
+const featured = videos[0];
+const rest = videos.slice(1);
+---
+
+<Layout title="Video — Nabeel Eledroos" showBack={true} activeNav="video">
+  <InteriorHeader
+    titleHighlight="video"
+    subLine1="selected films"
+    subLine2="2022 — 2026"
+  />
+
+  {featured && (
+    <a href={`https://www.youtube.com/watch?v=${featured.link}`} target="_blank" rel="noopener noreferrer" class="v-feature animate-rise animate-rise-3">
+      <img src={`https://img.youtube.com/vi/${featured.link}/maxresdefault.jpg`} alt={featured.title} />
+      <div class="play"><i></i></div>
+      <span class="capwide">{featured.title} — {featured.category}</span>
+      <span class="dur">{featured.duration}</span>
+    </a>
+  )}
+
+  <div class="v-grid">
+    {rest.map((video, i) => (
+      <a href={`https://www.youtube.com/watch?v=${video.link}`} target="_blank" rel="noopener noreferrer" class="v-card animate-rise" style={`animation-delay: ${0.20 + i * 0.06}s`}>
+        <div class="v-thumb">
+          <img src={`https://img.youtube.com/vi/${video.link}/hqdefault.jpg`} alt={video.title} />
+          <div class="play"><i></i></div>
+          <span class="dur">{video.duration}</span>
+        </div>
+        <div class="v-cap">
+          <div class="t">{video.title}</div>
+          <div class="m">{video.category} · {new Date(video.pubDate).getFullYear()}</div>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <PageFooter count={`${videos.length} films`} />
+</Layout>
+
+<style>
+  .v-feature {
+    position: relative;
+    height: 300px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #BCAE99;
+    cursor: pointer;
+    margin-bottom: 26px;
+    display: block;
+  }
+
+  .v-feature img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .v-feature:hover .play {
+    transform: translate(-50%, -50%) scale(1.07);
+  }
+
+  .play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--maroon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.16s ease;
+  }
+
+  .play i {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid var(--oat);
+    margin-left: 4px;
+  }
+
+  .dur {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    background: var(--maroon);
+    color: var(--oat);
+    font-size: 12px;
+    padding: 4px 9px;
+    border-radius: 7px;
+  }
+
+  .capwide {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    background: var(--maroon);
+    color: var(--oat);
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+
+  .v-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px 22px;
+  }
+
+  .v-card {
+    cursor: pointer;
+    display: block;
+  }
+
+  .v-thumb {
+    position: relative;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.16s ease;
+    background: #C7BAA6;
+  }
+
+  .v-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .v-card:hover .v-thumb {
+    transform: scale(0.985);
+  }
+
+  .v-card:hover .play {
+    transform: translate(-50%, -50%) scale(1.07);
+  }
+
+  .v-cap .t {
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 12px;
+  }
+
+  .v-cap .m {
+    font-size: 13px;
+    color: var(--taupe);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 760px) {
+    .v-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .v-feature {
+      height: 210px;
+    }
+  }
+</style>

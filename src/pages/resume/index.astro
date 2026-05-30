@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import resumeData from '../../content/resume.json';
+---
+
+<Layout title="Resume — Nabeel Eledroos" showBack={true} activeNav="resume">
+  <InteriorHeader
+    titleHighlight="resume"
+    subLine1="nabeel eledroos"
+    subLine2="san francisco, ca"
+  />
+
+  <div class="rz animate-rise animate-rise-3">
+    <div>
+      <div class="blk">
+        <h2>contact</h2>
+        <ul>
+          <li>{resumeData.contact.email}</li>
+          <li>{resumeData.contact.social}</li>
+          <li>{resumeData.contact.location}</li>
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>skills</h2>
+        <ul>
+          {resumeData.skills.map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>tools</h2>
+        <ul>
+          {resumeData.tools.map((tool) => (
+            <li>{tool}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="blk">
+        <h2>experience</h2>
+        {resumeData.experience.map((exp) => (
+          <div class="item">
+            <div class="ti">{exp.title}</div>
+            <div class="me">{exp.company} · {exp.dates}</div>
+            {exp.description && <div class="de">{exp.description}</div>}
+          </div>
+        ))}
+      </div>
+
+      <div class="blk">
+        <h2>education</h2>
+        {resumeData.education.map((edu) => (
+          <div class="item">
+            <div class="ti">{edu.degree}</div>
+            <div class="me">{edu.school} · {edu.dates}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <PageFooter count="updated may 2026" />
+</Layout>
+
+<style>
+  .rz {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    padding-top: 34px;
+  }
+
+  h2 {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .blk {
+    margin-bottom: 28px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .ti {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .me {
+    font-size: 13px;
+    color: var(--taupe);
+    margin: 2px 0 5px;
+  }
+
+  .de {
+    font-size: 14px;
+    color: var(--brown);
+  }
+
+  ul {
+    list-style: none;
+    font-size: 14px;
+    color: var(--brown);
+  }
+
+  ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  @media (max-width: 760px) {
+    .rz {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

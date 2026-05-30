@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import projectsData from '../../content/projects.json';
+
+const projects = projectsData.sort((a, b) => 
+  new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf()
+);
+---
+
+<Layout title="Projects — Nabeel Eledroos" showBack={true} activeNav="projects">
+  <InteriorHeader
+    titleHighlight="projects"
+    subLine1="selected case studies"
+    subLine2="2020 — 2026"
+  />
+
+  <div class="pj-list">
+    {projects.map((project, i) => (
+      <a href={project.link} target="_blank" rel="noopener noreferrer" class="pj-row animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s`}>
+        <div class="pj-thumb" style="background: var(--sienna);">
+          <!-- Placeholder graphic -->
+          <div style="position:absolute;top:-24px;right:-14px;width:78px;height:78px;border-radius:50%;background:var(--paper);"></div>
+        </div>
+        <div>
+          <div class="t">{project.title}</div>
+          <div class="d">{project.description}</div>
+          <div class="tags">{project.tags.join(' · ')}</div>
+        </div>
+        <div class="yr">{new Date(project.pubDate).getFullYear()} &rarr;</div>
+      </a>
+    ))}
+  </div>
+
+  <PageFooter count={`${projects.length} projects`} />
+</Layout>
+
+<style>
+  .pj-list {
+    border-top: 1.5px solid var(--maroon);
+  }
+
+  .pj-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 8px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .pj-row:hover {
+    background: var(--paper);
+  }
+
+  .pj-thumb {
+    height: 96px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .t {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  .d {
+    font-size: 15px;
+    color: var(--brown);
+    margin-top: 5px;
+    max-width: 52ch;
+  }
+
+  .tags {
+    font-size: 12px;
+    color: var(--taupe);
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .yr {
+    font-size: 13px;
+    color: var(--taupe);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 760px) {
+    .pj-row {
+      grid-template-columns: 80px 1fr;
+      gap: 18px;
+    }
+
+    .yr {
+      grid-column: 2;
+    }
+  }
+</style>

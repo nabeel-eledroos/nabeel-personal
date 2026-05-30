@@ -1,182 +1,119 @@
 ---
-import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import BackButton from '../../components/BackButton.astro';
-import ImageModal from '../../components/ImageModal.astro';
-import GridBackground from '../../components/GridBackground.astro';
-import GradientBackground from '../../components/GradientBackground.astro';
-import background from '../../assets/images/background.svg';
-import '../../styles/fonts.css';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import Lightbox from '../../components/Lightbox.astro';
 
-export async function getStaticPaths() {
-  const allBlogPosts = await getCollection('photoBlog');
-  const paths = [];
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
 
-  for (const post of allBlogPosts) {
-    const slug = post.data.assetName;
-
-    paths.push({
-      params: { slug },
-      props: { post },
-    });
-  }
-  return paths;
+export function getStaticPaths() {
+  const albums = ['paris-london', 'summer-2025'];
+  return albums.map(slug => ({ params: { slug } }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { slug } = Astro.params;
+
+const albumImages = Object.entries(allImages)
+  .filter(([path]) => path.includes(`/${slug}/`))
+  .map(([path, module]) => ({
+    src: module.default.src,
+    filename: path.split('/').pop() || '',
+    width: module.default.width,
+    height: module.default.height,
+    isLandscape: module.default.width > module.default.height,
+  }));
+
+const albumTitles: Record<string, string> = {
+  'paris-london': 'Paris & London',
+  'summer-2025': 'Summer 2025',
+};
+
+const albumYears: Record<string, string> = {
+  'paris-london': '2022',
+  'summer-2025': '2025',
+};
 ---
 
-<Layout>
-  <BackButton href="/photography/Photography" />
-  <div class="fade-top"></div>
-  <div class="fade-bottom"></div>
-  
-  <div class="photography-container">
-    <div class="background-y2k-grid">
-      <GridBackground />
-      <img id="background" src={background.src} alt="" fetchpriority="high" />
-    </div>
-    <div class="background-ethereal">
-      <GradientBackground />
-    </div>
-    
-    <h1 class="page-title">{post.data.title}</h1>
-    
-    <div class="content-container">
-      {post ? <Content /> : <p class="page-description">{post.data.description}</p>}
-    </div>
+<Layout title={`${albumTitles[slug] || slug} — Photography`} showBack={true} activeNav="photography">
+  <InteriorHeader
+    titleHighlight={albumTitles[slug] || slug}
+    subLine1="photo album"
+    subLine2={albumYears[slug] || '2024'}
+  />
+
+  <div class="photo-grid">
+    {albumImages.map((img, i) => (
+      <div 
+        class={`photo-item ${img.isLandscape ? 'landscape' : ''} animate-rise`}
+        style={`animation-delay: ${0.14 + i * 0.06}s;`}
+        data-index={i}
+      >
+        <img src={img.src} alt={img.filename} loading="lazy" />
+      </div>
+    ))}
   </div>
 
-  <ImageModal id="imageModal" />
+  <PageFooter count={`${albumImages.length} frames`} backHref="/photography" backLabel="all photography" />
+
+  <Lightbox />
 </Layout>
 
 <style>
-  :root {
-    --text-color: #ffffff;
-    --accent-color: #888;
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
   }
 
-  .background-y2k-grid { display: none; }
-  .background-ethereal { display: block; }
-  :global([data-theme="y2k-grid"]) .background-y2k-grid { display: block; }
-  :global([data-theme="y2k-grid"]) .background-ethereal { display: none; }
+  .photo-item {
+    cursor: zoom-in;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.16s ease;
+  }
 
-  #background {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .photo-item.landscape {
+    grid-column: 1 / -1;
+  }
+
+  .photo-item:hover {
+    transform: scale(0.99);
+  }
+
+  .photo-item img {
     width: 100%;
-    height: 100%;
-    z-index: -1;
-    filter: blur(100px);
+    height: auto;
+    display: block;
   }
 
-  .photography-container {
-    position: relative;
-    margin: 0 auto;
-    padding: 30px 20px;
-    min-height: 100vh;
-  }
-
-  .page-title {
-    font-family: "Te-Quirtez", serif;
-    font-weight: 800;
-    font-size: 70px;
-    color: #fff8f0;
-    text-align: center;
-    margin: 60px 0 16px;
-    transition: color 0.5s ease, font-family 0.3s ease;
-  }
-
-  :global([data-theme="y2k-grid"]) .page-title {
-    font-family: "crash", sans-serif;
-    font-style: normal;
-    color: rgba(188, 82, 238, 0.8);
-  }
-
-  .content-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 50px 60px;
-  }
-
-  .content-container :global(p) {
-    font-family: "Bodoni Moda", serif;
-    /* font-style: italic; */
-    font-weight: 300;
-    font-size: 1.2rem;
-    color: var(--text-color);
-    text-align: center;
-    line-height: 1.8;
-    margin: 0 0 24px;
-    transition: font-family 0.3s ease;
-  }
-
-  :global([data-theme="y2k-grid"]) .content-container :global(p) {
-    font-family: 'Space Mono', monospace;
-    font-style: normal;
-    font-size: 0.9rem;
-    font-weight: 800;
-  }
-
-  .page-description {
-    font-family: "Bodoni Moda", serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 1.1rem;
-    color: var(--text-color);
-    text-align: center;
-    margin: 0 0 40px;
-    opacity: 0.8;
-    transition: font-family 0.3s ease;
-  }
-
-  :global([data-theme="y2k-grid"]) .page-description {
-    font-family: 'Space Mono', monospace;
-    font-style: normal;
-    font-size: 0.9rem;
-    font-weight: 800;
-  }
-
-  .fade-top,
-  .fade-bottom {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 100px;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .fade-top {
-    top: 0;
-    background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 100%);
-  }
-
-  .fade-bottom {
-    bottom: 0;
-    background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
-  }
-
-  @media (max-width: 600px) {
-    .content-container {
-      padding: 0 20px 40px;
+  @media (max-width: 760px) {
+    .photo-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    .page-title {
-      font-size: 48px;
+  @media (max-width: 420px) {
+    .photo-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
 
 <script>
-  document.querySelectorAll('.photo-item').forEach((item) => {
+  const items = document.querySelectorAll('.photo-item');
+  const images = Array.from(items).map((item, i) => {
+    const img = item.querySelector('img');
+    return {
+      src: img?.src || '',
+      caption: `Photo ${i + 1}`,
+    };
+  });
+
+  items.forEach((item, i) => {
     item.addEventListener('click', () => {
-      const imagesData = item.getAttribute('data-images');
-      if (imagesData) {
-        const images = JSON.parse(imagesData);
-        (window as any).openImageModal('imageModal', images, 0);
+      if ((window as any).openLightbox) {
+        (window as any).openLightbox(images, i);
       }
     });
   });

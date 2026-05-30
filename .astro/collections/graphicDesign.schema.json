@@ -1,7 +1,7 @@
 {
-  "$ref": "#/definitions/videos",
+  "$ref": "#/definitions/graphicDesign",
   "definitions": {
-    "videos": {
+    "graphicDesign": {
       "type": "object",
       "properties": {
         "$schema": {
@@ -17,46 +17,42 @@
           "title": {
             "type": "string"
           },
-          "description": {
-            "type": "string"
-          },
           "category": {
             "type": "string"
           },
-          "duration": {
+          "year": {
+            "type": "number"
+          },
+          "assetFolder": {
             "type": "string"
           },
           "thumbnail": {
             "type": "string"
           },
-          "link": {
+          "summary": {
             "type": "string"
           },
-          "pubDate": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "type": "integer",
-                "format": "unix-time"
-              }
-            ]
+          "role": {
+            "type": "string"
+          },
+          "client": {
+            "type": "string"
+          },
+          "deliverables": {
+            "type": "string"
           }
         },
         "required": [
           "id",
           "title",
-          "description",
           "category",
-          "duration",
-          "link",
-          "pubDate"
+          "year",
+          "assetFolder",
+          "thumbnail",
+          "summary",
+          "role",
+          "client",
+          "deliverables"
         ],
         "additionalProperties": false
       }

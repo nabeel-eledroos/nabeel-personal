@@ -29,6 +29,12 @@
             }
           ]
         },
+        "thumbnail": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }
