@@ -28,8 +28,7 @@ const projectImages = Object.entries(allImages)
   }))
   .sort((a, b) => b.filename.localeCompare(a.filename));
 
-const heroImage = projectImages.find(img => img.filename === project.thumbnail);
-const galleryImages = projectImages.filter(img => img.filename !== project.thumbnail);
+const galleryImages = projectImages;
 ---
 
 <Layout title={`${project.title} — Nabeel Eledroos`} showBack={true} activeNav="graphic">
@@ -43,14 +42,9 @@ const galleryImages = projectImages.filter(img => img.filename !== project.thumb
 
   <div class="pd-body">
     <div class="pd-gallery">
-      {heroImage && (
-        <div class="gallery-item hero-item animate-rise animate-rise-3" data-index={0}>
-          <img src={heroImage.src} alt={project.title} />
-        </div>
-      )}
       {galleryImages.map((img, i) => (
-        <div class="gallery-item animate-rise" style={`animation-delay: ${0.14 + (i + 1) * 0.06}s;`} data-index={i + 1}>
-          <img src={img.src} alt={img.filename} loading="lazy" />
+        <div class="gallery-item animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s;`} data-index={i}>
+          <img src={img.src} alt={img.filename} loading={i === 0 ? "eager" : "lazy"} />
         </div>
       ))}
     </div>
@@ -113,10 +107,6 @@ const galleryImages = projectImages.filter(img => img.filename !== project.thumb
     flex-direction: column;
     gap: 16px;
     max-width: 560px;
-  }
-
-  .hero-item {
-    max-width: 100%;
   }
 
   .gallery-item {
