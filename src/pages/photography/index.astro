@@ -2,32 +2,37 @@
 import Layout from '../../layouts/Layout.astro';
 import InteriorHeader from '../../components/InteriorHeader.astro';
 import PageFooter from '../../components/PageFooter.astro';
-import Lightbox from '../../components/Lightbox.astro';
 
-const highlightImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/*/highlights/*.{jpg,png,jpeg}', { eager: true });
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
 
-const allImages = Object.entries(highlightImages).map(([path, module]) => {
+// Group images by album folder
+const albumMap = new Map<string, { src: string; width: number; height: number }[]>();
+Object.entries(allImages).forEach(([path, module]) => {
   const parts = path.split('/');
-  const album = parts[parts.length - 3];
-  return {
+  const albumIndex = parts.findIndex(p => p === 'photography-assets') + 1;
+  const album = parts[albumIndex];
+  if (!albumMap.has(album)) {
+    albumMap.set(album, []);
+  }
+  albumMap.get(album)!.push({
     src: module.default.src,
-    album,
-    filename: parts[parts.length - 1],
-  };
+    width: module.default.width,
+    height: module.default.height,
+  });
 });
 
-const photoData = [
-  { album: 'paris-london', caption: "paris & london, '22", gridColumn: 'span 2', gridRow: 'span 2' },
-  { album: 'paris-london', gridRow: 'span 2' },
-  { album: 'paris-london' },
-  { album: 'paris-london' },
-  { album: 'paris-london' },
-  { album: 'paris-london', gridColumn: 'span 3', caption: "london underground" },
-  { album: 'paris-london' },
-  { album: 'summer-2025', gridColumn: 'span 2', caption: "summer '25" },
-];
+// Album metadata
+const albumMeta: Record<string, { title: string; place: string; year: string }> = {
+  'paris-london': { title: 'paris & london', place: 'paris · london', year: '2022' },
+  'summer-2025': { title: 'summer 2025', place: 'california', year: '2025' },
+};
 
-const placeholderColors = ['#BCAE99', '#D3C7B4', '#C7BAA6', '#DAD0BE', '#C1B4A0', '#C9BDA9', '#D7CDBB', '#B6A992'];
+const albums = Array.from(albumMap.entries()).map(([slug, images]) => ({
+  slug,
+  images: images.slice(0, 4), // First 4 for cover grid
+  totalCount: images.length,
+  ...albumMeta[slug] || { title: slug.replace(/-/g, ' '), place: '', year: '2024' },
+}));
 ---
 
 <Layout title="Photography — Nabeel Eledroos" showBack={true} activeNav="photography">
@@ -35,105 +40,92 @@ const placeholderColors = ['#BCAE99', '#D3C7B4', '#C7BAA6', '#DAD0BE', '#C1B4A0'
     titlePre="photo"
     titleHighlight="graphy"
     noGap={true}
-    subLine1="selected frames"
+    subLine1="selected work"
     subLine2="2022 — 2026"
   />
 
-  <div class="ph-grid">
-    {photoData.map((photo, i) => {
-      const img = allImages.find(img => img.album === photo.album);
-      const style = [
-        photo.gridColumn && `grid-column: ${photo.gridColumn}`,
-        photo.gridRow && `grid-row: ${photo.gridRow}`,
-        `background: ${placeholderColors[i % placeholderColors.length]}`,
-      ].filter(Boolean).join(';');
-      
-      return (
-        <div 
-          class="ph-tile animate-rise" 
-          style={`${style}; animation-delay: ${0.14 + i * 0.06}s;`}
-          data-index={i}
-        >
-          {img && <img src={img.src} alt={img.filename} loading="lazy" />}
-          {photo.caption && <span class="ph-cap">{photo.caption}</span>}
+  <div class="fld-grid">
+    {albums.map((album, i) => (
+      <a href={`/photography/${album.slug}`} class="fld-card animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s;`}>
+        <div class="fld-cover">
+          {album.images.map((img, j) => (
+            <span style={`background-image: url(${img.src}); background-size: cover; background-position: center;`} />
+          ))}
+          {/* Fill remaining slots with placeholders if less than 4 images */}
+          {Array.from({ length: Math.max(0, 4 - album.images.length) }).map(() => (
+            <span style="background: #EBE0CE;" />
+          ))}
         </div>
-      );
-    })}
+        <div class="fld-info">
+          <div class="ft">{album.title}</div>
+          <div class="fm">{album.place}<br />{album.totalCount} photos · {album.year}</div>
+        </div>
+      </a>
+    ))}
   </div>
 
-  <PageFooter count={`${photoData.length} frames`} />
-
-  <Lightbox />
+  <PageFooter count={`${albums.length} collections`} />
 </Layout>
 
 <style>
-  .ph-grid {
+  .fld-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 130px;
-    gap: 14px;
+    gap: 24px 20px;
   }
 
-  .ph-tile {
-    position: relative;
-    border-radius: 10px;
+  .fld-card {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .fld-cover {
+    aspect-ratio: 4/3;
+    border-radius: 9px;
     overflow: hidden;
-    cursor: zoom-in;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #EBE0CE;
     transition: transform 0.16s ease;
   }
 
-  .ph-tile:hover {
-    transform: scale(0.99);
+  .fld-card:hover .fld-cover {
+    transform: scale(0.985);
   }
 
-  .ph-tile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .fld-cover span {
+    display: block;
   }
 
-  .ph-cap {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    background: var(--maroon);
-    color: var(--oat);
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 999px;
+  .fld-info {
+    margin-top: 11px;
+  }
+
+  .fld-info .ft {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .fld-info .fm {
+    font-size: 13px;
+    color: var(--taupe);
+    margin-top: 3px;
+    line-height: 1.45;
   }
 
   @media (max-width: 760px) {
-    .ph-grid {
+    .fld-grid {
       grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: 120px;
     }
   }
 
   @media (max-width: 420px) {
-    .ph-grid {
-      grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 110px;
+    .fld-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
-
-<script>
-  const tiles = document.querySelectorAll('.ph-tile');
-  const images = Array.from(tiles).map((tile, i) => {
-    const img = tile.querySelector('img');
-    const caption = tile.querySelector('.ph-cap');
-    return {
-      src: img?.src || '',
-      caption: caption?.textContent || `Photo ${i + 1}`,
-    };
-  }).filter(img => img.src);
-
-  tiles.forEach((tile, i) => {
-    tile.addEventListener('click', () => {
-      if ((window as any).openLightbox && images[i]) {
-        (window as any).openLightbox(images, i);
-      }
-    });
-  });
-</script>
