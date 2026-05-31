@@ -1,0 +1,108 @@
+{
+  "$ref": "#/definitions/resume",
+  "definitions": {
+    "resume": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "social": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "email",
+              "social",
+              "location"
+            ],
+            "additionalProperties": false
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "dates": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "company",
+                "dates"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "education": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "degree": {
+                  "type": "string"
+                },
+                "school": {
+                  "type": "string"
+                },
+                "dates": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "degree",
+                "school",
+                "dates"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "contact",
+          "skills",
+          "tools",
+          "experience",
+          "education"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

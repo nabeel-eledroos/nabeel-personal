@@ -1,0 +1,62 @@
+[
+  {
+    "id": "mint-manor-cafe",
+    "title": "Mint Manor Cafe",
+    "category": "cafe poster/menu series",
+    "year": "2023-2026",
+    "assetFolder": "mint-manor-cafe",
+    "thumbnail": "11-jan-popup-poster.jpg",
+    "summary": "Ongoing poster and menu design for Mint Manor Cafe pop-ups — a series of cafes spanning venues across San Francisco.",
+    "role": "illustration, design",
+    "client": "Mint Manor",
+    "deliverables": "posters, menus, social"
+  },
+  {
+    "id": "film-festival",
+    "title": "Film Festival",
+    "category": "event design",
+    "year": "2024-2025",
+    "assetFolder": "film-festival",
+    "thumbnail": "film-festival-1.jpg",
+    "summary": "Visual identity and collateral for a film festival — poster design, magazine layout, and cover art direction.",
+    "role": "art direction, design",
+    "client": "Film Festival",
+    "deliverables": "posters, magazine, covers"
+  },
+  {
+    "id": "coffee-tasting",
+    "title": "Coffee Tasting Event",
+    "category": "event identity",
+    "year": 2026,
+    "assetFolder": "coffee-tasting",
+    "thumbnail": "COVER5.jpg",
+    "summary": "Complete event package for a private coffee tasting — invitations, cards, and day-of materials with a vintage type aesthetic.",
+    "role": "design, illustration",
+    "client": "Mint Manor",
+    "deliverables": "invitations, cards, signage"
+  },
+  {
+    "id": "events",
+    "title": "Event Posters",
+    "category": "event design",
+    "year": 2026,
+    "assetFolder": "events",
+    "thumbnail": "mission-to-mint-manor.jpg",
+    "summary": "Collection of illustrated event posters for parties, from Halloween crawls to DJ nights.",
+    "role": "illustration, design",
+    "client": "Various",
+    "deliverables": "posters, social graphics"
+  },
+  {
+    "id": "misc",
+    "title": "Misc Posters",
+    "category": "miscellaneous",
+    "year": 2026,
+    "assetFolder": "misc",
+    "thumbnail": "kobalt-announcement.jpg",
+    "summary": "Miscellaneous posters that don't fit into the other categories but I'm still proud of and want to show off.",
+    "role": "illustration, design",
+    "client": "Various",
+    "deliverables": "posters, social graphics"
+  }
+]

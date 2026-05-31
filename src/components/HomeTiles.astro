@@ -1,0 +1,91 @@
+---
+const tiles = [
+  { num: '01', label: 'graphic design', href: '/graphic-design', class: 't-sienna' },
+  { num: '02', label: 'photography', href: '/photography', class: 't-mustard' },
+  { num: '03', label: 'projects', href: '/projects', class: 't-rose' },
+  { num: '04', label: 'video', href: '/video', class: 't-maroon' },
+  { num: '05', label: 'resume', href: '/resume', class: 't-resume' },
+];
+---
+
+<div class="tiles">
+  {tiles.map((tile, i) => (
+    <a href={tile.href} class={`tile ${tile.class} animate-rise`} style={`animation-delay: ${0.14 + i * 0.06}s`}>
+      <span class="num">{tile.num}</span>
+      <span class="lab">{tile.label} <span>&#8599;</span></span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .tile {
+    border-radius: 18px;
+    padding: 22px 22px 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.16s ease;
+  }
+
+  .tile:hover {
+    transform: translateY(-5px);
+  }
+
+  .num {
+    font-size: 14px;
+    opacity: 0.78;
+  }
+
+  .lab {
+    font-size: 27px;
+    letter-spacing: -0.015em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .t-sienna {
+    background: var(--sienna);
+    color: #fff;
+  }
+
+  .t-mustard {
+    background: var(--mustard);
+    color: #3A2800;
+  }
+
+  .t-rose {
+    background: var(--rose);
+    color: #4A1E22;
+  }
+
+  .t-maroon {
+    background: var(--maroon);
+    color: var(--oat);
+  }
+
+  .t-resume {
+    grid-column: span 2;
+    background: var(--oat);
+    border: 2px solid var(--maroon);
+    color: var(--maroon);
+  }
+
+  @media (max-width: 760px) {
+    .tiles {
+      grid-template-columns: 1fr;
+    }
+
+    .t-resume {
+      grid-column: span 1;
+    }
+  }
+</style>

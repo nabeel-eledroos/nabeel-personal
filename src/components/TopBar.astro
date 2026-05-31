@@ -1,0 +1,187 @@
+---
+interface Props {
+  showBack?: boolean;
+  activeNav?: string;
+}
+
+const { showBack = false, activeNav } = Astro.props;
+
+const navItems = [
+  { href: '/graphic-design', label: 'graphic design', key: 'graphic' },
+  { href: '/photography', label: 'photography', key: 'photography' },
+  { href: '/projects', label: 'projects', key: 'projects' },
+  { href: '/video', label: 'video', key: 'video' },
+  { href: '/resume', label: 'resume', key: 'resume' },
+];
+---
+
+<header class="topbar animate-bar">
+  <div class="wrap bar">
+    <div class="left">
+      <a href="javascript:history.back()" class:list={['back', { show: showBack }]} aria-label="Go back">&larr;</a>
+      <a href="/" class="mark">nabeel eledroos</a>
+    </div>
+    <nav class="nav" id="nav">
+      {navItems.map((item) => (
+        <a href={item.href} class:list={{ on: activeNav === item.key }}>{item.label}</a>
+      ))}
+    </nav>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(243, 233, 218, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    position: relative;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .back {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 30px;
+    border: 1px solid var(--btn);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--maroon);
+    font-size: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .back:hover {
+    background: var(--paper);
+  }
+
+  .back.show {
+    display: inline-flex;
+  }
+
+  .mark {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    margin-right: -9px;
+  }
+
+  .nav a {
+    color: var(--taupe);
+    padding: 4px 9px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav a:hover {
+    color: var(--maroon);
+  }
+
+  .nav a.on {
+    background: var(--rose);
+    color: #3A2800;
+  }
+
+  .burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 38px;
+    height: 34px;
+    border: 1px solid var(--btn);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .burger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--maroon);
+    transition: 0.2s;
+  }
+
+  @media (max-width: 760px) {
+    .burger {
+      display: flex;
+    }
+
+    .nav {
+      position: absolute;
+      top: 100%;
+      left: -20px;
+      right: -20px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      margin-right: 0;
+      background: var(--oat);
+      border-bottom: 1px solid var(--line);
+      padding: 6px 0;
+      display: none;
+      box-shadow: 0 8px 16px rgba(74, 20, 24, 0.06);
+    }
+
+    .nav.open {
+      display: flex;
+    }
+
+    .nav a {
+      padding: 13px 20px;
+      border-radius: 0;
+      font-size: 15px;
+    }
+
+    .nav a.on {
+      background: var(--rose);
+    }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('nav');
+
+  burger?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+</script>

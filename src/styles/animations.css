@@ -1,32 +1,76 @@
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-    }
-    25% {
-        transform: translateY(-3px) rotate(0.5deg);
-    }
-    75% {
-        transform: translateY(-3px) rotate(-0.5deg);
-    }
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-@keyframes glow-menu-item {
-    0% {
-        text-shadow: 0 0 0px rgba(50, 69, 255, 0);
-    }
-    100% {
-        text-shadow: 0 0 15px rgba(145, 142, 216, 0.6);
-        /* text-shadow: 0 0 8px rgba(188, 82, 238, 0.4); */
-    }
+@keyframes wipe {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
-@keyframes glow-year {
-    0% {
-        color: rgba(188, 82, 238, 0.7);
-        text-shadow: 0 0 0px rgba(50, 69, 255, 0);
-    }
-    100% {
-        color: rgba(188, 82, 238, 1);
-        text-shadow: 0 0 4px rgba(188, 82, 238, 0.5);
-    }
+@keyframes tagpop {
+  from {
+    opacity: 0;
+    transform: rotate(-3deg) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(4deg) scale(1);
+  }
+}
+
+@keyframes barDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.animate-rise-1 { animation-delay: 0.04s; }
+.animate-rise-2 { animation-delay: 0.10s; }
+.animate-rise-3 { animation-delay: 0.14s; }
+.animate-rise-4 { animation-delay: 0.20s; }
+.animate-rise-5 { animation-delay: 0.26s; }
+.animate-rise-6 { animation-delay: 0.32s; }
+.animate-rise-7 { animation-delay: 0.38s; }
+.animate-rise-8 { animation-delay: 0.44s; }
+
+.animate-wipe {
+  animation: wipe 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: 0.4s;
+}
+
+.animate-tagpop {
+  animation: tagpop 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: 0.5s;
+}
+
+.animate-bar {
+  animation: barDrop 0.5s ease backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation: none !important;
+    transition: none !important;
+  }
 }

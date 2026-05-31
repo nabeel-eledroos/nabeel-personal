@@ -1,0 +1,29 @@
+[
+  {
+    "id": "fossil-money",
+    "title": "Fossil Money",
+    "description": "A civic transparency web app that helps citizens track fossil fuel donations to their elected officials.",
+    "tags": ["civic tech", "typescript", "next.js", "python", "supabase"],
+    "thumbnail": "/images/projects/fossil-money-thumb.jpg",
+    "link": "https://fossil-money.vercel.app/",
+    "pubDate": "2026-04-19"
+  },
+  {
+    "id": "this-website",
+    "title": "This website",
+    "description": "Personal portfolio website built with Astro.",
+    "tags": ["web", "design", "astro"],
+    "thumbnail": "/images/projects/website-thumb.jpg",
+    "link": "https://github.com/nabeel-eledroos/nabeel-personal",
+    "pubDate": "2026-01-06"
+  },
+  {
+    "id": "mnist-decision-tree",
+    "title": "MNIST Decision Tree",
+    "description": "A decision tree of user specified depth to decide whether an image from a subset of the MNIST dataset is a 3 or an 8.",
+    "tags": ["machine learning", "python", "numpy"],
+    "thumbnail": "/images/projects/mnist-thumb.jpg",
+    "link": "https://github.com/nabeel-eledroos/mnist-decision-tree",
+    "pubDate": "2020-04-15"
+  }
+]

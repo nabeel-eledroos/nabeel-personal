@@ -1,0 +1,84 @@
+---
+interface Props {
+  titlePre?: string;
+  titleHighlight: string;
+  titlePost?: string;
+  subLine1?: string;
+  subLine2?: string;
+  noGap?: boolean;
+}
+
+const { titlePre, titleHighlight, titlePost, subLine1, subLine2, noGap = false } = Astro.props;
+---
+
+<div class="ihead animate-rise animate-rise-1">
+  <h1 class:list={{ 'no-gap': noGap }}>
+    {titlePre && <span>{titlePre}</span>}
+    <span class="hl animate-wipe">{titleHighlight}</span>
+    {titlePost && <span>{titlePost}</span>}
+  </h1>
+  {(subLine1 || subLine2) && (
+    <div class="sub">
+      {subLine1 && <span>{subLine1}</span>}
+      {subLine1 && subLine2 && <br />}
+      {subLine2 && <span>{subLine2}</span>}
+    </div>
+  )}
+</div>
+
+<style>
+  .ihead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 40px 0 32px;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-size: clamp(38px, 6vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+
+  h1.no-gap {
+    word-spacing: -0.15em;
+  }
+
+  h1.no-gap .hl {
+    margin-left: -0.1em;
+  }
+
+  .hl {
+    position: relative;
+    color: #3A2800;
+    z-index: 0;
+    padding: 2px 5px;
+    border-radius: 10px;
+  }
+
+  .hl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--rose);
+    border-radius: inherit;
+    z-index: -1;
+    transform-origin: left center;
+  }
+
+  .sub {
+    font-size: 13px;
+    color: var(--taupe);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 760px) {
+    .ihead {
+      padding: 30px 0 16px;
+    }
+  }
+</style>

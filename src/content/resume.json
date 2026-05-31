@@ -1,0 +1,97 @@
+{
+  "contact": {
+    "email": "nabeel@eledroos.net",
+    "linkedin": "linkedin.com/in/nabeeleledroos",
+    "github": "github.com/nabeel-eledroos"
+  },
+  "languages": [
+    "Typescript",
+    "Javascript",
+    "Kotlin",
+    "Python (NumPy, Pandas, Matplotlib, PyTorch, PySpark)",
+    "Java",
+    "Bash"
+  ],
+  "frameworks": [
+    "React",
+    "Node.js",
+    "Apollo GraphQL",
+    "Next.js",
+    "Astro",
+    "PostgreSQL",
+    "Redis",
+    "JUnit"
+  ],
+  "tools": [
+    "Git",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Jenkins",
+    "ArgoCD"
+  ],
+  "interests": [
+    "Graphic Design",
+    "Videography",
+    "Photography",
+    "Adobe Premiere",
+    "After Effects",
+    "Lightroom"
+  ],
+  "experience": [
+    {
+      "title": "Software Engineer",
+      "company": "Intuit",
+      "location": "Mountain View, CA",
+      "dates": "July 2021 — Present",
+      "bullets": [
+        "Reduced SKU launch time from months to days by architecting a Kotlin service that consolidated feature-access and subscription logic spread across every QuickBooks page - freeing product and marketing teams to access pricing configurations without engineering involvement. Scaled to 2,000 TPS in production.",
+        "Identified an unmet need during a hackathon and built a full-stack developer platform that gave internal teams a self-serve UI to create and manage feature configurations without any code changes, accelerating service adoption by 60%.",
+        "As sole technical lead, owned end-to-end integration of a feature management platform into QuickBooks' core legacy backend serving 6M customers - designing, implementing, and rolling out with zero disruption to existing user flows.",
+        "Shipped QuickBooks Free by owning the limit-enforcement layer across multiple features. Validated the feature management platform's architecture by spinning up the new SKU primarily through config, driving a 10% increase in upsell conversion.",
+        "Eliminated a cross-team data dependency and improved downstream API latency 6x by designing a distributed PySpark batch pipeline to backfill a Cassandra cache with 40M user subscription records.",
+        "Mentored three engineers through their first major projects - guiding each from onboarding through independent ownership of production features. All three have since been promoted."
+      ]
+    },
+    {
+      "title": "Software Engineering Intern",
+      "company": "Intuit",
+      "location": "Mountain View, CA",
+      "dates": "May 2020 — Aug 2020",
+      "bullets": [
+        "Designed and shipped a personalized in-product discovery experience in React — including an overflow menu with save functionality — increasing user engagement 45% and surfacing behavioral data for the product team."
+      ]
+    },
+    {
+      "title": "Software Engineering Intern",
+      "company": "F5 Networks",
+      "location": "Billerica, MA",
+      "dates": "May 2019 — Aug 2019",
+      "bullets": [
+        "Refactored legacy Bash scripts across the core OS of a network load balancer, reducing system boot time 20% and improving long-term maintainability.",
+        "Built a Dockerized Python service enabling clients to interface with an external configuration database, removing a previously manual integration step."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science, Minor in Math",
+      "school": "University of Massachusetts Amherst",
+      "honors": "Commonwealth Honors College",
+      "location": "Amherst, MA",
+      "dates": "Aug 2017 — May 2021"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Fossil Money",
+      "tech": "Typescript, CSS, SQL",
+      "description": "Built a 'follow the money' tool for climate accountability - a web app that shows users their politicians based on region and where they stand on climate issues, especially on fossil fuel."
+    },
+    {
+      "title": "Gesture Controlled Car",
+      "tech": "Arduino, Java",
+      "description": "Developed Arduino code for a Raspberry Pi microprocessor to wirelessly translate hand gestures from a Myo armband to movement commands for a remote-controlled car."
+    }
+  ]
+}

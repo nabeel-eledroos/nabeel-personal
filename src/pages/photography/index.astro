@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
+
+// Group images by album folder
+const albumMap = new Map<string, { src: string; width: number; height: number }[]>();
+Object.entries(allImages).forEach(([path, module]) => {
+  const parts = path.split('/');
+  const albumIndex = parts.findIndex(p => p === 'photography-assets') + 1;
+  const album = parts[albumIndex];
+  if (!albumMap.has(album)) {
+    albumMap.set(album, []);
+  }
+  albumMap.get(album)!.push({
+    src: module.default.src,
+    width: module.default.width,
+    height: module.default.height,
+  });
+});
+
+// Album metadata
+const albumMeta: Record<string, { title: string; place: string; year: string }> = {
+  'paris-london': { title: 'paris & london', place: 'paris · london', year: '2022' },
+  'summer-2025': { title: 'summer 2025', place: 'california', year: '2025' },
+};
+
+const albums = Array.from(albumMap.entries()).map(([slug, images]) => ({
+  slug,
+  images: images.slice(0, 4), // First 4 for cover grid
+  totalCount: images.length,
+  ...albumMeta[slug] || { title: slug.replace(/-/g, ' '), place: '', year: '2024' },
+}));
+---
+
+<Layout title="Photography — Nabeel Eledroos" showBack={true} activeNav="photography">
+  <InteriorHeader
+    titlePre="photo"
+    titleHighlight="graphy"
+    noGap={true}
+    subLine1="selected work"
+    subLine2="2022 — 2026"
+  />
+
+  <div class="fld-grid">
+    {albums.map((album, i) => (
+      <a href={`/photography/${album.slug}`} class="fld-card animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s;`}>
+        <div class="fld-cover">
+          {album.images.map((img, j) => (
+            <span style={`background-image: url(${img.src}); background-size: cover; background-position: center;`} />
+          ))}
+          {/* Fill remaining slots with placeholders if less than 4 images */}
+          {Array.from({ length: Math.max(0, 4 - album.images.length) }).map(() => (
+            <span style="background: #EBE0CE;" />
+          ))}
+        </div>
+        <div class="fld-info">
+          <div class="ft">{album.title}</div>
+          <div class="fm">{album.place}<br />{album.totalCount} photos · {album.year}</div>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <PageFooter count={`${albums.length} collections`} />
+</Layout>
+
+<style>
+  .fld-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 20px;
+  }
+
+  .fld-card {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .fld-cover {
+    aspect-ratio: 4/3;
+    border-radius: 9px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #EBE0CE;
+    transition: transform 0.16s ease;
+  }
+
+  .fld-card:hover .fld-cover {
+    transform: scale(0.985);
+  }
+
+  .fld-cover span {
+    display: block;
+  }
+
+  .fld-info {
+    margin-top: 11px;
+  }
+
+  .fld-info .ft {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .fld-info .fm {
+    font-size: 13px;
+    color: var(--taupe);
+    margin-top: 3px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 760px) {
+    .fld-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .fld-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

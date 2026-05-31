@@ -17,10 +17,16 @@
           "title": {
             "type": "string"
           },
-          "skills": {
+          "description": {
             "type": "string"
           },
-          "description": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "thumbnail": {
             "type": "string"
           },
           "link": {
@@ -46,8 +52,9 @@
         "required": [
           "id",
           "title",
-          "skills",
           "description",
+          "tags",
+          "thumbnail",
           "link",
           "pubDate"
         ],

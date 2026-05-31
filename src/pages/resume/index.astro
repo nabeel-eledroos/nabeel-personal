@@ -1,0 +1,220 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import resumeData from '../../content/resume.json';
+import resumePdf from '../../assets/resume/new_resume.pdf';
+---
+
+<Layout title="Resume — Nabeel Eledroos" showBack={true} activeNav="resume">
+  <InteriorHeader
+    titleHighlight="resume"
+    subLine1="nabeel eledroos"
+    subLine2="software engineer"
+  />
+
+  <a href={resumePdf} download="Nabeel_Eledroos_Resume.pdf" class="download-btn animate-rise animate-rise-2">
+    download pdf ↓
+  </a>
+
+  <div class="rz animate-rise animate-rise-3">
+    <div>
+      <div class="blk">
+        <h2>contact</h2>
+        <ul>
+          <li>{resumeData.contact.email}</li>
+          <li><a href={`https://${resumeData.contact.linkedin}`} target="_blank" rel="noopener noreferrer">{resumeData.contact.linkedin}</a></li>
+          <li><a href={`https://${resumeData.contact.github}`} target="_blank" rel="noopener noreferrer">{resumeData.contact.github}</a></li>
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>languages</h2>
+        <ul>
+          {resumeData.languages.map((lang) => (
+            <li>{lang}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>frameworks</h2>
+        <ul>
+          {resumeData.frameworks.map((fw) => (
+            <li>{fw}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>tools</h2>
+        <ul>
+          {resumeData.tools.map((tool) => (
+            <li>{tool}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h2>interests</h2>
+        <ul>
+          {resumeData.interests.map((interest) => (
+            <li>{interest}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="blk">
+        <h2>experience</h2>
+        {resumeData.experience.map((exp) => (
+          <div class="item">
+            <div class="ti">{exp.title}</div>
+            <div class="me">{exp.company} · {exp.location} · {exp.dates}</div>
+            {exp.bullets && (
+              <ul class="bullets">
+                {exp.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div class="blk">
+        <h2>education</h2>
+        {resumeData.education.map((edu) => (
+          <div class="item">
+            <div class="ti">{edu.degree}</div>
+            <div class="me">{edu.school} · {edu.location} · {edu.dates}</div>
+            {edu.honors && <div class="de">{edu.honors}</div>}
+          </div>
+        ))}
+      </div>
+
+      <div class="blk">
+        <h2>projects</h2>
+        {resumeData.projects.map((proj) => (
+          <div class="item">
+            <div class="ti">{proj.title} <span class="tech">| {proj.tech}</span></div>
+            <div class="de">{proj.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <PageFooter count="updated may 2026" />
+</Layout>
+
+<style>
+  .download-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--maroon);
+    color: var(--oat);
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 24px;
+    transition: background 0.15s;
+  }
+
+  .download-btn:hover {
+    background: var(--brown);
+  }
+
+  .rz {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    padding-top: 10px;
+  }
+
+  h2 {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .blk {
+    margin-bottom: 28px;
+  }
+
+  .item {
+    margin-bottom: 22px;
+  }
+
+  .ti {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .tech {
+    font-weight: 400;
+    color: var(--taupe);
+  }
+
+  .me {
+    font-size: 13px;
+    color: var(--taupe);
+    margin: 2px 0 5px;
+  }
+
+  .de {
+    font-size: 14px;
+    color: var(--brown);
+    margin-top: 4px;
+  }
+
+  ul {
+    list-style: none;
+    font-size: 14px;
+    color: var(--brown);
+  }
+
+  ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  ul.bullets {
+    margin-top: 8px;
+  }
+
+  ul.bullets li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    border-bottom: none;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  ul.bullets li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--taupe);
+  }
+
+  a {
+    color: var(--maroon);
+    transition: color 0.15s;
+  }
+
+  a:hover {
+    color: var(--sienna);
+  }
+
+  @media (max-width: 760px) {
+    .rz {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

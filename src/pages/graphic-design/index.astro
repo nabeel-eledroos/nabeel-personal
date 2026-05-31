@@ -1,0 +1,94 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import InteriorHeader from '../../components/InteriorHeader.astro';
+import PageFooter from '../../components/PageFooter.astro';
+import gdData from '../../content/graphic-design.json';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/graphic-design-assets/**/*.{jpg,png,jpeg}', { eager: true });
+
+const projects = gdData.sort((a, b) => b.year - a.year);
+
+function getThumbnail(project: typeof gdData[0]) {
+  const path = Object.keys(allImages).find(p => 
+    p.includes(`/${project.assetFolder}/`) && p.endsWith(project.thumbnail)
+  );
+  return path ? allImages[path].default.src : null;
+}
+---
+
+<Layout title="Graphic Design — Nabeel Eledroos" showBack={true} activeNav="graphic">
+  <InteriorHeader
+    titlePre="graphic "
+    titleHighlight="design"
+    subLine1="selected work"
+    subLine2="2023 — 2026"
+  />
+
+  <div class="gd-grid">
+    {projects.map((project, i) => {
+      const thumb = getThumbnail(project);
+      return (
+        <a href={`/graphic-design/${project.id}`} class="gd-card animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s`}>
+          <div class="gd-thumb">
+            {thumb && <img src={thumb} alt={project.title} loading="lazy" />}
+          </div>
+          <div class="gd-cap">
+            <div class="t">{project.title}</div>
+            <div class="m">{project.category} · {project.year}</div>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+
+  <PageFooter count={`${projects.length} projects`} />
+</Layout>
+
+<style>
+  .gd-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px 22px;
+  }
+
+  .gd-card {
+    cursor: pointer;
+    display: block;
+  }
+
+  .gd-thumb {
+    position: relative;
+    height: 210px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.16s ease;
+  }
+
+  .gd-card:hover .gd-thumb {
+    transform: scale(0.985);
+  }
+
+  .gd-cap .t {
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 12px;
+  }
+
+  .gd-cap .m {
+    font-size: 13px;
+    color: var(--taupe);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 760px) {
+    .gd-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .gd-thumb {
+      height: 180px;
+    }
+  }
+</style>
