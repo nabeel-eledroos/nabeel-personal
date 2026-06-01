@@ -1,0 +1,23 @@
+[
+  {
+    "id": "paris-london",
+    "title": "paris & london",
+    "place": "paris · london",
+    "year": "2022",
+    "assetFolder": "paris-london"
+  },
+  {
+    "id": "summer-2025",
+    "title": "summer 2025",
+    "place": "san francisco",
+    "year": "2025",
+    "assetFolder": "summer-2025"
+  },
+  {
+    "id": "windows-xp",
+    "title": "rolling hills in east bay",
+    "place": "east bay",
+    "year": "2024",
+    "assetFolder": "windows-xp"
+  }
+]

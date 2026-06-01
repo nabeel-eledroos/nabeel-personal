@@ -3,40 +3,21 @@ import Layout from '../../layouts/Layout.astro';
 import InteriorHeader from '../../components/InteriorHeader.astro';
 import PageFooter from '../../components/PageFooter.astro';
 import Lightbox from '../../components/Lightbox.astro';
+import photoData from '../../content/photography.json';
 
 const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
 
-// Get all album slugs dynamically from the filesystem
-const albumSlugs = new Set<string>();
-Object.keys(allImages).forEach(path => {
-  const parts = path.split('/');
-  const albumIndex = parts.findIndex(p => p === 'photography-assets') + 1;
-  if (parts[albumIndex]) {
-    albumSlugs.add(parts[albumIndex]);
-  }
-});
-
 export function getStaticPaths() {
-  const allImagesStatic = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
-  const slugs = new Set<string>();
-  Object.keys(allImagesStatic).forEach(path => {
-    const parts = path.split('/');
-    const albumIndex = parts.findIndex(p => p === 'photography-assets') + 1;
-    if (parts[albumIndex]) {
-      slugs.add(parts[albumIndex]);
-    }
-  });
-  return Array.from(slugs).map(slug => ({ params: { slug } }));
+  return photoData.map((album) => ({
+    params: { slug: album.id },
+    props: { album },
+  }));
 }
 
-const { slug } = Astro.params;
+const { album } = Astro.props;
 
 const albumImages = Object.entries(allImages)
-  .filter(([path]) => {
-    const parts = path.split('/');
-    const albumIndex = parts.findIndex(p => p === 'photography-assets') + 1;
-    return parts[albumIndex] === slug;
-  })
+  .filter(([path]) => path.includes(`/${album.assetFolder}/`))
   .map(([path, module]) => ({
     src: module.default.src,
     filename: path.split('/').pop() || '',
@@ -44,123 +25,73 @@ const albumImages = Object.entries(allImages)
     height: module.default.height,
     aspectRatio: module.default.width / module.default.height,
   }));
-
-const albumMeta: Record<string, { title: string; place: string; year: string }> = {
-  'paris-london': { title: 'paris & london', place: 'paris\nlondon', year: '2022' },
-  'summer-2025': { title: 'summer 2025', place: 'california', year: '2025' },
-};
-
-const meta = albumMeta[slug!] || { title: slug!.replace(/-/g, ' '), place: '', year: '2024' };
 ---
 
-<Layout title={`${meta.title} — Photography`} showBack={true} activeNav="photography">
+<Layout title={`${album.title} — Photography`} showBack={true} activeNav="photography">
   <InteriorHeader
-    titleHighlight={meta.title}
-    subLine1={meta.place}
-    subLine2={`${albumImages.length} photos · ${meta.year}`}
+    titleHighlight={album.title}
+    subLine1={album.place}
+    subLine2={`${albumImages.length} photos · ${album.year}`}
   />
 
-  <div class="cs-grid">
-    {albumImages.map((img, i) => {
-      const ar = img.aspectRatio;
-      const w = ar >= 1 ? 100 : ar * 100;
-      const h = ar >= 1 ? 100 / ar : 100;
-      const nn = String(i + 1).padStart(2, '0');
-      return (
-        <div class="cs-item animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s;`}>
-          <div class="cs-mount" data-photo={i}>
-            <div 
-              class="cs-photo" 
-              style={`background-image: url(${img.src}); background-size: cover; background-position: center; width: ${w}%; height: ${h}%;`}
-            />
-          </div>
-          <div class="cs-meta">
-            <span class="n">{nn}</span>
-          </div>
-        </div>
-      );
-    })}
+  <div class="ms">
+    {albumImages.map((img, i) => (
+      <img 
+        class="ms-item animate-rise" 
+        src={img.src} 
+        alt={img.filename}
+        loading={i < 6 ? "eager" : "lazy"}
+        style={`animation-delay: ${0.14 + i * 0.06}s;`}
+        data-index={i}
+      />
+    ))}
   </div>
 
-  <PageFooter count={meta.title} backHref="/photography" backLabel="collections" />
+  <PageFooter count={album.title} backHref="/photography" backLabel="collections" />
 
   <Lightbox />
 </Layout>
 
 <style>
-  .cs-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px 14px;
+  .ms {
+    column-count: 3;
+    column-gap: 14px;
   }
 
-  .cs-item {
-    /* container for mount + meta */
-  }
-
-  .cs-mount {
-    aspect-ratio: 1;
-    background: #EBE0CE;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    cursor: zoom-in;
-    transition: background 0.15s, transform 0.15s ease;
-  }
-
-  .cs-mount:hover {
-    background: #E4D7C2;
-    transform: scale(0.98);
-  }
-
-  .cs-photo {
+  .ms-item {
+    width: 100%;
+    break-inside: avoid;
+    margin-bottom: 14px;
     border-radius: 3px;
+    cursor: zoom-in;
+    transition: transform 0.15s ease;
   }
 
-  .cs-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 7px;
-    font-size: 11px;
-    color: var(--taupe);
-    letter-spacing: 0.02em;
-  }
-
-  .cs-meta .n {
-    color: var(--maroon);
+  .ms-item:hover {
+    transform: scale(0.985);
   }
 
   @media (max-width: 760px) {
-    .cs-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (max-width: 420px) {
-    .cs-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .ms {
+      column-count: 2;
     }
   }
 </style>
 
 <script>
-  const mounts = document.querySelectorAll('.cs-mount');
-  const images = Array.from(mounts).map((mount, i) => {
-    const photo = mount.querySelector('.cs-photo') as HTMLElement;
-    const bgImage = photo?.style.backgroundImage || '';
-    const srcMatch = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
+  const items = document.querySelectorAll('.ms-item');
+  const images = Array.from(items).map((item) => {
+    const img = item as HTMLImageElement;
     return {
-      src: srcMatch ? srcMatch[1] : '',
+      src: img.src,
       caption: document.querySelector('h1 .hl')?.textContent || 'Photo',
     };
   });
 
-  mounts.forEach((mount, i) => {
-    mount.addEventListener('click', () => {
+  items.forEach((item, index) => {
+    item.addEventListener('click', () => {
       if ((window as any).openLightbox) {
-        (window as any).openLightbox(images, i);
+        (window as any).openLightbox(images, index);
       }
     });
   });
