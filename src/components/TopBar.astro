@@ -144,11 +144,15 @@ const navItems = [
       display: flex;
     }
 
+    .bar {
+      position: static;
+    }
+
     .nav {
       position: absolute;
       top: 100%;
-      left: -20px;
-      right: -20px;
+      left: 0;
+      right: 0;
       flex-direction: column;
       align-items: stretch;
       gap: 0;
@@ -172,6 +176,10 @@ const navItems = [
 
     .nav a.on {
       background: var(--rose);
+    }
+
+    .nav a:first-child {
+      padding-top: 6px;
     }
   }
 </style>
