@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import InteriorHeader from '../../components/InteriorHeader.astro';
 import PageFooter from '../../components/PageFooter.astro';
+import photoData from '../../content/photography.json';
 
 const allImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/photography-assets/**/*.{jpg,png,jpeg}', { eager: true });
 
@@ -21,18 +22,17 @@ Object.entries(allImages).forEach(([path, module]) => {
   });
 });
 
-// Album metadata
-const albumMeta: Record<string, { title: string; place: string; year: string }> = {
-  'paris-london': { title: 'paris & london', place: 'paris · london', year: '2022' },
-  'summer-2025': { title: 'summer 2025', place: 'california', year: '2025' },
-};
-
-const albums = Array.from(albumMap.entries()).map(([slug, images]) => ({
-  slug,
-  images: images.slice(0, 4), // First 4 for cover grid
-  totalCount: images.length,
-  ...albumMeta[slug] || { title: slug.replace(/-/g, ' '), place: '', year: '2024' },
-}));
+const albums = photoData.map((album) => {
+  const images = albumMap.get(album.assetFolder) || [];
+  return {
+    slug: album.id,
+    images: images.slice(0, 4),
+    totalCount: images.length,
+    title: album.title,
+    place: album.place,
+    year: album.year,
+  };
+});
 ---
 
 <Layout title="Photography — Nabeel Eledroos" showBack={true} activeNav="photography">
