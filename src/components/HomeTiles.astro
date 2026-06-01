@@ -12,7 +12,7 @@ const tiles = [
   {tiles.map((tile, i) => (
     <a href={tile.href} class={`tile ${tile.class} animate-rise`} style={`animation-delay: ${0.14 + i * 0.06}s`}>
       <span class="num">{tile.num}</span>
-      <span class="lab">{tile.label} <span>&#8599;</span></span>
+      <span class="lab">{tile.label} <span class="arrow-unicode">&#8599;</span><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="22" x2="22" y2="2"/><polyline points="10 2 22 2 22 14"/></svg></span>
     </a>
   ))}
 </div>
@@ -52,6 +52,16 @@ const tiles = [
     align-items: center;
   }
 
+  .arrow-unicode {
+    display: inline;
+  }
+
+  .arrow-svg {
+    display: none;
+    width: 0.8em;
+    height: 0.8em;
+  }
+
   .t-sienna {
     background: var(--sienna);
     color: #fff;
@@ -86,6 +96,14 @@ const tiles = [
 
     .t-resume {
       grid-column: span 1;
+    }
+
+    .arrow-unicode {
+      display: none;
+    }
+
+    .arrow-svg {
+      display: inline-block;
     }
   }
 </style>
