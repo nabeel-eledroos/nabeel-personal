@@ -67,6 +67,8 @@ const { titlePre, titleHighlight, titlePost, subLine1, subLine2, noGap = false }
     border-radius: inherit;
     z-index: -1;
     transform-origin: left center;
+    animation: wipe 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation-delay: 0.5s;
   }
 
   .sub {
@@ -85,6 +87,15 @@ const { titlePre, titleHighlight, titlePost, subLine1, subLine2, noGap = false }
 
     .sub {
       text-align: left;
+    }
+  }
+
+  @keyframes wipe {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
     }
   }
 </style>
