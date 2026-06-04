@@ -1,7 +1,49 @@
 {
-  "$ref": "#/definitions/projects",
-  "definitions": {
-    "projects": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "pubDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "tags",
+          "thumbnail",
+          "link",
+          "pubDate"
+        ]
+      }
+    },
+    {
       "type": "object",
       "properties": {
         "$schema": {
@@ -33,20 +75,8 @@
             "type": "string"
           },
           "pubDate": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "type": "integer",
-                "format": "unix-time"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -57,10 +87,8 @@
           "thumbnail",
           "link",
           "pubDate"
-        ],
-        "additionalProperties": false
+        ]
       }
     }
-  },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  ]
 }

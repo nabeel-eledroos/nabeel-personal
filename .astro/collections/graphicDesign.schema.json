@@ -1,14 +1,9 @@
 {
-  "$ref": "#/definitions/graphicDesign",
-  "definitions": {
-    "graphicDesign": {
-      "type": "object",
-      "properties": {
-        "$schema": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
         "type": "object",
         "properties": {
           "id": {
@@ -21,9 +16,13 @@
             "type": "string"
           },
           "year": {
-            "type": [
-              "number",
-              "string"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
             ]
           },
           "assetFolder": {
@@ -56,10 +55,70 @@
           "role",
           "client",
           "deliverables"
-        ],
-        "additionalProperties": false
+        ]
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "assetFolder": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "client": {
+            "type": "string"
+          },
+          "deliverables": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "category",
+          "year",
+          "assetFolder",
+          "thumbnail",
+          "summary",
+          "role",
+          "client",
+          "deliverables"
+        ]
       }
     }
-  },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  ]
 }
