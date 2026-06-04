@@ -9,5 +9,6 @@ export default defineConfig({
   adapter: cloudflare(),
   image: {
     service: passthroughImageService()
-  }
+  },
+  session: false
 });
