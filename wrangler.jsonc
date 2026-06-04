@@ -8,5 +8,10 @@
   ],
 	"observability": {
     "enabled": true
-  }
+  },
+  // Workaround for https://github.com/withastro/astro/issues/15802
+  // Adapter injects SESSION binding even when sessions aren't used
+  "kv_namespaces": [
+    { "binding": "SESSION", "id": "4457c036b1c44fd2bfd3cc47595dbc89" }
+  ]
 }
