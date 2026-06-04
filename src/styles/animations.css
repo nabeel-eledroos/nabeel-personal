@@ -41,30 +41,30 @@
 }
 
 .animate-rise {
-  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
-.animate-rise-1 { animation-delay: 0.04s; }
-.animate-rise-2 { animation-delay: 0.10s; }
-.animate-rise-3 { animation-delay: 0.14s; }
-.animate-rise-4 { animation-delay: 0.20s; }
-.animate-rise-5 { animation-delay: 0.26s; }
-.animate-rise-6 { animation-delay: 0.32s; }
-.animate-rise-7 { animation-delay: 0.38s; }
-.animate-rise-8 { animation-delay: 0.44s; }
+.animate-rise-1 { animation-delay: 0.06s; }
+.animate-rise-2 { animation-delay: 0.14s; }
+.animate-rise-3 { animation-delay: 0.20s; }
+.animate-rise-4 { animation-delay: 0.28s; }
+.animate-rise-5 { animation-delay: 0.36s; }
+.animate-rise-6 { animation-delay: 0.44s; }
+.animate-rise-7 { animation-delay: 0.52s; }
+.animate-rise-8 { animation-delay: 0.60s; }
 
 .animate-wipe {
-  animation: wipe 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
-  animation-delay: 0.4s;
-}
-
-.animate-tagpop {
-  animation: tagpop 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation: wipe 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
   animation-delay: 0.5s;
 }
 
+.animate-tagpop {
+  animation: tagpop 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: 0.6s;
+}
+
 .animate-bar {
-  animation: barDrop 0.5s ease backwards;
+  animation: barDrop 0.65s ease backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
