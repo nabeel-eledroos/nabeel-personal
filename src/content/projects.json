@@ -25,5 +25,14 @@
     "thumbnail": "/images/projects/mnist-thumb.jpg",
     "link": "https://github.com/nabeel-eledroos/mnist-decision-tree",
     "pubDate": "2020-04-15"
+  },
+  {
+    "id": "image-stitcher",
+    "title": "Image Stitcher",
+    "description": "Takes two images that have an overlapping subject/point of contact, and merges them into one panoramic image.",
+    "tags": ["computer vision", "python", "numpy"],
+    "thumbnail": "/images/projects/mnist-thumb.jpg",
+    "link": "https://github.com/nabeel-eledroos/image-stitcher",
+    "pubDate": "2019-09-15"
   }
 ]
