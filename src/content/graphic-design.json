@@ -6,10 +6,10 @@
     "year": "2023-2026",
     "assetFolder": "mint-manor-cafe",
     "thumbnail": "11-jan-popup-poster.jpg",
-    "summary": "Ongoing poster and menu design for Mint Manor Cafe pop-ups — a series of cafes spanning venues across San Francisco.",
+    "summary": "Cafe popup started by me and my friends back in 2023. Working on posters and menus for these popups really sparked my love for graphic design, and has been a recurring source of creative output as we've kept running them.",
     "role": "illustration, design",
-    "client": "Mint Manor",
-    "deliverables": "posters, menus, social"
+    "client": "Mint Manor Cafe",
+    "deliverables": "posters, menus, social media"
   },
   {
     "id": "film-festival",
@@ -18,9 +18,9 @@
     "year": "2024-2025",
     "assetFolder": "film-festival",
     "thumbnail": "film-festival-1.jpg",
-    "summary": "Visual identity and collateral for a film festival — poster design, magazine layout, and cover art direction.",
+    "summary": "Film festival hosted at my home, for friends only. Took a lot of inspiration from 80s posters, album covers, and magazines.",
     "role": "art direction, design",
-    "client": "Film Festival",
+    "client": "Mint Manor Film Festival",
     "deliverables": "posters, magazine, covers"
   },
   {
@@ -30,33 +30,33 @@
     "year": 2026,
     "assetFolder": "coffee-tasting",
     "thumbnail": "COVER5.jpg",
-    "summary": "Complete event package for a private coffee tasting — invitations, cards, and day-of materials with a vintage type aesthetic.",
-    "role": "design, illustration",
-    "client": "Mint Manor",
-    "deliverables": "invitations, cards, signage"
+    "summary": "Complete event package for a friend's private coffee tasting event. Made invitations, cards, and menu page all inspired by old newspaper print.",
+    "role": "design",
+    "client": "Mint Manor Cafe",
+    "deliverables": "invitations, cards, menu, print"
   },
   {
     "id": "events",
     "title": "Event Posters",
     "category": "event design",
-    "year": 2026,
+    "year": "2023-2026",
     "assetFolder": "events",
     "thumbnail": "mission-to-mint-manor.jpg",
-    "summary": "Collection of illustrated event posters for parties, from Halloween crawls to DJ nights.",
+    "summary": "Assorted events that I've made posters for. DJ nights, day parties, everything in between.",
     "role": "illustration, design",
     "client": "Various",
     "deliverables": "posters, social graphics"
   },
   {
-    "id": "misc",
-    "title": "Misc Posters",
-    "category": "miscellaneous",
+    "id": "announcement",
+    "title": "Kobalt Labs Announcement",
+    "category": "social media",
     "year": 2026,
-    "assetFolder": "misc",
+    "assetFolder": "kobalt",
     "thumbnail": "kobalt-announcement.jpg",
-    "summary": "Miscellaneous posters that don't fit into the other categories but I'm still proud of and want to show off.",
-    "role": "illustration, design",
-    "client": "Various",
-    "deliverables": "posters, social graphics"
+    "summary": "An announcement of Kobalt Labs' Series A, created for a LinkedIn post.",
+    "role": "design",
+    "client": "Kobalt Labs",
+    "deliverables": "social graphics"
   }
 ]
