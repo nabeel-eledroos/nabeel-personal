@@ -5,11 +5,12 @@
     "github": "github.com/nabeel-eledroos"
   },
   "languages": [
-    "Typescript",
     "Javascript",
+    "Typescript",
     "Kotlin",
-    "Python (NumPy, Pandas, Matplotlib, PyTorch, PySpark)",
+    "Python",
     "Java",
+    "C++",
     "Bash"
   ],
   "frameworks": [
@@ -18,8 +19,10 @@
     "Apollo GraphQL",
     "Next.js",
     "Astro",
+    "Tailwind",
     "PostgreSQL",
     "Redis",
+    "Playwright",
     "JUnit"
   ],
   "tools": [
@@ -46,10 +49,10 @@
       "dates": "July 2021 — Present",
       "bullets": [
         "Reduced SKU launch time from months to days by architecting a Kotlin service that consolidated feature-access and subscription logic spread across every QuickBooks page - freeing product and marketing teams to access pricing configurations without engineering involvement. Scaled to 2,000 TPS in production.",
-        "Identified an unmet need during a hackathon and built a full-stack developer platform that gave internal teams a self-serve UI to create and manage feature configurations without any code changes, accelerating service adoption by 60%.",
-        "As sole technical lead, owned end-to-end integration of a feature management platform into QuickBooks' core legacy backend serving 6M customers - designing, implementing, and rolling out with zero disruption to existing user flows.",
-        "Shipped QuickBooks Free by owning the limit-enforcement layer across multiple features. Validated the feature management platform's architecture by spinning up the new SKU primarily through config, driving a 10% increase in upsell conversion.",
-        "Eliminated a cross-team data dependency and improved downstream API latency 6x by designing a distributed PySpark batch pipeline to backfill a Cassandra cache with 40M user subscription records.",
+        "Identified an unmet need during a hackathon and built a full-stack developer platform with Typescript that gave internal teams a self-serve UI to create and manage feature configurations without any code changes, accelerating service adoption by 60%.",
+        "As sole technical lead, owned end-to-end integration of a feature management platform into QuickBooks' core legacy backend serving 6M customers - designing, implementing, and rolling out with zero disruption to existing user flows, and ensuring future SKU launches require no backend code changes.",
+        "Shipped QuickBooks Free by creating the limit-enforcement layer across multiple UI features. Validated the feature management platform's architecture by spinning up the new SKU primarily through config, driving a 10% increase in upsell conversion.",
+        "Led a team of 3 engineers in designing and building a distributed PySpark batch pipeline to backfill a Cassandra cache with 40M user subscription records. Eliminated a cross-team data dependency and improved downstream API latency 6x.",
         "Mentored three engineers through their first major projects - guiding each from onboarding through independent ownership of production features. All three have since been promoted."
       ]
     },
@@ -59,7 +62,7 @@
       "location": "Mountain View, CA",
       "dates": "May 2020 — Aug 2020",
       "bullets": [
-        "Designed and shipped a personalized in-product discovery experience in React — including an overflow menu with save functionality — increasing user engagement 45% and surfacing behavioral data for the product team."
+        "Designed and shipped a personalized in-product discovery experience in React — including an overflow menu with save functionality — increasing user engagement 35% and surfacing behavioral data for the product team."
       ]
     },
     {
@@ -86,12 +89,22 @@
     {
       "title": "Fossil Money",
       "tech": "Typescript, CSS, SQL",
-      "description": "Built a 'follow the money' tool for climate accountability - a web app that shows users their politicians based on region and where they stand on climate issues, especially on fossil fuel."
+      "description": "Built a 'follow the money' tool for climate accountability - a civic transparency web app that helps citizens track fossil fuel donations to their elected officials."
     },
     {
       "title": "Gesture Controlled Car",
       "tech": "Arduino, Java",
       "description": "Developed Arduino code for a Raspberry Pi microprocessor to wirelessly translate hand gestures from a Myo armband to movement commands for a remote-controlled car."
+    },
+    {
+      "title": "MNIST Decision Tree",
+      "tech": "Python (Numpy)",
+      "description": "Built a decision tree of user specified depth to decide whether an image from a subset of the MNIST dataset is a 3 or an 8."
+    },
+    {
+      "title": "Image Stitcher",
+      "tech": "Python",
+      "description": "Developed a tool that implements the RANSAC algorithm - takes two images that have an overlapping subject/point of contact, and merges them into one panoramic image."
     }
   ]
 }

@@ -3,10 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import InteriorHeader from '../../components/InteriorHeader.astro';
 import PageFooter from '../../components/PageFooter.astro';
 import projectsData from '../../content/projects.json';
+import githubLogo from '../../assets/images/github-logo.svg';
 
 const projects = projectsData.sort((a, b) => 
   new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf()
 );
+
+const isGithubLink = (link: string) => link.includes('github.com');
 ---
 
 <Layout title="Projects — Nabeel Eledroos" showBack={true} activeNav="projects">
@@ -19,10 +22,15 @@ const projects = projectsData.sort((a, b) =>
   <div class="pj-list">
     {projects.map((project, i) => (
       <a href={project.link} target="_blank" rel="noopener noreferrer" class="pj-row animate-rise" style={`animation-delay: ${0.14 + i * 0.06}s`}>
-        <div class="pj-thumb" style="background: var(--sienna);">
-          <!-- Placeholder graphic -->
-          <div style="position:absolute;top:-24px;right:-14px;width:78px;height:78px;border-radius:50%;background:var(--paper);"></div>
-        </div>
+        {isGithubLink(project.link) ? (
+          <div class="pj-thumb github-thumb">
+            <img src={githubLogo.src} alt="GitHub" class="github-logo" />
+          </div>
+        ) : (
+          <div class="pj-thumb" style="background: var(--sienna);">
+            <div style="position:absolute;top:-24px;right:-14px;width:78px;height:78px;border-radius:50%;background:var(--paper);"></div>
+          </div>
+        )}
         <div>
           <div class="t">{project.title}</div>
           <div class="d">{project.description}</div>
@@ -61,6 +69,20 @@ const projects = projectsData.sort((a, b) =>
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+  }
+
+  .github-thumb {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+  }
+
+  .github-logo {
+    width: 48px;
+    height: 48px;
+    color: var(--maroon);
   }
 
   .t {

@@ -34,6 +34,8 @@ const albumImages = Object.entries(allImages)
     subLine2={`${albumImages.length} photos · ${album.year}`}
   />
 
+  {album.summary && <p class="lead animate-rise animate-rise-2">{album.summary}</p>}
+
   <div class="ms">
     {albumImages.map((img, i) => (
       <img 
@@ -53,6 +55,14 @@ const albumImages = Object.entries(allImages)
 </Layout>
 
 <style>
+  .lead {
+    font-size: 18px;
+    color: var(--brown);
+    max-width: 62ch;
+    line-height: 1.6;
+    margin: 10px 0 28px;
+  }
+
   .ms {
     column-count: 3;
     column-gap: 14px;
