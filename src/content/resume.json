@@ -48,12 +48,12 @@
       "location": "Mountain View, CA",
       "dates": "July 2021 — Present",
       "bullets": [
-        "Reduced SKU launch time from months to days by architecting a Kotlin service that consolidated feature-access and subscription logic spread across every QuickBooks page - freeing product and marketing teams to access pricing configurations without engineering involvement. Scaled to 2,000 TPS in production.",
+        "Architected a Kotlin service that consolidates feature-access logic spread across every QuickBooks page - freeing product and marketing teams to create and access pricing configurations without engineering involvement. Scaled service to 2,000 TPS in production, reducing product launch time from months to days.",
+        "As sole technical lead, owned end-to-end integration of a modernization platform into QuickBooks' core legacy backend serving 6M customers - designing, implementing, and rolling out with zero disruption to existing user flows, and ensuring future SKU launches require no backend code changes.",
+        "Shipped QuickBooks Free by creating the limit-enforcement layer across many frontend and backend features. Developed the AI-powered setup flow for new users to onboard to QuickBooks Free, driving a 10% increase in upsell conversion.",
         "Identified an unmet need during a hackathon and built a full-stack developer platform with Typescript that gave internal teams a self-serve UI to create and manage feature configurations without any code changes, accelerating service adoption by 60%.",
-        "As sole technical lead, owned end-to-end integration of a feature management platform into QuickBooks' core legacy backend serving 6M customers - designing, implementing, and rolling out with zero disruption to existing user flows, and ensuring future SKU launches require no backend code changes.",
-        "Shipped QuickBooks Free by creating the limit-enforcement layer across multiple UI features. Validated the feature management platform's architecture by spinning up the new SKU primarily through config, driving a 10% increase in upsell conversion.",
-        "Led a team of 3 engineers in designing and building a distributed PySpark batch pipeline to backfill a Cassandra cache with 40M user subscription records. Eliminated a cross-team data dependency and improved downstream API latency 6x.",
-        "Mentored three engineers through their first major projects - guiding each from onboarding through independent ownership of production features. All three have since been promoted."
+        "Led a team of 3 engineers in designing and building a distributed PySpark batch data pipeline to backfill a Cassandra cache with 40M user subscription records. Eliminated a cross-team data dependency and improved downstream API latency 6x.",
+        "Mentored new engineers through their first major projects - guiding each from their first ticket through independent ownership of production features - and led them to eventual promotions."
       ]
     },
     {
@@ -62,7 +62,7 @@
       "location": "Mountain View, CA",
       "dates": "May 2020 — Aug 2020",
       "bullets": [
-        "Designed and shipped a personalized in-product discovery experience in React — including an overflow menu with save functionality — increasing user engagement 35% and surfacing behavioral data for the product team."
+        "Designed and shipped a personalized in-product discovery experience in React - including an overflow menu with save functionality - increasing user engagement 35% and surfacing behavioral data for the product team."
       ]
     },
     {
@@ -88,7 +88,7 @@
   "projects": [
     {
       "title": "Fossil Money",
-      "tech": "Typescript, CSS, SQL",
+      "tech": "Typescript, Python, SQL",
       "description": "Built a 'follow the money' tool for climate accountability - a civic transparency web app that helps citizens track fossil fuel donations to their elected officials."
     },
     {
