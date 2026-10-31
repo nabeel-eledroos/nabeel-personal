@@ -3,17 +3,33 @@ const tiles = [
   { num: '01', label: 'graphic design', href: '/graphic-design', class: 't-sienna' },
   { num: '02', label: 'photography', href: '/photography', class: 't-mustard' },
   { num: '03', label: 'projects', href: '/projects', class: 't-rose' },
-  { num: '04', label: 'video', href: '/video', class: 't-maroon' },
+  { num: '04', label: 'video', href: '/video', class: 't-maroon', comingSoon: true },
   { num: '05', label: 'resume', href: '/resume', class: 't-resume' },
 ];
 ---
 
 <div class="tiles">
   {tiles.map((tile, i) => (
-    <a href={tile.href} class={`tile ${tile.class} animate-rise`} style={`animation-delay: ${0.14 + i * 0.06}s`}>
-      <span class="num">{tile.num}</span>
-      <span class="lab">{tile.label} <span class="arrow-unicode">&#8599;</span><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="22" x2="22" y2="2"/><polyline points="10 2 22 2 22 14"/></svg></span>
-    </a>
+    tile.comingSoon ? (
+      <div class={`tile ${tile.class} animate-rise coming-soon-tile`} style={`animation-delay: ${0.14 + i * 0.06}s`}>
+        <span class="num">{tile.num}</span>
+        <span class="lab">
+          <span class="flip-container">
+            <span class="flip-inner">
+              <span class="flip-front">{tile.label}</span>
+              <span class="flip-back">coming soon</span>
+            </span>
+          </span>
+          <span class="arrow-unicode">&#8599;</span>
+          <svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="22" x2="22" y2="2"/><polyline points="10 2 22 2 22 14"/></svg>
+        </span>
+      </div>
+    ) : (
+      <a href={tile.href} class={`tile ${tile.class} animate-rise`} style={`animation-delay: ${0.14 + i * 0.06}s`}>
+        <span class="num">{tile.num}</span>
+        <span class="lab">{tile.label} <span class="arrow-unicode">&#8599;</span><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="22" x2="22" y2="2"/><polyline points="10 2 22 2 22 14"/></svg></span>
+      </a>
+    )
   ))}
 </div>
 
@@ -87,6 +103,45 @@ const tiles = [
     background: var(--oat);
     border: 2px solid var(--maroon);
     color: var(--maroon);
+  }
+
+  .coming-soon-tile {
+    cursor: default;
+  }
+
+  .coming-soon-tile:hover {
+    transform: translateY(-5px);
+  }
+
+  .flip-container {
+    perspective: 400px;
+  }
+
+  .flip-inner {
+    display: inline-block;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+
+  .flip-front,
+  .flip-back {
+    backface-visibility: hidden;
+  }
+
+  .flip-front {
+    display: block;
+  }
+
+  .flip-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateX(180deg);
+  }
+
+  .coming-soon-tile:hover .flip-inner {
+    transform: rotateX(180deg);
   }
 
   @media (max-width: 760px) {

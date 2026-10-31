@@ -10,7 +10,7 @@ const navItems = [
   { href: '/graphic-design', label: 'graphic design', key: 'graphic' },
   { href: '/photography', label: 'photography', key: 'photography' },
   { href: '/projects', label: 'projects', key: 'projects' },
-  { href: '/video', label: 'video', key: 'video' },
+  { href: '/video', label: 'video', key: 'video', disabled: true },
   { href: '/resume', label: 'resume', key: 'resume' },
 ];
 ---
@@ -23,7 +23,11 @@ const navItems = [
     </div>
     <nav class="nav" id="nav">
       {navItems.map((item) => (
-        <a href={item.href} class:list={{ on: activeNav === item.key }}>{item.label}</a>
+        item.disabled ? (
+          <span class="disabled">{item.label}</span>
+        ) : (
+          <a href={item.href} class:list={{ on: activeNav === item.key }}>{item.label}</a>
+        )
       ))}
     </nav>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
@@ -115,6 +119,13 @@ const navItems = [
   .nav a.on {
     background: var(--rose);
     color: #3A2800;
+  }
+
+  .nav .disabled {
+    color: #958f80;
+    padding: 4px 9px;
+    cursor: default;
+    white-space: nowrap;
   }
 
   .burger {
