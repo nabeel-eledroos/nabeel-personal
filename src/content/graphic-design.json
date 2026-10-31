@@ -12,6 +12,30 @@
     "deliverables": "posters, menus, social media"
   },
   {
+    "id": "pourovers-pastries",
+    "title": "Pour-overs and Pastries Event",
+    "category": "event design",
+    "year": "2026",
+    "assetFolder": "pourovers-pastries",
+    "thumbnail": "04-cardScarletV2.jpg",
+    "summary": "Designed colorful specialty coffee info cards and a food/drink menu for our cafe.",
+    "role": "art direction, design",
+    "client": "Mint Manor Cafe",
+    "deliverables": "info cards, print, menu"
+  },
+  {
+    "id": "sel-holiday",
+    "title": "Holiday Photoshoot Ads",
+    "category": "event design",
+    "year": "2026",
+    "assetFolder": "sel-holiday",
+    "thumbnail": "03-bookingReadyF2.jpg",
+    "summary": "Designed multiple ads for a holiday photoshoot series, with a vintage 80s/90s magazine feel.",
+    "role": "art direction, design",
+    "client": "Selina Pan Photography",
+    "deliverables": "ads, social media"
+  },
+  {
     "id": "film-festival",
     "title": "Film Festival",
     "category": "event design",
